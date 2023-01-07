@@ -13,14 +13,14 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     phasevector.cpp \
-    singleparametercalculator.cpp
+    vectorparameterscalculator.cpp
 
 HEADERS += \
     calculator.h \
     complexnumberadapter.h \
     mainwindow.h \
     phasevector.h \
-    singleparametercalculator.h
+    vectorparameterscalculator.h
 
 FORMS += \
     mainwindow.ui
