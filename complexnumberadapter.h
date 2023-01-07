@@ -8,6 +8,7 @@ class ComplexNumberAdapter : public std::complex <float>
 public:
     ComplexNumberAdapter();
     ComplexNumberAdapter(std::complex <float>);
+    ComplexNumberAdapter(float r, float i);
     ComplexNumberAdapter toGeneralForm();   //returns pair of real and imaginary values
     ComplexNumberAdapter toExponentialForm();   //returns pair of coefficient and exponent power values
     static ComplexNumberAdapter parseNumberFromString(const std::string& s);

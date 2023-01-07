@@ -8,12 +8,24 @@ ComplexNumberAdapter::ComplexNumberAdapter(std::complex <float> a) : std::comple
 
 }
 
+ComplexNumberAdapter::ComplexNumberAdapter(float r, float i) : std::complex <float> (r, i){
+
+}
+
 ComplexNumberAdapter ComplexNumberAdapter::toGeneralForm(){
-    return log(*this);
+    ComplexNumberAdapter result;
+
+    result.real(this->real()*(std::cos(this->imag()*(std::atan(1.0)*4/180))));
+    result.imag(this->real()*(std::sin(this->imag()*(std::atan(1.0)*4/180))));
+    return result;
 }
 
 ComplexNumberAdapter ComplexNumberAdapter::toExponentialForm(){
-    return exp(*this);
+    ComplexNumberAdapter result;
+
+    result.real(std::sqrt(std::pow(this->real(),2) + std::pow(this->imag(),2)));
+    result.imag(std::atan(this->imag()/this->real()) * 180/(std::atan(1.0)*4));     //std::atan(1.0)*4 = PI
+    return result;
 }
 
 ComplexNumberAdapter ComplexNumberAdapter::parseNumberFromString(const std::string &s)
