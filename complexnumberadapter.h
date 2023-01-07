@@ -13,6 +13,11 @@ public:
     ComplexNumberAdapter toExponentialForm();   //returns pair of coefficient and exponent power values
     static ComplexNumberAdapter parseNumberFromString(const std::string& s);
     static bool parseFormFromString(const std::string& s);                                        //0 - general, 1 - exp
+
+                                                                                                  //TODO: add multiplexion and division for exp form
+
+    friend ComplexNumberAdapter multExp(ComplexNumberAdapter c1, const ComplexNumberAdapter& c2);   //operations methods for exponential form
+    friend ComplexNumberAdapter divideExp(ComplexNumberAdapter c1, const ComplexNumberAdapter& c2);
 private:
     static bool isDigit(const char& c);
 };

@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
 
     //-------------------------------------------------------------------------------------------------------------------------------------
                                                                                                                 //TEST ComplexNumberAdapter
+                                                                                                                // Form conversion
 
 //    ComplexNumberAdapter generalForm(5.f-1if);
 //    std::cout << "general\t" << generalForm << std::endl;
@@ -20,25 +21,45 @@ int main(int argc, char *argv[])
 //    std::cout << "newEx\t" << newEx << std::endl;
 
 
-    ComplexNumberAdapter exponentialForm(5.1f, 11.3f);  //TODO: exp form should be used
-    std::cout << "exp\t" << exponentialForm << std::endl << std::endl;
-    ComplexNumberAdapter newGen = exponentialForm.toGeneralForm();
-    std::cout << "newGen\t" << newGen << std::endl;
+//    ComplexNumberAdapter exponentialForm(5.1f, 11.3f);
+//    std::cout << "exp\t" << exponentialForm << std::endl;
+//    ComplexNumberAdapter newGen = exponentialForm.toGeneralForm();
+//    std::cout << "newGen\t" << newGen << std::endl;
 
-//    std::string inputDataGeneral{"-5.3-j3.778"};
-//    std::string inputDataExp{"-5.4*e^-j23.235"};
+    //-------------------------------------------------------------------------------------------------------------------------------------
+                                                                                                                //TEST ComplexNumberAdapter
+                                                                                                                // Parse from string
+
+//    std::string inputDataGeneral{"-5-j3"};
+    std::string inputDataExp{"3.16*e^j18.4"};
 
 //    ComplexNumberAdapter inputNumberGen = ComplexNumberAdapter::parseNumberFromString(inputDataGeneral);
-//    ComplexNumberAdapter inputNumberExp = ComplexNumberAdapter::parseNumberFromString(inputDataExp);
+    ComplexNumberAdapter inputNumberExp = ComplexNumberAdapter::parseNumberFromString(inputDataExp);
 
-//    std::cout << "input\t" << inputNumberGen << "\t" << (ComplexNumberAdapter::parseFormFromString(inputDataGeneral) ? "exp" : "gen") << std::endl;
-//    std::cout << "input\t" << inputNumberExp <<  "\t" << (ComplexNumberAdapter::parseFormFromString(inputDataExp) ? "exp" : "gen") << std::endl;
+//    std::cout << "inputNumberGen\t" << inputNumberGen << "\t" << (ComplexNumberAdapter::parseFormFromString(inputDataGeneral) ? "exp" : "gen") << std::endl;
+//    std::cout << "inputNumberExp\t" << inputNumberExp <<  "\t" << (ComplexNumberAdapter::parseFormFromString(inputDataExp) ? "exp" : "gen") << std::endl;
 
-//    generalForm = inputNumberGen+inputNumberGen;
-//    exponentialForm = inputNumberExp + inputNumberExp;
+    //-------------------------------------------------------------------------------------------------------------------------------------
+                                                                                                                //TEST ComplexNumberAdapter
+                                                                                                                //operations
 
-//    std::cout << "general add\t" << generalForm << std::endl;
-//    std::cout << "exp add\t" << exponentialForm << std::endl;
+//    ComplexNumberAdapter resultGen = inputNumberGen+inputNumberGen;
+//    std::cout << "general add\t" << resultGen << std::endl;
+//    resultGen = inputNumberGen-inputNumberGen;
+//    std::cout << "general substract\t" << resultGen << std::endl;
+//    resultGen = inputNumberGen*inputNumberGen;
+//    std::cout << "general multiply\t" << resultGen << std::endl;
+//    resultGen = inputNumberGen/inputNumberGen;
+//    std::cout << "general divide\t" << resultGen << std::endl;
+
+    ComplexNumberAdapter inputNumberExp1{3.5f, 22.4f};
+    ComplexNumberAdapter inputNumberExp2{0.58f, 31.f};
+    ComplexNumberAdapter resultExp = multExp(inputNumberExp1, inputNumberExp2);
+    std::cout << "exp multiply\t" << resultExp << std::endl;
+    resultExp = divideExp(resultExp, inputNumberExp);
+    std::cout << "exp multiply\t" << resultExp << std::endl;
+
+
 
     //--------------------------------------------------------------------------------------------------------------------------------------
     return a.exec();

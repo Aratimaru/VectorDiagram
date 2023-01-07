@@ -31,7 +31,7 @@ ComplexNumberAdapter ComplexNumberAdapter::toExponentialForm(){
 ComplexNumberAdapter ComplexNumberAdapter::parseNumberFromString(const std::string &s)
 {
     std::string sReal{}, sImag{};
-    int jIndex = 0;         //delimeter to separate real and imag parts
+    int jIndex = 0;         //delimiter to separate real and imag parts
 
     for (int i=0;i<s.length();i++){
         if (isDigit(s.at(i))){
@@ -72,4 +72,24 @@ bool ComplexNumberAdapter::parseFormFromString(const std::string &s)
 
 bool ComplexNumberAdapter::isDigit(const char& c){
     return ((c>47 && c<58) || c == '.' || c == '-');
+}
+
+ComplexNumberAdapter multExp(ComplexNumberAdapter c1, const ComplexNumberAdapter& c2){
+    ComplexNumberAdapter result;
+
+    float real = c1.real()*c2.real();
+    float imag = c1.imag()+c2.imag();
+
+    result.real(real); result.imag(imag);
+    return result;
+}
+
+ComplexNumberAdapter divideExp(ComplexNumberAdapter c1, const ComplexNumberAdapter& c2){
+    ComplexNumberAdapter result;
+
+    float real = c1.real()/c2.real();
+    float imag = c1.imag()-c2.imag();
+
+    result.real(real); result.imag(imag);
+    return result;
 }
