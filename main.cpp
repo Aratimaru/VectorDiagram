@@ -10,7 +10,7 @@ using namespace std::complex_literals;
 int main(int argc, char *argv[])        //TODO: add units MV, MA, kA, kV...
 {
     QApplication a(argc, argv);
-//    MainWindow w;
+    MainWindow w;
 //    w.show();
 
     //-------------------------------------------------------------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ int main(int argc, char *argv[])        //TODO: add units MV, MA, kA, kV...
 //    std::cout << "newEx\t" << newEx << std::endl;
 
 
-//    ComplexNumberAdapter exponentialForm(5.1f, 11.3f);
+//    ComplexNumberAdapter exponentialForm(40.7f, 98.2f);
 //    std::cout << "exp\t" << exponentialForm << std::endl;
 //    ComplexNumberAdapter newGen = exponentialForm.toGeneralForm();
 //    std::cout << "newGen\t" << newGen << std::endl;
@@ -70,8 +70,12 @@ int main(int argc, char *argv[])        //TODO: add units MV, MA, kA, kV...
                                                                                                                 //evaluate circuit
 
     VectorParametersCalculator calculator;
-    calculator.setResistence(120.f);
-    calculator.setVoltage(0.f);
+    ComplexNumberAdapter calculatorAdapterResistence {0.58f, 31.f};
+    ComplexNumberAdapter calculatorAdapterCurrent {3.5f, 22.4f};
+    calculatorAdapterCurrent = calculatorAdapterCurrent.toGeneralForm();
+
+    calculator.setResistence(calculatorAdapterResistence);
+    calculator.setCurrent(calculatorAdapterCurrent);
     calculator.evaluateCircuit();
 
     std::cout << "Voltage\t" << calculator.getVoltage() << std::endl;

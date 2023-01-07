@@ -3,6 +3,9 @@
 #include <complex>
 #include <string>
 
+#define UNDEFINED_COMPLEX_NUMBER (FLT_MAX, FLT_MAX)
+#define NULL_COMPLEX_NUMBER (0.f, 0.f)
+
 class ComplexNumberAdapter : public std::complex <float>
 {
 public:
@@ -18,8 +21,11 @@ public:
 
     friend ComplexNumberAdapter multExp(ComplexNumberAdapter c1, const ComplexNumberAdapter& c2);   //operations methods for exponential form
     friend ComplexNumberAdapter divideExp(ComplexNumberAdapter c1, const ComplexNumberAdapter& c2);
+    bool getForm();
+    void setForm(bool f);
 private:
     static bool isDigit(const char& c);
+    bool m_Form;
 };
 
 #endif // COMPLEXNUMBERADAPTER_H
