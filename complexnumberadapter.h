@@ -3,16 +3,17 @@
 #include <complex>
 #include <string>
 
-class ComplexNumberAdapter
+class ComplexNumberAdapter : public std::complex <float>
 {
 public:
     ComplexNumberAdapter();
-    std::complex<float> toGeneralForm(std::complex<float> const &exponentialExpression);   //returns pair of real and imaginary values
-    std::complex<float> toExponentialForm(std::complex<float> const &generalExpression);   //returns pair of coefficient and exponent power values
-    std::pair <std::complex<float>, bool> parseFromString(const std::string& s);
+    ComplexNumberAdapter(std::complex <float>);
+    ComplexNumberAdapter toGeneralForm();   //returns pair of real and imaginary values
+    ComplexNumberAdapter toExponentialForm();   //returns pair of coefficient and exponent power values
+    static ComplexNumberAdapter parseNumberFromString(const std::string& s);
+    static bool parseFormFromString(const std::string& s);                                        //0 - general, 1 - exp
 private:
-    bool isDigit(const char& c);
-    float constructNumberFromString(const std::string& s);
+    static bool isDigit(const char& c);
 };
 
 #endif // COMPLEXNUMBERADAPTER_H

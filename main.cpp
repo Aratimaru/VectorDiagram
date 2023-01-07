@@ -14,23 +14,26 @@ int main(int argc, char *argv[])
     //-------------------------------------------------------------------------------------------------------------------------------------
                                                                                                                 //TEST ComplexNumberAdapter
 
-    ComplexNumberAdapter complexAdapter;
-    std::complex <float> generalForm = 1.f - 2if;
-    std::complex <float> exponentialForm = exp(generalForm);
+//    ComplexNumberAdapter generalForm(1.f - 2if);
+//    ComplexNumberAdapter exponentialForm = exp(generalForm);
 
-    std::cout << "general\t" << generalForm.real() << "\t," << generalForm.imag() << std::endl;
-    std::cout << "exp\t" << exponentialForm.real() << "\t," << exponentialForm.imag() << std::endl;
+//    std::cout << "general\t" << generalForm.real() << "\t," << generalForm.imag() << std::endl;
+//    std::cout << "exp\t" << exponentialForm.real() << "\t," << exponentialForm.imag() << std::endl;
 
-    std::complex <float> newEx = complexAdapter.toExponentialForm(generalForm);
-    std::complex <float> newGen = complexAdapter.toGeneralForm(exponentialForm);
+//    ComplexNumberAdapter newEx = generalForm.toExponentialForm();
+//    ComplexNumberAdapter newGen = exponentialForm.toGeneralForm();
 
-    std::cout << "newGen\t" << newGen.real() << "\t," << newGen.imag() << std::endl;
-    std::cout << "newEx\t" << newEx.real() << "\t," << newEx.imag() << std::endl;
+//    std::cout << "newGen\t" << newGen.real() << "\t," << newGen.imag() << std::endl;
+//    std::cout << "newEx\t" << newEx.real() << "\t," << newEx.imag() << std::endl;
 
-    std::complex <float> input = complexAdapter.parseFromString("-5.4*e^j-23.235").first;
+    std::string inputDataGeneral{"-5.3-j3.778"};
+    std::string inputDataExp{"-5.4*e^-j23.235"};
 
-    std::cout << "input\t" << input.real() << "\t" << input.imag() << std::endl;
+    ComplexNumberAdapter inputNumberGen = ComplexNumberAdapter::parseNumberFromString(inputDataGeneral);
+    ComplexNumberAdapter inputNumberExp = ComplexNumberAdapter::parseNumberFromString(inputDataExp);
 
+    std::cout << "input\t" << inputNumberGen << "\t" << (ComplexNumberAdapter::parseFormFromString(inputDataGeneral) ? "exp" : "gen") << std::endl;
+    std::cout << "input\t" << inputNumberExp <<  "\t" << (ComplexNumberAdapter::parseFormFromString(inputDataExp) ? "exp" : "gen") << std::endl;
 
     //--------------------------------------------------------------------------------------------------------------------------------------
     return a.exec();
