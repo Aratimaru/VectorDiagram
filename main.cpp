@@ -35,11 +35,13 @@ int main(int argc, char *argv[])        //TODO: add units MV, MA, kA, kV...
 //    std::string inputDataGeneral{"-5-j3"};
 //    std::string inputDataExp{"3.16*e^j18.4"};
 
-//    ComplexNumberAdapter inputNumberGen = ComplexNumberAdapter::parseNumberFromString(inputDataGeneral);
-//    ComplexNumberAdapter inputNumberExp = ComplexNumberAdapter::parseNumberFromString(inputDataExp);
+//    ComplexNumberAdapter inputNumberGen;
+//    inputNumberGen.parseNumberFromString(inputDataGeneral);
+//    ComplexNumberAdapter inputNumberExp;
+//    inputNumberExp.parseNumberFromString(inputDataExp);
 
-//    std::cout << "inputNumberGen\t" << inputNumberGen << "\t" << (ComplexNumberAdapter::parseFormFromString(inputDataGeneral) ? "exp" : "gen") << std::endl;
-//    std::cout << "inputNumberExp\t" << inputNumberExp <<  "\t" << (ComplexNumberAdapter::parseFormFromString(inputDataExp) ? "exp" : "gen") << std::endl;
+//    std::cout << "inputNumberGen\t" << inputNumberGen << "\t" << (inputNumberGen.getForm() ? "exp" : "gen") << std::endl;
+//    std::cout << "inputNumberExp\t" << inputNumberExp <<  "\t" << (inputNumberExp.getForm() ? "exp" : "gen") << std::endl;
 
     //-------------------------------------------------------------------------------------------------------------------------------------
                                                                                                                 //TEST ComplexNumberAdapter
@@ -59,7 +61,7 @@ int main(int argc, char *argv[])        //TODO: add units MV, MA, kA, kV...
 //    ComplexNumberAdapter resultExp = multExp(inputNumberExp1, inputNumberExp2);
 //    std::cout << "exp multiply\t" << resultExp << std::endl;
 //    resultExp = divideExp(resultExp, inputNumberExp);
-//    std::cout << "exp multiply\t" << resultExp << std::endl;
+//    std::cout << "exp divide\t" << resultExp << std::endl;
 
 
     //--------------------------------------------------------------------------------------------------------------------------------------
@@ -69,18 +71,18 @@ int main(int argc, char *argv[])        //TODO: add units MV, MA, kA, kV...
                                                                                                                 //TEST VectorParametersCalculator
                                                                                                                 //evaluate circuit
 
-    VectorParametersCalculator calculator;
-    ComplexNumberAdapter calculatorAdapterResistence {0.58f, 31.f};
-    ComplexNumberAdapter calculatorAdapterCurrent {3.5f, 22.4f};
-    calculatorAdapterCurrent = calculatorAdapterCurrent.toGeneralForm();
+//    VectorParametersCalculator calculator;
+//    ComplexNumberAdapter calculatorAdapterResistence {0.58f, 31.f};
+//    ComplexNumberAdapter calculatorAdapterCurrent {3.5f, 22.4f};
+//    calculatorAdapterCurrent = calculatorAdapterCurrent.toGeneralForm();
 
-    calculator.setResistence(calculatorAdapterResistence);
-    calculator.setCurrent(calculatorAdapterCurrent);
-    calculator.evaluateCircuit();
+//    calculator.setResistence(calculatorAdapterResistence);
+//    calculator.setCurrent(calculatorAdapterCurrent);
+//    calculator.evaluateCircuit();
 
-    std::cout << "Voltage\t" << calculator.getVoltage() << std::endl;
-    std::cout << "Current\t" << calculator.getCurrent() << std::endl;
-    std::cout << "Resistence\t" << calculator.getResistence() << std::endl;
+//    std::cout << "Voltage\t" << calculator.getVoltage() << std::endl;
+//    std::cout << "Current\t" << calculator.getCurrent() << std::endl;
+//    std::cout << "Resistence\t" << calculator.getResistence() << std::endl;
 
     return a.exec();
 }

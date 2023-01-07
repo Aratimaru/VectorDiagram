@@ -1,7 +1,7 @@
 #include "complexnumberadapter.h"
 
 ComplexNumberAdapter::ComplexNumberAdapter()  : std::complex <float>(){
-
+    setForm(false);
 }
 
 ComplexNumberAdapter::ComplexNumberAdapter(std::complex <float> a) : std::complex <float>(a){
@@ -30,7 +30,7 @@ ComplexNumberAdapter ComplexNumberAdapter::toExponentialForm(){
     return result;
 }
 
-ComplexNumberAdapter ComplexNumberAdapter::parseNumberFromString(const std::string &s)
+void ComplexNumberAdapter::parseNumberFromString(const std::string &s)
 {
     std::string sReal{}, sImag{};
     int jIndex = 0;         //delimiter to separate real and imag parts
@@ -55,21 +55,20 @@ ComplexNumberAdapter ComplexNumberAdapter::parseNumberFromString(const std::stri
         }
     }
 
-    std::complex <float> result;
-    result.real(std::stof(sReal));
-    result.imag(std::stof(sImag));
-
-    return result;
+    this->real(std::stof(sReal));
+    this->imag(std::stof(sImag));
+    parseFormFromString(s);
 }
 
-bool ComplexNumberAdapter::parseFormFromString(const std::string &s)
+void ComplexNumberAdapter::parseFormFromString(const std::string &s)
 {
     for (const auto& c : s){
         if (c == 'e'){
-            return true;
+            m_Form = true;
+            return;
         }
     }
-    return false;
+    m_Form = false;
 }
 
 bool ComplexNumberAdapter::getForm()
