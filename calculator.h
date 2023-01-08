@@ -5,7 +5,7 @@
 class Calculator
 {
 public:
-    virtual bool evaluateCircuit() = 0;
+    virtual bool calculate() = 0;
 };
 
 #endif // CALCULATOR_H

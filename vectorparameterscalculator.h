@@ -1,9 +1,8 @@
 #ifndef VectorParametersCalculator_H
 #define VectorParametersCalculator_H
 #include "calculator.h"
-#include <cstddef>
-#include <limits>
 #include "complexnumberadapter.h"
+#include "phasevector.h"
 
 class VectorParametersCalculator : public Calculator
 {
@@ -19,13 +18,15 @@ public:
     VectorParametersCalculator();
     VectorParametersCalculator(ComplexNumberAdapter v, ComplexNumberAdapter c, ComplexNumberAdapter r);
     VectorParametersCalculator(ComplexNumberAdapter v, ComplexNumberAdapter c);
-    bool evaluateCircuit() override;
-    void setVoltage(ComplexNumberAdapter v);
-    void setCurrent(ComplexNumberAdapter c);
-    void setResistence(ComplexNumberAdapter r);
-    ComplexNumberAdapter getVoltage();
-    ComplexNumberAdapter getCurrent();
-    ComplexNumberAdapter getResistence();
+    bool calculate() override;
+    void setVoltage(const ComplexNumberAdapter& v);
+    void setCurrent(const ComplexNumberAdapter& c);
+    void setResistence(const ComplexNumberAdapter& r);
+    ComplexNumberAdapter getVoltage() const;        //in exp form
+    ComplexNumberAdapter getCurrent() const;        //in exp form
+    ComplexNumberAdapter getResistence() const;     //in exp form
+
+    void sentResults(PhaseVector& currentVector, PhaseVector& voltageVector);           //TODO: maybe need to send data to Model
 private:
     ComplexNumberAdapter m_Voltage{UNDEFINED_COMPLEX_NUMBER};
     ComplexNumberAdapter m_Current{UNDEFINED_COMPLEX_NUMBER};

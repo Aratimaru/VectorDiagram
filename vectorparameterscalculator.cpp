@@ -17,7 +17,7 @@ VectorParametersCalculator::VectorParametersCalculator(ComplexNumberAdapter v, C
 
 }
 
-bool VectorParametersCalculator::evaluateCircuit(){     //TODO: separate numbers form to do proper calcilations
+bool VectorParametersCalculator::calculate(){
     if(m_Voltage == UNDEFINED_COMPLEX_NUMBER){
         if(!necessaryParametersFound(VOLTAGE)){
             return false;
@@ -48,34 +48,43 @@ bool VectorParametersCalculator::evaluateCircuit(){     //TODO: separate numbers
     return true;
 }
 
-void VectorParametersCalculator::setVoltage(ComplexNumberAdapter v)
+void VectorParametersCalculator::setVoltage(const ComplexNumberAdapter& v)
 {
     m_Voltage = v;
 }
 
-void VectorParametersCalculator::setCurrent(ComplexNumberAdapter c)
+void VectorParametersCalculator::setCurrent(const ComplexNumberAdapter& c)
 {
     m_Current = c;
 }
 
-void VectorParametersCalculator::setResistence(ComplexNumberAdapter r)
+void VectorParametersCalculator::setResistence(const ComplexNumberAdapter& r)
 {
     m_Resistence = r;
 }
 
-ComplexNumberAdapter VectorParametersCalculator::getVoltage()
+ComplexNumberAdapter VectorParametersCalculator::getVoltage() const
 {
     return m_Voltage;
 }
 
-ComplexNumberAdapter VectorParametersCalculator::getCurrent()
+ComplexNumberAdapter VectorParametersCalculator::getCurrent() const
 {
     return m_Current;
 }
 
-ComplexNumberAdapter VectorParametersCalculator::getResistence()
+ComplexNumberAdapter VectorParametersCalculator::getResistence() const
 {
     return m_Resistence;
+}
+
+void VectorParametersCalculator::sentResults(PhaseVector& currentVector, PhaseVector& voltageVector)
+{
+    ComplexNumberAdapter voltage = m_Voltage.toGeneralForm();
+    ComplexNumberAdapter current = m_Current.toGeneralForm();
+
+    currentVector.setCoodinates({current.real(), current.imag()});
+    voltageVector.setCoodinates({voltage.real(), voltage.imag()});
 }
 
 bool VectorParametersCalculator::necessaryParametersFound(Parameters value){
