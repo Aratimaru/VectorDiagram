@@ -32,8 +32,15 @@ int main(int argc, char *argv[])        //TODO: add units MV, MA, kA, kV...
     std::cout << "newGen\t" << newGen << std::endl;
 
 
+    std::cout << "-------------------------------------------------------------------------------------------------------------------------"
+              << std::endl;
+    std::cout << "                                                                                              //TEST ComplexNumberAdapter"
+              << std::endl;
+    std::cout << "                                                                                              //orerations"
+              << std::endl;
+
     ComplexNumberAdapter inputNumberGen(-5.f-3if);
-    ComplexNumberAdapter inputNumberExp(3.16, 18.4);
+    ComplexNumberAdapter inputNumberExp(3.16f, 18.4f);
     ComplexNumberAdapter resultGen = inputNumberGen+inputNumberGen;
     std::cout << "general add\t" << resultGen << std::endl;
     resultGen = inputNumberGen-inputNumberGen;
@@ -62,11 +69,19 @@ int main(int argc, char *argv[])        //TODO: add units MV, MA, kA, kV...
     ComplexNumberAdapter calculatorAdapterResistence {0.58f, 31.f};
     ComplexNumberAdapter calculatorAdapterCurrent {3.5f, 22.4f};
     ComplexNumberAdapter calculatorAdapterVoltage {40.7f, 98.2f};
-    calculatorAdapterCurrent = calculatorAdapterCurrent.toGeneralForm();
 
-    calculator.setResistence(calculatorAdapterResistence);
-    calculator.setCurrent(calculatorAdapterCurrent);
-    calculator.setVoltage(calculatorAdapterVoltage);
+
+    calculatorAdapterCurrent = calculatorAdapterCurrent.toGeneralForm();
+    Parameter resistence; resistence.parameter = calculatorAdapterResistence; resistence.prefix = MEGA;
+    Parameter current; current.parameter = calculatorAdapterCurrent; current.prefix = KILO;
+    Parameter voltage; voltage.parameter = calculatorAdapterVoltage; voltage.prefix = MEGA;
+
+
+    calculator.setResistence(resistence);
+    calculator.setCurrent(current);
+    calculator.setVoltage(voltage);
+
+    calculator.convertToUnit(VOLTAGE, KILO);
     calculator.calculate();
 
     std::cout << "Voltage\t" << calculator.getVoltage() << std::endl;
@@ -74,20 +89,20 @@ int main(int argc, char *argv[])        //TODO: add units MV, MA, kA, kV...
     std::cout << "Resistence\t" << calculator.getResistence() << std::endl;
 
 
-    std::cout << "-------------------------------------------------------------------------------------------------------------------------"
-              << std::endl;
-    std::cout << "                                                                                              //TEST PhaseVector"
-              << std::endl;
-    std::cout << "                                                                                              //send results"
-              << std::endl;
+//    std::cout << "-------------------------------------------------------------------------------------------------------------------------"
+//              << std::endl;
+//    std::cout << "                                                                                              //TEST PhaseVector"
+//              << std::endl;
+//    std::cout << "                                                                                              //send results"
+//              << std::endl;
 
-    PhaseVector currentVector;
-    PhaseVector voltageVector;
+//    PhaseVector currentVector;
+//    PhaseVector voltageVector;
 
-    calculator.sentResults(currentVector, voltageVector);
+//    calculator.sentResults(currentVector, voltageVector);
 
-    std::cout << "currentVector\t" << currentVector.getCoordinates().second << std::endl;
-    std::cout << "voltageVector\t" << voltageVector.getCoordinates().second << std::endl;
+//    std::cout << "currentVector\t" << currentVector.getCoordinates().second << std::endl;
+//    std::cout << "voltageVector\t" << voltageVector.getCoordinates().second << std::endl;
 
 
     return a.exec();
