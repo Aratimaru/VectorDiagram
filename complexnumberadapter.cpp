@@ -30,47 +30,6 @@ ComplexNumberAdapter ComplexNumberAdapter::toExponentialForm(){
     return result;
 }
 
-void ComplexNumberAdapter::parseNumberFromString(const std::string &s)
-{
-    std::string sReal{}, sImag{};
-    int jIndex = 0;         //delimiter to separate real and imag parts
-
-    for (int i=0;i<s.length();i++){
-        if (isDigit(s.at(i))){
-            sReal += s.at(i);
-        }else {
-            if (s.at(i) == 'j'){
-                jIndex = i;
-                break;
-            }
-        }
-    }
-    if(sReal.at(sReal.length()-1 == '-')){
-        sReal.erase(sReal.length()-1);
-    }
-
-    for (int i=jIndex-1;i<s.length();i++){
-        if (isDigit(s.at(i))){
-            sImag += s.at(i);
-        }
-    }
-
-    this->real(std::stof(sReal));
-    this->imag(std::stof(sImag));
-    parseFormFromString(s);
-}
-
-void ComplexNumberAdapter::parseFormFromString(const std::string &s)
-{
-    for (const auto& c : s){
-        if (c == 'e'){
-            m_Form = true;
-            return;
-        }
-    }
-    m_Form = false;
-}
-
 bool ComplexNumberAdapter::getForm()
 {
     return m_Form;

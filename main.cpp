@@ -32,32 +32,8 @@ int main(int argc, char *argv[])        //TODO: add units MV, MA, kA, kV...
     std::cout << "newGen\t" << newGen << std::endl;
 
 
-    std::cout << "-------------------------------------------------------------------------------------------------------------------------"
-              << std::endl;
-    std::cout << "                                                                                              //TEST ComplexNumberAdapter"
-              << std::endl;
-    std::cout << "                                                                                              //Parse from string"
-              << std::endl;
-
-    std::string inputDataGeneral{"-5-j3"};
-    std::string inputDataExp{"3.16*e^j18.4"};
-
-    ComplexNumberAdapter inputNumberGen;
-    inputNumberGen.parseNumberFromString(inputDataGeneral);
-    ComplexNumberAdapter inputNumberExp;
-    inputNumberExp.parseNumberFromString(inputDataExp);
-
-    std::cout << "inputNumberGen\t" << inputNumberGen << "\t" << (inputNumberGen.getForm() ? "exp" : "gen") << std::endl;
-    std::cout << "inputNumberExp\t" << inputNumberExp <<  "\t" << (inputNumberExp.getForm() ? "exp" : "gen") << std::endl;
-
-
-    std::cout << "-------------------------------------------------------------------------------------------------------------------------"
-              << std::endl;
-    std::cout << "                                                                                              //TEST ComplexNumberAdapter"
-              << std::endl;
-    std::cout << "                                                                                              //operations"
-              << std::endl;
-
+    ComplexNumberAdapter inputNumberGen(-5.f-3if);
+    ComplexNumberAdapter inputNumberExp(3.16, 18.4);
     ComplexNumberAdapter resultGen = inputNumberGen+inputNumberGen;
     std::cout << "general add\t" << resultGen << std::endl;
     resultGen = inputNumberGen-inputNumberGen;

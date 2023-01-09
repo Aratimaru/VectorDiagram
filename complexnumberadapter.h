@@ -14,8 +14,6 @@ public:
     ComplexNumberAdapter(float r, float i);
     ComplexNumberAdapter toGeneralForm();   //returns pair of real and imaginary values
     ComplexNumberAdapter toExponentialForm();   //returns pair of coefficient and exponent power values
-    void parseNumberFromString(const std::string& s);
-    void parseFormFromString(const std::string& s);                                        //0 - general, 1 - exp
 
                                                                                                   //TODO: add multiplexion and division for exp form
 
@@ -25,7 +23,7 @@ public:
     void setForm(bool f);
 private:
     static bool isDigit(const char& c);
-    bool m_Form;
+    bool m_Form;        //0 - gen, 1 -exp
 };
 
 #endif // COMPLEXNUMBERADAPTER_H
