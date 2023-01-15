@@ -83,8 +83,8 @@ int main(int argc, char *argv[])        //TODO: add units MV, MA, kA, kV...
     std::vector <PhaseVector> phaseVectors;
     phaseVectors = calculator.calculate(phaseParameterStorage);
 
-    std::cout << "Voltage\t" << phaseVectors.at(0) << std::endl;
-    std::cout << "Current\t" << phaseVectors.at(1) << std::endl;
+    std::cout << phaseVectors.at(0) << std::endl;
+    std::cout << phaseVectors.at(1) << std::endl;
 
 
 //    std::cout << "-------------------------------------------------------------------------------------------------------------------------"

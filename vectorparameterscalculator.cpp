@@ -75,8 +75,10 @@ std::vector<PhaseVector> VectorParametersCalculator::calculate(PhaseParametersSt
 
     PhaseVector currentVector;
     currentVector.setCoodinates(Coordinates {data.getCurrent().parameter.real(), data.getCurrent().parameter.imag()});
+    currentVector.setLabel(CURRENT);
     PhaseVector voltageVector;
     voltageVector.setCoodinates(Coordinates {data.getVoltage().parameter.real(), data.getVoltage().parameter.imag()});
+    voltageVector.setLabel(VOLTAGE);
 
     phaseVectors.push_back(voltageVector);
     phaseVectors.push_back(currentVector);
@@ -93,7 +95,7 @@ std::vector<PhaseVector> VectorParametersCalculator::calculate(PhaseParametersSt
 //    voltageVector.setCoodinates({voltage.real(), voltage.imag()});
 //}
 
-bool VectorParametersCalculator::necessaryParametersFound(PhaseParametersStorage &data, ParameterLabel value){
+bool VectorParametersCalculator::necessaryParametersFound(PhaseParametersStorage &data, VectorLabel value){
     switch (value){
     case VOLTAGE:
     {

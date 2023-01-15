@@ -7,7 +7,7 @@
 class VectorParametersCalculator
 {
 private:
-    bool necessaryParametersFound(PhaseParametersStorage &data, ParameterLabel value);
+    bool necessaryParametersFound(PhaseParametersStorage &data, VectorLabel value);
 
 public:
     VectorParametersCalculator();
