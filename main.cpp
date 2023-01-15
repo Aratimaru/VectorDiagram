@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "complexnumberadapter.h"
+#include "phaseparametersstorage.h"
 #include "vectorparameterscalculator.h"
 
 using namespace std::complex_literals;
@@ -62,31 +63,28 @@ int main(int argc, char *argv[])        //TODO: add units MV, MA, kA, kV...
               << std::endl;
     std::cout << "                                                                                              //TEST VectorParametersCalculator"
               << std::endl;
-    std::cout << "                                                                                              //evaluate circuit"
+    std::cout << "                                                                                              //calculate phase vectors"
               << std::endl;
 
+    ComplexNumberAdapter complexResistence {0.58f, 31.f};
+    ComplexNumberAdapter complexCurrent {3.5f, 22.4f};
+    ComplexNumberAdapter complexrVoltage {40.7f, 98.2f};
+
+    Parameter resistence; resistence.parameter = complexResistence; resistence.prefix = MEGA;
+    Parameter current; current.parameter = complexCurrent; current.prefix = KILO;
+    Parameter voltage; voltage.parameter = complexrVoltage; voltage.prefix = MEGA;
+
+    PhaseParametersStorage phaseParameterStorage;
+    phaseParameterStorage.setResistence(resistence);
+    phaseParameterStorage.setCurrent(current);
+    phaseParameterStorage.setVoltage(voltage);
+
     VectorParametersCalculator calculator;
-    ComplexNumberAdapter calculatorAdapterResistence {0.58f, 31.f};
-    ComplexNumberAdapter calculatorAdapterCurrent {3.5f, 22.4f};
-    ComplexNumberAdapter calculatorAdapterVoltage {40.7f, 98.2f};
+    std::vector <PhaseVector> phaseVectors;
+    phaseVectors = calculator.calculate(phaseParameterStorage);
 
-
-    calculatorAdapterCurrent = calculatorAdapterCurrent.toGeneralForm();
-    Parameter resistence; resistence.parameter = calculatorAdapterResistence; resistence.prefix = MEGA;
-    Parameter current; current.parameter = calculatorAdapterCurrent; current.prefix = KILO;
-    Parameter voltage; voltage.parameter = calculatorAdapterVoltage; voltage.prefix = MEGA;
-
-
-    calculator.setResistence(resistence);
-    calculator.setCurrent(current);
-    calculator.setVoltage(voltage);
-
-    calculator.convertToUnit(VOLTAGE, KILO);
-    calculator.calculate();
-
-    std::cout << "Voltage\t" << calculator.getVoltage() << std::endl;
-    std::cout << "Current\t" << calculator.getCurrent() << std::endl;
-    std::cout << "Resistence\t" << calculator.getResistence() << std::endl;
+    std::cout << "Voltage\t" << phaseVectors.at(0) << std::endl;
+    std::cout << "Current\t" << phaseVectors.at(1) << std::endl;
 
 
 //    std::cout << "-------------------------------------------------------------------------------------------------------------------------"
