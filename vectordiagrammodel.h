@@ -1,36 +1,38 @@
 #ifndef VECTORDIAGRAMMODEL_H
 #define VECTORDIAGRAMMODEL_H
 
-#include "phasevector.h"
-
 #include <QAbstractTableModel>
+#include <QPointF>
 
 #define ROWS 2
 #define COLUMNS 3
 
-struct TableOfPhases{
-    QPair<double, double> phaseA{};
-    QPair<double, double> phaseB{};
-    QPair<double, double> phaseC{};
+using Line = QPair<QPointF, QPointF>;
+
+struct TableOfPhases {
+  Line phaseA{};
+  Line phaseB{};
+  Line phaseC{};
 };
 
-class VectorDiagramModel : public QAbstractTableModel
-{
+class VectorDiagramModel : public QAbstractTableModel {
 public:
-    explicit VectorDiagramModel(QObject *parent = nullptr);
+  explicit VectorDiagramModel(QObject *parent = nullptr);
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+  int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+  int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+  QVariant data(const QModelIndex &index,
+                int role = Qt::DisplayRole) const override;
+  bool setData(const QModelIndex &index, const QVariant &value,
+               int role = Qt::EditRole) override;
 
 signals:
-    void editCompleted(const QString &);
+  void editCompleted(const QString &);
 
 private:
-    QString m_gridData[COLUMNS][ROWS];  //holds text entered into QTableView
+  QString m_gridData[COLUMNS][ROWS]; // holds text entered into QTableView
 
-    QVector<TableOfPhases> _instances;
+  QVector<TableOfPhases> _instances;
 };
 
 #endif // VECTORDIAGRAMMODEL_H
