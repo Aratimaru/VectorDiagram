@@ -353,16 +353,6 @@
      </item>
     </layout>
    </widget>
-   <widget class="QTableView" name="VectorsTableView">
-    <property name="geometry">
-     <rect>
-      <x>325</x>
-      <y>31</y>
-      <width>331</width>
-      <height>291</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="ConfirmButton">
     <property name="geometry">
      <rect>
@@ -374,6 +364,16 @@
     </property>
     <property name="text">
      <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>30</y>
+      <width>381</width>
+      <height>291</height>
+     </rect>
     </property>
    </widget>
   </widget>

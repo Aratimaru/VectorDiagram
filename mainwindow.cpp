@@ -6,6 +6,9 @@
 #include "vectordiagrammodel.h"
 #include "vectorparameterscalculator.h"
 
+#include <QBrush>
+#include <QPen>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
       _model(std::make_shared<VectorDiagramModel>()) {
@@ -37,11 +40,16 @@ void MainWindow::on_ConfirmButton_clicked() // choose 1 from and convert to
 
   fillModel(phaseVectorsA);
 
-  const auto idx = _model->index(0, 0);
-  std::cout << _model->data(idx).value<PhaseVector>();
+  auto pen = new QPen{QBrush{Qt::BrushStyle::Dense1Pattern}, 1};
+  {
+    auto myScene = new QGraphicsScene(this);
+    ui->graphicsView->setScene(myScene);
+  }
 
-  //  std::cout << phaseVectorsA.at(0) << std::endl;
-  //  std::cout << phaseVectorsA.at(1) << std::endl;
+  auto scene = ui->graphicsView->scene();
+
+  auto l = new QLineF(0, 50, 50, 200);
+  scene->addLine(*l, *pen);
 }
 
 void MainWindow::fillModel(const std::vector<PhaseVector> &allPhases) {
