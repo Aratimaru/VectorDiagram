@@ -42,10 +42,6 @@ bool VectorDiagramModel::setData(const QModelIndex &index,
 
   //! \todo intermediary calculations
 
-  qDebug() << index.row();
-  if (_instances.size() + 1 == index.row()) {
-    _instances.push_back(TableOfPhases());
-  }
   auto dataPair = value.value<Line>();
   TableOfPhases *holderStruct;
   holderStruct = &_instances[index.row()];
@@ -65,4 +61,8 @@ bool VectorDiagramModel::setData(const QModelIndex &index,
     break;
   }
   return true;
+}
+
+void VectorDiagramModel::reserve(int size) {
+  _instances = QVector<TableOfPhases>(size);
 }

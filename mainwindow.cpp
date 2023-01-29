@@ -40,8 +40,8 @@ void MainWindow::on_ConfirmButton_clicked() // choose 1 from and convert to
   const auto idx = _model->index(0, 0);
   std::cout << _model->data(idx).value<PhaseVector>();
 
-  //  std::cout << phaseVectors.at(0) << std::endl;
-  //  std::cout << phaseVectors.at(1) << std::endl;
+  //  std::cout << phaseVectorsA.at(0) << std::endl;
+  //  std::cout << phaseVectorsA.at(1) << std::endl;
 }
 
 void MainWindow::fillModel(const std::vector<PhaseVector> &allPhases) {
@@ -56,6 +56,8 @@ void MainWindow::fillModel(const std::vector<PhaseVector> &allPhases) {
 
     _model->setData(idx, data);
   };
+
+  _model->reserve(allPhases.size());
 
   for (int i = 0; i < allPhases.size(); i++) {
     converter(allPhases.at(i), i % ROWS, i / COLUMNS);

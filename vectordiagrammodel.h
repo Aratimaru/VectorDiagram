@@ -25,6 +25,7 @@ public:
                 int role = Qt::DisplayRole) const override;
   bool setData(const QModelIndex &index, const QVariant &value,
                int role = Qt::EditRole) override;
+  void reserve(int size);
 
 signals:
   void editCompleted(const QString &);
@@ -32,7 +33,7 @@ signals:
 private:
   QString m_gridData[COLUMNS][ROWS]; // holds text entered into QTableView
 
-  QVector<TableOfPhases> _instances;
+  QVector<TableOfPhases> _instances{};
 };
 
 #endif // VECTORDIAGRAMMODEL_H
