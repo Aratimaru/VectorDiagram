@@ -25,6 +25,7 @@ private slots:
   void on_ConfirmButton_clicked();
 
   void fillModel(const std::vector<PhaseVector> &allPhases);
+  void drawLines();
 
 private:
   Ui::MainWindow *ui;

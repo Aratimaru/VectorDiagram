@@ -4,11 +4,11 @@ VectorDiagramModel::VectorDiagramModel(QObject *parent)
     : QAbstractTableModel{parent} {}
 
 int VectorDiagramModel::rowCount(const QModelIndex & /*parent*/) const {
-  return _instances.size() + 1;
+  return _instances.size();
 }
 
 int VectorDiagramModel::columnCount(const QModelIndex & /*parent*/) const {
-  return 3; // probably redundant
+  return COLUMNS; // probably redundant
 }
 
 QVariant VectorDiagramModel::data(const QModelIndex &index, int role) const {
@@ -37,12 +37,12 @@ bool VectorDiagramModel::setData(const QModelIndex &index,
   if (index.column() >= columnCount() || index.row() >= _instances.size())
     return false;
 
-  if (!value.canConvert<Line>())
+  if (!value.canConvert<QLineF>())
     return false; // conversion may not succeed
 
   //! \todo intermediary calculations
 
-  auto dataPair = value.value<Line>();
+  auto dataPair = value.value<QLineF>();
   TableOfPhases *holderStruct;
   holderStruct = &_instances[index.row()];
 
@@ -60,9 +60,41 @@ bool VectorDiagramModel::setData(const QModelIndex &index,
     Q_ASSERT(false);
     break;
   }
+
+  _hasNext = true;
   return true;
 }
 
 void VectorDiagramModel::reserve(int size) {
   _instances = QVector<TableOfPhases>(size);
+}
+
+bool VectorDiagramModel::hasNext() { return _hasNext; }
+
+bool VectorDiagramModel::isEmpty() {
+  return false; // todo
+}
+
+void VectorDiagramModel::resetIter() {
+  _iter = {0, 0};
+  _hasNext = false; // think about the algorithm
+}
+
+QLineF VectorDiagramModel::getNextVector() {
+  auto &row = _iter.first;
+  auto &col = _iter.second;
+  const auto idx = index(row, col);
+  const QLineF info = data(idx).value<QLineF>();
+
+  col++;
+
+  if (col >= columnCount()) {
+    col = 0;
+    row++;
+  }
+
+  if (row >= ROWS)
+    resetIter();
+
+  return info;
 }

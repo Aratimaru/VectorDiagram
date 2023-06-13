@@ -2,17 +2,16 @@
 #define VECTORDIAGRAMMODEL_H
 
 #include <QAbstractTableModel>
+#include <QLineF>
 #include <QPointF>
 
 #define ROWS 2
 #define COLUMNS 3
 
-using Line = QPair<QPointF, QPointF>;
-
 struct TableOfPhases {
-  Line phaseA{};
-  Line phaseB{};
-  Line phaseC{};
+  QLineF phaseA{};
+  QLineF phaseB{};
+  QLineF phaseC{};
 };
 
 class VectorDiagramModel : public QAbstractTableModel {
@@ -26,6 +25,10 @@ public:
   bool setData(const QModelIndex &index, const QVariant &value,
                int role = Qt::EditRole) override;
   void reserve(int size);
+  bool hasNext();
+  bool isEmpty();
+  void resetIter();
+  QLineF getNextVector();
 
 signals:
   void editCompleted(const QString &);
@@ -34,6 +37,8 @@ private:
   QString m_gridData[COLUMNS][ROWS]; // holds text entered into QTableView
 
   QVector<TableOfPhases> _instances{};
+  QPair<int, int> _iter{0, 0};
+  bool _hasNext{false};
 };
 
 #endif // VECTORDIAGRAMMODEL_H

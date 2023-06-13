@@ -31,7 +31,7 @@ void PhaseVector::setCoodinates(const Coordinates end) {
   m_End = end;
 }
 
-Line PhaseVector::getCoordinates() const {
+QLineF PhaseVector::getCoordinates() const {
   return {{m_Begin.x, m_Begin.y}, {m_End.x, m_End.y}};
 }
 

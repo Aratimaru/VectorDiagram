@@ -6,12 +6,11 @@
 #include <iostream>
 #include <utility>
 
+#include <QLineF>
 #include <QPointF>
 
 #define INCORRECT_NUMBER                                                       \
   { FLT_MAX, FLT_MAX }
-
-using Line = QPair<QPointF, QPointF>;
 
 enum VectorLabel { VOLTAGE = 0, CURRENT, RESISTENCE, NOT_DEFINED };
 
@@ -32,7 +31,7 @@ public:
   //  std::pair<Coordinates, Coordinates> getCoordinates() const;
   void setCoodinates(const Coordinates, const Coordinates); // in general form
   void setCoodinates(const Coordinates); // if vector begins at {0;0}
-  Line getCoordinates() const;
+  QLineF getCoordinates() const;
   void setLabel(VectorLabel label);
   VectorLabel getLabel() const;
 

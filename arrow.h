@@ -7,6 +7,8 @@
 class Arrow : public QLineF {
 public:
   explicit Arrow(QLineF *parent = nullptr);
+
+private:
 };
 
 #endif // ARROW_H
