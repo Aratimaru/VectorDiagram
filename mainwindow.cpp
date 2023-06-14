@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 
+#include "arrow.h"
 #include "complexnumberadapter.h"
 #include "phaseparametersstorage.h"
 #include "ui_mainwindow.h"
@@ -14,7 +15,12 @@ MainWindow::MainWindow(QWidget *parent)
       _model(std::make_shared<VectorDiagramModel>()) {
   ui->setupUi(this);
 
-  ui->graphicsView->setScene(new QGraphicsScene(this));
+  QGraphicsScene *scene = new QGraphicsScene(this);
+  QBrush *brush = new QBrush(QColor(211, 211, 211, 100));
+  QTransform myMatrix;
+  brush->setStyle(Qt::CrossPattern);
+  scene->setBackgroundBrush(*brush);
+  ui->graphicsView->setScene(scene);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -75,13 +81,19 @@ void MainWindow::fillModel(const std::vector<PhaseVector> &allPhases) {
 }
 
 void MainWindow::drawLines() {
-  auto pen =
-      new QPen{QBrush{Qt::BrushStyle::SolidPattern}, 3}; // -> field /shared_ptr
+  QPen *pen = new QPen{Qt::red};
+  pen->setWidth(30);
   QGraphicsScene *scene = ui->graphicsView->scene();
 
   while (_model->hasNext()) {
-    const QLineF nextLine{_model->getNextVector()};
-    if (!nextLine.p1().isNull() || !nextLine.p2().isNull())
-      scene->addLine({nextLine.p1(), nextLine.p2()}, *pen);
+    QLineF nextLine{_model->getNextVector()};
+    Arrow *arrow = new Arrow{nextLine, 60, 20};
+    if (arrow->getP1().isNull() && arrow->getP2().isNull()) {
+      continue;
+    }
+    arrow->setPen(*pen);
+    scene->addItem(arrow);
   }
+  //! \todo add scaling
+  //  ui->graphicsView->scale(2, 2);
 }

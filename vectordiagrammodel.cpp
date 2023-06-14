@@ -17,7 +17,9 @@ QVariant VectorDiagramModel::data(const QModelIndex &index, int role) const {
 
   //! \todo add the sanity check
 
+  (void)role;
   const TableOfPhases *holderStruct{&_instances[index.row()]};
+  (void)role;
 
   switch (index.column()) {
   case 0:
@@ -42,6 +44,7 @@ bool VectorDiagramModel::setData(const QModelIndex &index,
 
   //! \todo intermediary calculations
 
+  (void)role;
   auto dataPair = value.value<QLineF>();
   TableOfPhases *holderStruct;
   holderStruct = &_instances[index.row()];
