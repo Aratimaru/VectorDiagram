@@ -14,7 +14,7 @@ ComplexNumberAdapter::ComplexNumberAdapter(float r, float i) : std::complex <flo
 
 ComplexNumberAdapter ComplexNumberAdapter::toGeneralForm(){
     ComplexNumberAdapter result;
-    result.m_Form = false;
+    result._form = false;
 
     result.real(this->real()*(std::cos(this->imag()*(std::atan(1.0f)*4/180.f))));
     result.imag(this->real()*(std::sin(this->imag()*(std::atan(1.0f)*4/180.f))));
@@ -23,7 +23,7 @@ ComplexNumberAdapter ComplexNumberAdapter::toGeneralForm(){
 
 ComplexNumberAdapter ComplexNumberAdapter::toExponentialForm(){
     ComplexNumberAdapter result;
-    result.m_Form = true;
+    result._form = true;
 
     result.real(std::sqrt(std::pow(this->real(),2) + std::pow(this->imag(),2)));
     result.imag(std::atan(this->imag()/this->real()) * 180.f/(std::atan(1.0f)*4.f));     //std::atan(1.0)*4 = PI
@@ -32,12 +32,12 @@ ComplexNumberAdapter ComplexNumberAdapter::toExponentialForm(){
 
 bool ComplexNumberAdapter::getForm()
 {
-    return m_Form;
+    return _form;
 }
 
 void ComplexNumberAdapter::setForm(bool f)
 {
-    m_Form = f;
+    _form = f;
 }
 
 bool ComplexNumberAdapter::isDigit(const char& c){

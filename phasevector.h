@@ -39,9 +39,9 @@ public:
   friend std::istream &operator>>(std::istream &is, PhaseVector &c);
 
 private:
-  Coordinates m_Begin;
-  Coordinates m_End;
-  VectorLabel m_Label;
+  Coordinates _begin;
+  Coordinates _end;
+  VectorLabel _Label;
 };
 
 // Q_DECLARE_METATYPE(PhaseVector);

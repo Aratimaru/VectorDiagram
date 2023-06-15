@@ -34,7 +34,7 @@ signals:
   void editCompleted(const QString &);
 
 private:
-  QString m_gridData[COLUMNS][ROWS]; // holds text entered into QTableView
+  QString _gridData[COLUMNS][ROWS]; // holds text entered into QTableView
 
   QVector<TableOfPhases> _instances{};
   QPair<int, int> _iter{0, 0};

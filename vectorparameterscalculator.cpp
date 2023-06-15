@@ -88,8 +88,8 @@ std::vector<PhaseVector> VectorParametersCalculator::calculate(PhaseParametersSt
 
 //void VectorParametersCalculator::sentResults(PhaseVector& currentVector, PhaseVector& voltageVector)
 //{
-//    ComplexNumberAdapter voltage = m_Voltage.parameter.toGeneralForm();
-//    ComplexNumberAdapter current = m_Current.parameter.toGeneralForm();
+//    ComplexNumberAdapter voltage = _Voltage.parameter.toGeneralForm();
+//    ComplexNumberAdapter current = _Current.parameter.toGeneralForm();
 
 //    currentVector.setCoodinates({current.real(), current.imag()});
 //    voltageVector.setCoodinates({voltage.real(), voltage.imag()});
@@ -128,29 +128,29 @@ bool VectorParametersCalculator::necessaryParametersFound(PhaseParametersStorage
 //    switch (p) {
 //    case CURRENT:
 //    {
-//        if(m_Current.parameter.getForm() == false){     //only for exp form
+//        if(_Current.parameter.getForm() == false){     //only for exp form
 //            return;
 //        }
-//        m_Current.parameter.real(m_Current.parameter.real() * pow(10, (int)m_Current.prefix - (int)u));
-//        m_Current.prefix = u;
+//        _Current.parameter.real(_Current.parameter.real() * pow(10, (int)_Current.prefix - (int)u));
+//        _Current.prefix = u;
 //        break;
 //    }
 //    case VOLTAGE:
 //    {
-//        if(m_Voltage.parameter.getForm() == false){     //only for exp form
+//        if(_Voltage.parameter.getForm() == false){     //only for exp form
 //            return;
 //        }
-//        m_Voltage.parameter.real(m_Voltage.parameter.real() * pow(10, (int)m_Voltage.prefix - (int)u));
-//        m_Voltage.prefix = u;
+//        _Voltage.parameter.real(_Voltage.parameter.real() * pow(10, (int)_Voltage.prefix - (int)u));
+//        _Voltage.prefix = u;
 //        break;
 //    }
 //    case RESISTENCE:
 //    {
-//        if(m_Resistence.parameter.getForm() == false){     //only for exp form
+//        if(_Resistence.parameter.getForm() == false){     //only for exp form
 //            return;
 //        }
-//        m_Resistence.parameter.real(m_Resistence.parameter.real() * pow(10, (int)m_Resistence.prefix - (int)u));
-//        m_Resistence.prefix = u;
+//        _Resistence.parameter.real(_Resistence.parameter.real() * pow(10, (int)_Resistence.prefix - (int)u));
+//        _Resistence.prefix = u;
 //        break;
 //    }
 //    default:
