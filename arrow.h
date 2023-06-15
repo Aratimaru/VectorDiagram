@@ -21,6 +21,7 @@ public:
 
   QPointF getP1();
   QPointF getP2();
+  float lenght() const;
 
 private:
   void calculateSidesByAngle();

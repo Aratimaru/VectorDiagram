@@ -35,7 +35,7 @@ void MainWindow::on_ConfirmButton_clicked() // choose 1 from and convert to
   //  complexrVoltage{ui->V1VoltageExpReal->text().toFloat(),
   //                                       ui->V1VoltageExpImag->text().toFloat()};
 
-  //  Parameter currentParameter;
+  //    Parameter currentParameter;
   //  currentParameter.parameter = complexCurrent;
   //  Parameter voltageParameter;
   //  voltageParameter.parameter = complexrVoltage;
@@ -44,7 +44,7 @@ void MainWindow::on_ConfirmButton_clicked() // choose 1 from and convert to
   //  phaseParametersStorage.setCurrent(currentParameter);
   //  phaseParametersStorage.setVoltage(voltageParameter);
 
-  //  VectorParametersCalculator calculator;
+  //    VectorParametersCalculator calculator;
   //  std::vector<PhaseVector> phaseVectorsA{
   //      calculator.calculate(phaseParametersStorage)};
   std::vector<PhaseVector> phaseVectorsA;
@@ -81,19 +81,22 @@ void MainWindow::fillModel(const std::vector<PhaseVector> &allPhases) {
 }
 
 void MainWindow::drawLines() {
-  QPen *pen = new QPen{Qt::red};
-  pen->setWidth(30);
+  QPen *pen = new QPen{Qt::black};
+  pen->setWidth(3);
   QGraphicsScene *scene = ui->graphicsView->scene();
 
   while (_model->hasNext()) {
     QLineF nextLine{_model->getNextVector()};
     Arrow *arrow = new Arrow{nextLine, 60, 20};
-    if (arrow->getP1().isNull() && arrow->getP2().isNull()) {
+    if (arrow->lenght() == 0) {
       continue;
     }
     arrow->setPen(*pen);
     scene->addItem(arrow);
+    *pen = arrow->pen();
+
+    //    scene->addLine(nextLine, *pen);
   }
   //! \todo add scaling
-  //  ui->graphicsView->scale(2, 2);
+  ui->graphicsView->scale(1, -1);
 }

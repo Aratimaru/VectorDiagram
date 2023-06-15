@@ -25,11 +25,24 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
   list.append(_base);
   list.append(_leftSide);
   list.append(_rightSide);
+  painter->setPen(this->pen());
+  painter->setBrush(this->brush());
   painter->drawLines(list);
 }
 
 //! \todo change implementation
-QRectF Arrow::boundingRect() const { return QRectF(0, 0, 100, 100); }
+QRectF Arrow::boundingRect() const {
+  // find top left corner
+  float topLeftX = _base.x1() < _base.x2() ? _base.x1() : _base.x2();
+  float topLeftY = _base.y1() < _base.y2() ? _base.y1() : _base.y2();
+
+  // find bottom right corner
+  float bottomRightX = _base.x1() > _base.x2() ? _base.x1() : _base.x2();
+  float bottomRightY = _base.y1() > _base.y2() ? _base.y1() : _base.y2();
+
+  return QRectF(QPointF(topLeftX, topLeftY),
+                QPointF(bottomRightX, bottomRightY));
+}
 
 void Arrow::setArrowParameters(QLineF &base, QLineF &leftSide,
                                QLineF &rightSide) {
@@ -49,6 +62,8 @@ void Arrow::setArrowParameters(QLineF &base, const float &angle,
 QPointF Arrow::getP1() { return _base.p1(); }
 
 QPointF Arrow::getP2() { return _base.p2(); }
+
+float Arrow::lenght() const { return _base.length(); }
 
 void Arrow::calculateSidesByAngle() {
 
@@ -87,7 +102,6 @@ void Arrow::calculateSidesByAngle() {
   float xCoefRight = normalRight.x() / BC_lenght;
   float yCoefRight = normalRight.y() / BC_lenght;
 
-  coefficient = BA_lenght / BC_lenght;
   _leftSide.setP2(
       QPointF{BA_lenght * xCoefLeft + Bx, BA_lenght * yCoefLeft + By});
   _rightSide.setP2(
