@@ -6,6 +6,8 @@
 #define UNDEFINED_COMPLEX_NUMBER (FLT_MAX, FLT_MAX)
 #define NULL_COMPLEX_NUMBER (0.f, 0.f)
 
+enum class ComplexNumberForm { GENERAL = 0, EXPONENTIAL };
+
 class ComplexNumberAdapter : public std::complex<float> {
 public:
   ComplexNumberAdapter();
@@ -24,12 +26,13 @@ public:
               &c2); // operations methods for exponential form
   friend ComplexNumberAdapter divideExp(ComplexNumberAdapter c1,
                                         const ComplexNumberAdapter &c2);
-  bool getForm();
+  ComplexNumberForm getForm();
+  void setForm(ComplexNumberForm f);
   void setForm(bool f);
   static bool isDigit(const char &c);
 
 private:
-  bool _form; // 0 - gen, 1 -exp
+  ComplexNumberForm _form; // 0 - gen, 1 -exp
 };
 
 #endif // COMPLEXNUMBERADAPTER_H

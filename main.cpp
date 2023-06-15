@@ -68,13 +68,13 @@ int main(int argc, char *argv[]) // TODO: add units MV, MA, kA, kV...
   //  ComplexNumberAdapter complexrVoltage{40.7f, 98.2f};
 
   //  Parameter resistence;
-  //  resistence.parameter = complexResistence;
+  //  resistence.value = complexResistence;
   //  resistence.prefix = MEGA;
   //  Parameter current;
-  //  current.parameter = complexCurrent;
+  //  current.value = complexCurrent;
   //  current.prefix = KILO;
   //  Parameter voltage;
-  //  voltage.parameter = complexrVoltage;
+  //  voltage.value = complexrVoltage;
   //  voltage.prefix = MEGA;
 
   //  PhaseParametersStorage phaseParameterStorage;

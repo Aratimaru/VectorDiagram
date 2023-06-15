@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 
 #include "arrow.h"
-#include "complexnumberadapter.h"
 #include "phaseparametersstorage.h"
 #include "ui_mainwindow.h"
 #include "vectordiagrammodel.h"
@@ -21,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
   brush->setStyle(Qt::CrossPattern);
   scene->setBackgroundBrush(*brush);
   ui->graphicsView->setScene(scene);
+  ui->graphicsView->scale(1, -1);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -28,33 +28,31 @@ MainWindow::~MainWindow() { delete ui; }
 void MainWindow::on_ConfirmButton_clicked() // choose 1 from and convert to
                                             // another automatically
 {
-  //  ComplexNumberAdapter
-  //  complexCurrent{ui->I1CurrentExpReal->text().toFloat(),
-  //                                      ui->I1CurrentExpImag->text().toFloat()};
-  //  ComplexNumberAdapter
-  //  complexrVoltage{ui->V1VoltageExpReal->text().toFloat(),
-  //                                       ui->V1VoltageExpImag->text().toFloat()};
+  ComplexNumberAdapter complexCurrent{ui->I1CurrentExpReal->text().toFloat(),
+                                      ui->I1CurrentExpImag->text().toFloat()};
+  ComplexNumberAdapter complexrVoltage{ui->V1VoltageExpReal->text().toFloat(),
+                                       ui->V1VoltageExpImag->text().toFloat()};
 
-  //    Parameter currentParameter;
-  //  currentParameter.parameter = complexCurrent;
-  //  Parameter voltageParameter;
-  //  voltageParameter.parameter = complexrVoltage;
+  Parameter currentParameter;
+  currentParameter.value = complexCurrent;
+  Parameter voltageParameter;
+  voltageParameter.value = complexrVoltage;
 
-  //  PhaseParametersStorage phaseParametersStorage;
-  //  phaseParametersStorage.setCurrent(currentParameter);
-  //  phaseParametersStorage.setVoltage(voltageParameter);
+  PhaseParametersStorage phaseParametersStorage;
+  phaseParametersStorage.setCurrent(currentParameter);
+  phaseParametersStorage.setVoltage(voltageParameter);
 
-  //    VectorParametersCalculator calculator;
-  //  std::vector<PhaseVector> phaseVectorsA{
-  //      calculator.calculate(phaseParametersStorage)};
-  std::vector<PhaseVector> phaseVectorsA;
-  PhaseVector currentVector{};
-  currentVector.setCoodinates({0, 0}, {90, 139});
-  PhaseVector voltageVector{};
-  voltageVector.setCoodinates({0, 0}, {-80, 69});
+  VectorParametersCalculator calculator;
+  std::vector<PhaseVector> phaseVectorsA{
+      calculator.calculate(phaseParametersStorage)};
+  //  std::vector<PhaseVector> phaseVectorsA;
+  //  PhaseVector currentVector{};
+  //  currentVector.setCoodinates({0, 0}, {90, 139});
+  //  PhaseVector voltageVector{};
+  //  voltageVector.setCoodinates({0, 0}, {-80, 69});
 
-  phaseVectorsA.push_back(currentVector);
-  phaseVectorsA.push_back(voltageVector);
+  //  phaseVectorsA.push_back(currentVector);
+  //  phaseVectorsA.push_back(voltageVector);
 
   fillModel(phaseVectorsA);
   drawLines();
@@ -98,5 +96,4 @@ void MainWindow::drawLines() {
     //    scene->addLine(nextLine, *pen);
   }
   //! \todo add scaling
-  ui->graphicsView->scale(1, -1);
 }

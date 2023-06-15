@@ -2,13 +2,6 @@
 #define PHASEPARAMETERSSTORAGE_H
 #include "complexnumberadapter.h"
 
-// enum ParameterLabel{
-//     VOLTAGE = 0,
-//     CURRENT,
-//     RESISTENCE,
-//     NOT_DEFINED
-// };
-
 enum UnitPrefix {
   PICO = -12,
   NANO = -9,
@@ -22,10 +15,8 @@ enum UnitPrefix {
 };
 
 struct Parameter {
-  ComplexNumberAdapter parameter =
-      ComplexNumberAdapter(UNDEFINED_COMPLEX_NUMBER);
+  ComplexNumberAdapter value = ComplexNumberAdapter(UNDEFINED_COMPLEX_NUMBER);
   UnitPrefix prefix = STANDART;
-  //    ParameterLabel name = NOT_DEFINED;
   friend std::ostream &operator<<(std::ostream &os, const Parameter &c);
   friend std::istream &operator>>(std::istream &is, Parameter &c);
 };

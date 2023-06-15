@@ -1,173 +1,201 @@
 #include "VectorParametersCalculator.h"
 
-VectorParametersCalculator::VectorParametersCalculator()
-{
+VectorParametersCalculator::VectorParametersCalculator() {}
 
-}
+std::vector<PhaseVector> VectorParametersCalculator::calculate(
+    PhaseParametersStorage &phaseParametersStorage) {
+  std::vector<PhaseVector> phaseVectors;
 
-std::vector<PhaseVector> VectorParametersCalculator::calculate(PhaseParametersStorage &data){
-    std::vector <PhaseVector> phaseVectors;
+  calculateVoltageVector(phaseParametersStorage);
+  calculateCurrentVector(phaseParametersStorage);
 
-    if(data.getVoltage().parameter == UNDEFINED_COMPLEX_NUMBER &&   //calculate voltage if it is unknown
-            data.getCurrent().parameter != UNDEFINED_COMPLEX_NUMBER &&
-            data.getResistence().parameter != UNDEFINED_COMPLEX_NUMBER){
-        if(!necessaryParametersFound(data, VOLTAGE)){
-            return phaseVectors;
-        }
+  // transform to general form because PhaseVector stores data in general form
+  if (phaseParametersStorage.getCurrent().value != UNDEFINED_COMPLEX_NUMBER &&
+      phaseParametersStorage.getVoltage().value != UNDEFINED_COMPLEX_NUMBER) {
 
-        if(data.getCurrent().parameter.getForm() == false){         //transform to exp form
-            Parameter current;
-            current.parameter = data.getCurrent().parameter.toExponentialForm();
-            data.setCurrent(current);
-        }
-        if(data.getResistence().parameter.getForm() == false){      //transform to exp form
-            Parameter resistence;
-            resistence.parameter = data.getResistence().parameter.toExponentialForm();
-            data.setResistence(resistence);
-        }
-
-        Parameter voltage;
-        voltage.parameter = multExp(data.getCurrent().parameter, data.getResistence().parameter);
-        voltage.parameter.setForm(true);
-        data.setVoltage(voltage);
+    if (phaseParametersStorage.getVoltage().value.getForm() ==
+        ComplexNumberForm::EXPONENTIAL) {
+      Parameter voltage;
+      voltage.value = phaseParametersStorage.getVoltage().value.toGeneralForm();
+      phaseParametersStorage.setVoltage(voltage);
     }
 
-    if(data.getCurrent().parameter == UNDEFINED_COMPLEX_NUMBER &&   //calculate current if it is unknown
-            data.getVoltage().parameter != UNDEFINED_COMPLEX_NUMBER &&
-            data.getResistence().parameter != UNDEFINED_COMPLEX_NUMBER){
-        if(!necessaryParametersFound(data, CURRENT)){
-            return phaseVectors;
-        }
-
-        if(data.getVoltage().parameter.getForm() == false){         //transform to exp form
-            Parameter voltage;
-            voltage.parameter = data.getVoltage().parameter.toExponentialForm();
-            data.setVoltage(voltage);
-        }
-        if(data.getResistence().parameter.getForm() == false){      //transform to exp form
-            Parameter resistence;
-            resistence.parameter = data.getResistence().parameter.toExponentialForm();
-            data.setResistence(resistence);
-        }
-
-        Parameter current;
-        current.parameter = divideExp(data.getVoltage().parameter, data.getResistence().parameter);
-        current.parameter.setForm(true);
-        data.setCurrent(current);
+    if (phaseParametersStorage.getCurrent().value.getForm() ==
+        ComplexNumberForm::EXPONENTIAL) {
+      Parameter current;
+      current.value = phaseParametersStorage.getCurrent().value.toGeneralForm();
+      phaseParametersStorage.setCurrent(current);
     }
-
-    if(data.getCurrent().parameter != UNDEFINED_COMPLEX_NUMBER &&
-            data.getVoltage().parameter != UNDEFINED_COMPLEX_NUMBER){
-        if(data.getVoltage().parameter.getForm() == true){         //transform to gen form
-            Parameter voltage;
-            voltage.parameter = data.getVoltage().parameter.toGeneralForm();
-            data.setVoltage(voltage);
-        }
-
-        if(data.getCurrent().parameter.getForm() == true){         //transform to gen form
-            Parameter current;
-            current.parameter = data.getCurrent().parameter.toGeneralForm();
-            data.setCurrent(current);
-        }
-    }else{
-        return phaseVectors;
-    }
-
-    PhaseVector currentVector;
-    currentVector.setCoodinates(Coordinates {data.getCurrent().parameter.real(), data.getCurrent().parameter.imag()});
-    currentVector.setLabel(CURRENT);
-    PhaseVector voltageVector;
-    voltageVector.setCoodinates(Coordinates {data.getVoltage().parameter.real(), data.getVoltage().parameter.imag()});
-    voltageVector.setLabel(VOLTAGE);
-
-    phaseVectors.push_back(voltageVector);
-    phaseVectors.push_back(currentVector);
+  } else {
     return phaseVectors;
+  }
+
+  PhaseVector currentVector;
+  currentVector.setCoodinates(
+      QPointF{phaseParametersStorage.getCurrent().value.real(),
+              phaseParametersStorage.getCurrent().value.imag()});
+  currentVector.setLabelType(PhaseVectorType::CURRENT);
+  PhaseVector voltageVector;
+  voltageVector.setCoodinates(
+      QPointF{phaseParametersStorage.getVoltage().value.real(),
+              phaseParametersStorage.getVoltage().value.imag()});
+  voltageVector.setLabelType(PhaseVectorType::VOLTAGE);
+
+  phaseVectors.push_back(voltageVector);
+  phaseVectors.push_back(currentVector);
+  return phaseVectors;
 }
 
+void VectorParametersCalculator::calculateCurrentVector(
+    PhaseParametersStorage &phaseParametersStorage) {
+  //  if (phaseParametersStorage.getCurrent().value == UNDEFINED_COMPLEX_NUMBER)
+  //  {
+  //    if (!necessaryParametersFound(phaseParametersStorage,
+  //                                  PhaseVectorType::CURRENT)) {
+  //      return;
+  //    }
 
-//void VectorParametersCalculator::sentResults(PhaseVector& currentVector, PhaseVector& voltageVector)
-//{
-//    ComplexNumberAdapter voltage = _Voltage.parameter.toGeneralForm();
-//    ComplexNumberAdapter current = _Current.parameter.toGeneralForm();
+  //    // transform to exp form
+  //    if (phaseParametersStorage.getVoltage().value.getForm() ==
+  //        ComplexNumberForm::GENERAL) {
+  //      Parameter voltage;
+  //      voltage.value =
+  //          phaseParametersStorage.getVoltage().value.toExponentialForm();
+  //      phaseParametersStorage.setVoltage(voltage);
+  //    }
 
-//    currentVector.setCoodinates({current.real(), current.imag()});
-//    voltageVector.setCoodinates({voltage.real(), voltage.imag()});
-//}
+  //    // transform to exp form
+  //    if (phaseParametersStorage.getResistence().value.getForm() ==
+  //        ComplexNumberForm::GENERAL) {
+  //      Parameter resistence;
+  //      resistence.value =
+  //          phaseParametersStorage.getResistence().value.toExponentialForm();
+  //      phaseParametersStorage.setResistence(resistence);
+  //    }
 
-bool VectorParametersCalculator::necessaryParametersFound(PhaseParametersStorage &data, VectorLabel value){
-    switch (value){
-    case VOLTAGE:
-    {
-        return (data.getCurrent().parameter!=UNDEFINED_COMPLEX_NUMBER &&
-                data.getResistence().parameter!=UNDEFINED_COMPLEX_NUMBER);
-        break;
-    }
-    case CURRENT:
-    {
-        return (data.getVoltage().parameter!=UNDEFINED_COMPLEX_NUMBER &&
-                data.getResistence().parameter!=UNDEFINED_COMPLEX_NUMBER &&
-                data.getResistence().parameter!=NULL_COMPLEX_NUMBER);
-        break;
-    }
-    case RESISTENCE:
-    {
-        return (data.getCurrent().parameter!=UNDEFINED_COMPLEX_NUMBER &&
-                data.getVoltage().parameter!=UNDEFINED_COMPLEX_NUMBER);
-        break;
-    }
-    default:
-    {
-        return false;
-    }
-    }
+  //    Parameter current;
+  //    current.value = divideExp(phaseParametersStorage.getVoltage().value,
+  //                              phaseParametersStorage.getResistence().value);
+  //    current.value.setForm(ComplexNumberForm::EXPONENTIAL);
+  //    phaseParametersStorage.setCurrent(current);
+  //  }
 }
 
-//void VectorParametersCalculator::convertToUnit(Parameters p, const UnitPrefix u)
-//{
-//    switch (p) {
-//    case CURRENT:
-//    {
-//        if(_Current.parameter.getForm() == false){     //only for exp form
-//            return;
-//        }
-//        _Current.parameter.real(_Current.parameter.real() * pow(10, (int)_Current.prefix - (int)u));
-//        _Current.prefix = u;
-//        break;
-//    }
-//    case VOLTAGE:
-//    {
-//        if(_Voltage.parameter.getForm() == false){     //only for exp form
-//            return;
-//        }
-//        _Voltage.parameter.real(_Voltage.parameter.real() * pow(10, (int)_Voltage.prefix - (int)u));
-//        _Voltage.prefix = u;
-//        break;
-//    }
-//    case RESISTENCE:
-//    {
-//        if(_Resistence.parameter.getForm() == false){     //only for exp form
-//            return;
-//        }
-//        _Resistence.parameter.real(_Resistence.parameter.real() * pow(10, (int)_Resistence.prefix - (int)u));
-//        _Resistence.prefix = u;
-//        break;
-//    }
-//    default:
-//        break;
-//    }
-//}
+void VectorParametersCalculator::calculateVoltageVector(
+    PhaseParametersStorage &phaseParametersStorage) {
 
-//void VectorParametersCalculator::convertToUnit(Parameter &p, const UnitPrefix u)
-//{
-//    if(p.parameter.getForm() == false){     //only for exp form
-//        return;
-//    }
-//    p.parameter.real(p.parameter.real() * pow(10, ((int)p.prefix - (int)u)));
-//    p.prefix = u;
-//}
+  if (phaseParametersStorage.getVoltage().value == UNDEFINED_COMPLEX_NUMBER) {
+    if (!necessaryParametersFound(phaseParametersStorage,
+                                  PhaseVectorType::VOLTAGE)) {
+      return;
+    }
 
-//void VectorParametersCalculator::convertToSmallerUnit(Parameter &p1, Parameter &p2)
+    // transform to exp form
+    if (phaseParametersStorage.getCurrent().value.getForm() ==
+        ComplexNumberForm::GENERAL) {
+      Parameter current;
+      current.value =
+          phaseParametersStorage.getCurrent().value.toExponentialForm();
+      phaseParametersStorage.setCurrent(current);
+    }
+
+    // transform to exp form
+    if (phaseParametersStorage.getResistence().value.getForm() ==
+        ComplexNumberForm::GENERAL) {
+      Parameter resistence;
+      resistence.value =
+          phaseParametersStorage.getResistence().value.toExponentialForm();
+      phaseParametersStorage.setResistence(resistence);
+    }
+
+    Parameter voltage;
+    voltage.value = multExp(phaseParametersStorage.getCurrent().value,
+                            phaseParametersStorage.getResistence().value);
+    voltage.value.setForm(ComplexNumberForm::EXPONENTIAL);
+    phaseParametersStorage.setVoltage(voltage);
+  }
+}
+
+void VectorParametersCalculator::calculateResistenceVector(
+    PhaseParametersStorage &phaseParametersStorage) {
+  //! \todo
+}
+
+bool VectorParametersCalculator::necessaryParametersFound(
+    PhaseParametersStorage &phaseParametersStorage, PhaseVectorType type) {
+  switch (type) {
+  case PhaseVectorType::VOLTAGE: {
+    return (phaseParametersStorage.getCurrent().value !=
+                UNDEFINED_COMPLEX_NUMBER &&
+            phaseParametersStorage.getResistence().value !=
+                UNDEFINED_COMPLEX_NUMBER);
+    break;
+  }
+  case PhaseVectorType::CURRENT: {
+    return (
+        phaseParametersStorage.getVoltage().value != UNDEFINED_COMPLEX_NUMBER &&
+        phaseParametersStorage.getResistence().value !=
+            UNDEFINED_COMPLEX_NUMBER &&
+        phaseParametersStorage.getResistence().value != NULL_COMPLEX_NUMBER);
+    break;
+  }
+  case PhaseVectorType::RESISTENCE: {
+    return (
+        phaseParametersStorage.getCurrent().value != UNDEFINED_COMPLEX_NUMBER &&
+        phaseParametersStorage.getVoltage().value != UNDEFINED_COMPLEX_NUMBER);
+    break;
+  }
+  default: {
+    return false;
+  }
+  }
+}
+
+// void VectorParametersCalculator::convertToUnit(Parameters p, const UnitPrefix
+// u)
+//{
+//     switch (p) {
+//     case CURRENT:
+//     {
+//         if(_Current.value.getForm() == false){     //only for exp form
+//             return;
+//         }
+//         _Current.value.real(_Current.value.real() * pow(10,
+//         (int)_Current.prefix - (int)u)); _Current.prefix = u; break;
+//     }
+//     case VOLTAGE:
+//     {
+//         if(_Voltage.value.getForm() == false){     //only for exp form
+//             return;
+//         }
+//         _Voltage.value.real(_Voltage.value.real() * pow(10,
+//         (int)_Voltage.prefix - (int)u)); _Voltage.prefix = u; break;
+//     }
+//     case RESISTENCE:
+//     {
+//         if(_Resistence.value.getForm() == false){     //only for exp form
+//             return;
+//         }
+//         _Resistence.value.real(_Resistence.value.real() * pow(10,
+//         (int)_Resistence.prefix - (int)u)); _Resistence.prefix = u; break;
+//     }
+//     default:
+//         break;
+//     }
+// }
+
+// void VectorParametersCalculator::convertToUnit(Parameter &p, const UnitPrefix
+// u)
+//{
+//     if(p.value.getForm() == false){     //only for exp form
+//         return;
+//     }
+//     p.value.real(p.value.real() * pow(10, ((int)p.prefix - (int)u)));
+//     p.prefix = u;
+// }
+
+// void VectorParametersCalculator::convertToSmallerUnit(Parameter &p1,
+// Parameter &p2)
 //{
 
 //}
