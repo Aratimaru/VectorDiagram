@@ -12,8 +12,7 @@ PhaseVector::PhaseVector(QPointF &begin, QPointF &end) {
   setLabelType(PhaseVectorType::NOT_DEFINED);
   setLabelPhase(PhaseVectorPhase::NOT_DEFINED);
 }
-PhaseVector::PhaseVector(QPointF &begin, QPointF &end,
-                         VectorLabel label) {
+PhaseVector::PhaseVector(QPointF &begin, QPointF &end, VectorLabel label) {
   _begin = begin;
   _end = end;
   _label = label;
@@ -22,8 +21,7 @@ PhaseVector::PhaseVector(QPointF &begin, QPointF &end,
 //   return {_Begin, _End};
 // }
 
-void PhaseVector::setCoodinates(const QPointF begin,
-                                const QPointF end) {
+void PhaseVector::setCoodinates(const QPointF begin, const QPointF end) {
   _begin = begin;
   _end = end;
 }
@@ -32,6 +30,16 @@ void PhaseVector::setCoodinates(const QPointF end) {
   _begin = {0, 0};
   _end = end;
 }
+
+void PhaseVector::setCoodinates(ComplexNumberAdapter end) {
+  end.toGeneralForm();
+  _begin = {0, 0};
+  _end.setX(end.real());
+  _end.setY(end.imag());
+}
+
+void PhaseVector::setCoodinates(ComplexNumberAdapter begin,
+                                ComplexNumberAdapter end) {}
 
 QLineF PhaseVector::getCoordinates() const {
   return {{_begin.x(), _begin.y()}, {_end.x(), _end.y()}};

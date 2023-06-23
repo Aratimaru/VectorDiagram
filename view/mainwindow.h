@@ -5,8 +5,9 @@
 
 #include <memory>
 
-#include "phasevector.h"
-#include "vectordiagrammodel.h"
+#include "data_structure/phasevector.h"
+#include "model/modelupdater.h"
+#include "view/viewupdater.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,11 +25,9 @@ public:
 private slots:
   void on_ConfirmButton_clicked();
 
-  void fillModel(const std::vector<PhaseVector> &allPhases);
-  void drawLines();
-
 private:
   Ui::MainWindow *ui;
-  std::shared_ptr<VectorDiagramModel> _model;
+  std::shared_ptr<ModelUpdater> _modelUpdater;
+  std::shared_ptr<ViewUpdater> _viewUpdater;
 };
 #endif // MAINWINDOW_H

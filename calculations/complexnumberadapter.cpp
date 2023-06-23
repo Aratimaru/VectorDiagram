@@ -15,6 +15,9 @@ ComplexNumberAdapter::ComplexNumberAdapter(float r, float i)
 }
 
 ComplexNumberAdapter ComplexNumberAdapter::toGeneralForm() {
+  if (this->_form == ComplexNumberForm::GENERAL) {
+    return *this;
+  }
   ComplexNumberAdapter result;
   result._form = ComplexNumberForm::GENERAL;
 
@@ -26,6 +29,10 @@ ComplexNumberAdapter ComplexNumberAdapter::toGeneralForm() {
 }
 
 ComplexNumberAdapter ComplexNumberAdapter::toExponentialForm() {
+
+  if (this->_form == ComplexNumberForm::EXPONENTIAL) {
+    return *this;
+  }
   ComplexNumberAdapter result;
   result._form = ComplexNumberForm::EXPONENTIAL;
 

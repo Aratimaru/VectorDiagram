@@ -1,6 +1,7 @@
 #ifndef PHASEVECTOR_H
 #define PHASEVECTOR_H
 
+#include "../calculations/complexnumberadapter.h"
 #include <iostream>
 #include <utility>
 
@@ -29,6 +30,9 @@ public:
   void setCoodinates(const QPointF begin,
                      const QPointF end); // in general form
   void setCoodinates(const QPointF end); // if vector begins at {0;0}
+  void setCoodinates(ComplexNumberAdapter end);
+  void setCoodinates(ComplexNumberAdapter begin, ComplexNumberAdapter end);
+
   QLineF getCoordinates() const;
 
   void setLabel(const VectorLabel label);

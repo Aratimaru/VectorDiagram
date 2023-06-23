@@ -1,10 +1,10 @@
-#include "mainwindow.h"
+#include "view/mainwindow.h"
 #include <QApplication>
 #include <iostream>
 
-#include "complexnumberadapter.h"
-#include "phaseparametersstorage.h"
-#include "vectorparameterscalculator.h"
+#include "calculations/complexnumberadapter.h"
+#include "calculations/vectorparameterscalculator.h"
+#include "data_structure/phaseparametersstorage.h"
 
 using namespace std::complex_literals;
 

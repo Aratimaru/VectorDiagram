@@ -1,7 +1,7 @@
 #ifndef VectorParametersCalculator_H
 #define VectorParametersCalculator_H
-#include "phaseparametersstorage.h"
-#include "phasevector.h"
+#include "data_structure/phaseparametersstorage.h"
+#include "data_structure/phasevector.h"
 #include <vector>
 
 class VectorParametersCalculator {
