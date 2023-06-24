@@ -11,6 +11,9 @@ public:
   bool hasNext();
   QLineF getNextVector();
 
+  int getRowCount(const std::vector<PhaseVector> &allPhases) const;
+  int getColumnCount(const std::vector<PhaseVector> &allPhases) const;
+
 private:
   std::unique_ptr<VectorDiagramModel> _model;
 };

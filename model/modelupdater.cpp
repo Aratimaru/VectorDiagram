@@ -25,3 +25,26 @@ void ModelUpdater::fillModel(const std::vector<PhaseVector> &allPhases) {
 bool ModelUpdater::hasNext() { return _model->hasNext(); }
 
 QLineF ModelUpdater::getNextVector() { return _model->getNextVector(); }
+
+int ModelUpdater::getRowCount(const std::vector<PhaseVector> &allPhases) const {
+  int count{};
+  for (const auto &e : allPhases) {
+    if (e.getLabelPhase() == PhaseVectorPhase::PHASE_A) {
+      count++;
+    }
+  }
+  return count;
+}
+
+int ModelUpdater::getColumnCount(
+    const std::vector<PhaseVector> &allPhases) const {
+  int count{};
+  PhaseVectorPhase previousPhase = PhaseVectorPhase::NOT_DEFINED;
+  for (const auto &e : allPhases) {
+    if (previousPhase != e.getLabelPhase()) {
+      count++;
+    }
+    previousPhase = e.getLabelPhase();
+  }
+  return count;
+}

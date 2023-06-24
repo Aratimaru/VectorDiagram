@@ -2,6 +2,7 @@
 
 #include "calculations/vectorparameterscalculator.h"
 #include "data_structure/phaseparametersstorage.h"
+#include "data_structure/phasevector.h"
 #include "model/vectordiagrammodel.h"
 #include "ui_mainwindow.h"
 #include "view/arrow.h"
@@ -14,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
       _modelUpdater(std::make_shared<ModelUpdater>()),
       _viewUpdater(std::make_shared<ViewUpdater>()) {
   ui->setupUi(this);
+  _viewUpdater->setView(ui->graphicsView);
+  _viewUpdater->setModel(_modelUpdater.get());
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -54,9 +57,6 @@ void MainWindow::on_ConfirmButton_clicked() // choose 1 from and convert to
   std::vector<PhaseVector> phaseA(3);
   phaseA[0].setCoodinates(complexCurrent);
   phaseA[1].setCoodinates(complexrVoltage);
-
-  _viewUpdater->setView(ui->graphicsView);
-  _viewUpdater->setModel(_modelUpdater.get());
 
   _modelUpdater->fillModel(phaseA);
   _viewUpdater->drawLines();

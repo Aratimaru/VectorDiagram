@@ -1,11 +1,11 @@
 #include "viewupdater.h"
+#include "view/arrow.h"
 
 ViewUpdater::ViewUpdater()
     : _view(std::make_shared<QGraphicsView>()),
       _modelUpdater(std::make_shared<ModelUpdater>()),
-      _scene(std::make_shared<QGraphicsScene>()) {
-  setupView();
-}
+      _scene(std::make_shared<QGraphicsScene>()) {}
+
 void ViewUpdater::drawLines() {
   QPen *pen = new QPen{Qt::black};
   pen->setWidth(3);
@@ -22,7 +22,10 @@ void ViewUpdater::drawLines() {
   //! \todo add scaling
 }
 
-void ViewUpdater::setView(QGraphicsView *view) { _view.reset(view); }
+void ViewUpdater::setView(QGraphicsView *view) {
+  _view.reset(view);
+  setupView();
+}
 
 void ViewUpdater::setModel(ModelUpdater *model) { _modelUpdater.reset(model); }
 

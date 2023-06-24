@@ -5,7 +5,6 @@
 
 #include <memory>
 
-#include "data_structure/phasevector.h"
 #include "model/modelupdater.h"
 #include "view/viewupdater.h"
 

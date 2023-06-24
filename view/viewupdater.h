@@ -3,7 +3,6 @@
 
 #include "model/modelupdater.h"
 #include "qgraphicsview.h"
-#include "view/arrow.h"
 
 #include <QBrush>
 #include <QPen>
@@ -11,6 +10,7 @@
 class ViewUpdater {
 public:
   ViewUpdater();
+
   void drawLines();
   void setView(QGraphicsView *view);
   void setModel(ModelUpdater *model);
