@@ -11,7 +11,7 @@
 #define INCORRECT_NUMBER                                                       \
   { FLT_MAX, FLT_MAX }
 
-enum class PhaseVectorType { VOLTAGE = 0, CURRENT, RESISTENCE, NOT_DEFINED };
+enum class PhaseVectorType { CURRENT = 0, VOLTAGE, RESISTENCE, NOT_DEFINED };
 enum class PhaseVectorPhase { PHASE_A = 0, PHASE_B, PHASE_C, NOT_DEFINED };
 struct VectorLabel {
   PhaseVectorType type{PhaseVectorType::NOT_DEFINED};
@@ -24,7 +24,19 @@ class PhaseVector // stores data in general form
 public:
   PhaseVector();
   PhaseVector(QPointF &begin, QPointF &end);
+  PhaseVector(ComplexNumberAdapter &begin, ComplexNumberAdapter &end);
+
   PhaseVector(QPointF &begin, QPointF &end, VectorLabel label);
+  PhaseVector(QPointF &begin, QPointF &end, const PhaseVectorType type,
+              const PhaseVectorPhase phase);
+  PhaseVector(QPointF &begin, QPointF &end, const PhaseVectorType type,
+              const PhaseVectorPhase phase, const std::string customName);
+  PhaseVector(QPointF &end, const PhaseVectorType type,
+              const PhaseVectorPhase phase);
+  PhaseVector(ComplexNumberAdapter &end, const PhaseVectorType type,
+              const PhaseVectorPhase phase);
+  PhaseVector(QPointF &end, const PhaseVectorType type,
+              const PhaseVectorPhase phase, const std::string customName);
 
   //  std::pair<QPointF, QPointF> getCoordinates() const;
   void setCoodinates(const QPointF begin,

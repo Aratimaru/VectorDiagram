@@ -24,6 +24,7 @@ MainWindow::~MainWindow() { delete ui; }
 void MainWindow::on_ConfirmButton_clicked() // choose 1 from and convert to
                                             // another automatically
 {
+  ComplexNumberAdapter begin{0.f, 0.f};
   ComplexNumberAdapter complexCurrent{ui->I1CurrentExpReal->text().toFloat(),
                                       ui->I1CurrentExpImag->text().toFloat()};
   ComplexNumberAdapter complexrVoltage{ui->V1VoltageExpReal->text().toFloat(),
@@ -54,9 +55,13 @@ void MainWindow::on_ConfirmButton_clicked() // choose 1 from and convert to
 
   //-------------------------------------------------------------------
 
-  std::vector<PhaseVector> phaseA(3);
-  phaseA[0].setCoodinates(complexCurrent);
-  phaseA[1].setCoodinates(complexrVoltage);
+  PhaseVector currentVector(complexCurrent, PhaseVectorType::CURRENT,
+                            PhaseVectorPhase::PHASE_A);
+  PhaseVector voltageVector(complexrVoltage, PhaseVectorType::VOLTAGE,
+                            PhaseVectorPhase::PHASE_A);
+  std::vector<PhaseVector> phaseA;
+  phaseA.push_back(currentVector);
+  phaseA.push_back(voltageVector);
 
   _modelUpdater->fillModel(phaseA);
   _viewUpdater->drawLines();

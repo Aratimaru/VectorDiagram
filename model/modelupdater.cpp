@@ -18,7 +18,10 @@ void ModelUpdater::fillModel(const std::vector<PhaseVector> &allPhases) {
   _model->reserve(allPhases.size());
 
   for (int i = 0; i < allPhases.size(); i++) {
-    converter(allPhases.at(i), i % allPhases.size(), i / allPhases.size());
+    int row = static_cast<int>(allPhases.at(i).getLabelPhase());
+    int column = static_cast<int>(allPhases.at(i).getLabelType());
+
+    converter(allPhases.at(i), row, column);
   }
 }
 
