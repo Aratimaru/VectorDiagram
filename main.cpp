@@ -3,8 +3,8 @@
 #include <iostream>
 
 #include "calculations/complexnumberadapter.h"
-#include "calculations/vectorparameterscalculator.h"
-#include "data_structure/phaseparametersstorage.h"
+// #include "calculations/vectorparameterscalculator.h"
+// #include "data_structure/phaseparametersstorage.h"
 
 using namespace std::complex_literals;
 

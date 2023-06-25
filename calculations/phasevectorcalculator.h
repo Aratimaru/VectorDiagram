@@ -3,10 +3,22 @@
 
 #include "calculator.h"
 
-class PhaseVectorCalculator : public Calculator
-{
+class PhaseVectorCalculator : public Calculator {
 public:
-    PhaseVectorCalculator();
+  PhaseVectorCalculator();
+  bool calculate(VectorDiagramModel &model) override;
+  PhaseVector findMissingVectorForOnePhase(VectorDiagramModel &model,
+                                           const PhaseVectorPhase &phase);
+  void findCurrentVector(const PhaseVector &voltageVector,
+                         const PhaseVector &resistenceVector);
+  void findVoltageVector(const PhaseVector &currentVector,
+                         const PhaseVector &resistenceVector);
+  void findResistenceVector(const PhaseVector &currentVector,
+                            const PhaseVector &voltageVector);
+
+private:
+  bool nessesaryVectorsKnown(const VectorDiagramModel &model,
+                             const PhaseVectorPhase &phase) const;
 };
 
 #endif // PHASEVECTORCALCULATOR_H

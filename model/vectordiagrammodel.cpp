@@ -142,8 +142,8 @@ void VectorDiagramModel::fillModel(const std::vector<PhaseVector> &allPhases) {
   this->reserve(allPhases.size());
 
   for (int i = 0; i < allPhases.size(); i++) {
-    int row = static_cast<int>(allPhases.at(i).getLabelPhase());
-    int column = static_cast<int>(allPhases.at(i).getLabelType());
+    int row = static_cast<int>(allPhases.at(i).getLabelType());
+    int column = static_cast<int>(allPhases.at(i).getLabelPhase());
 
     converter(allPhases.at(i), row, column);
   }

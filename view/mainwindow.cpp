@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 
 // #include "calculations/vectorparameterscalculator.h"
-// #include "data_structure/phaseparametersstorage.h"
 #include "data_structure/phasevector.h"
 #include "model/vectordiagrammodel.h"
 #include "ui_mainwindow.h"
@@ -25,31 +24,6 @@ void MainWindow::on_ConfirmButton_clicked() // choose 1 from and convert to
                                       ui->I1CurrentExpImag->text().toFloat()};
   ComplexNumberAdapter complexrVoltage{ui->V1VoltageExpReal->text().toFloat(),
                                        ui->V1VoltageExpImag->text().toFloat()};
-
-  //  Parameter currentParameter;
-  //  currentParameter.value = complexCurrent;
-  //  Parameter voltageParameter;
-  //  voltageParameter.value = complexrVoltage;
-
-  //  PhaseParametersStorage phaseParametersStorage;
-  //  phaseParametersStorage.setCurrent(currentParameter);
-  //  phaseParametersStorage.setVoltage(voltageParameter);
-
-  //  VectorParametersCalculator calculator;
-  //  std::vector<PhaseVector> phaseVectorsA{
-  //      calculator.calculate(phaseParametersStorage)};
-
-  //-------------------------------------------------------------------
-  //  std::vector<PhaseVector> phaseVectorsA;
-  //  PhaseVector currentVector{};
-  //  currentVector.setCoodinates(QPointF{0, 0}, QPointF{90, 139});
-  //  PhaseVector voltageVector{};
-  //  voltageVector.setCoodinates(QPointF{0, 0}, QPointF{-80, 69});
-
-  //  phaseVectorsA.push_back(currentVector);
-  //  phaseVectorsA.push_back(voltageVector);
-
-  //-------------------------------------------------------------------
 
   PhaseVector currentVector(complexCurrent, PhaseVectorType::CURRENT,
                             PhaseVectorPhase::PHASE_A);
