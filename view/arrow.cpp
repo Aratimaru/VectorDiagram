@@ -10,7 +10,7 @@ Arrow::Arrow(QLineF &base, QLineF &leftSide, QLineF &rightSide) {
   _rightSide = rightSide;
 }
 
-Arrow::Arrow(QLineF &base, const float &angle, const float &sideLenght) {
+Arrow::Arrow(QLineF base, const float &angle, const float &sideLenght) {
   _base = base;
   _angle = angle;
   _sideLenght = sideLenght;

@@ -8,7 +8,11 @@ int VectorDiagramModel::rowCount(const QModelIndex & /*parent*/) const {
 }
 
 int VectorDiagramModel::columnCount(const QModelIndex & /*parent*/) const {
-  return COLUMNS; // probably redundant
+  if (_instances.size() != 0) {
+    return 3;
+  } else {
+    return 0;
+  }
 }
 
 QVariant VectorDiagramModel::data(const QModelIndex &index, int role) const {
@@ -39,13 +43,13 @@ bool VectorDiagramModel::setData(const QModelIndex &index,
   if (index.column() >= columnCount() || index.row() >= _instances.size())
     return false;
 
-  if (!value.canConvert<QLineF>())
+  if (!value.canConvert<PhaseVector>())
     return false; // conversion may not succeed
 
   //! \todo intermediary calculations
 
   (void)role;
-  auto dataPair = value.value<QLineF>();
+  auto dataPair = value.value<PhaseVector>();
   TableOfPhases *holderStruct;
   holderStruct = &_instances[index.row()];
 
@@ -83,11 +87,11 @@ void VectorDiagramModel::resetIter() {
   _hasNext = false; // think about the algorithm
 }
 
-QLineF VectorDiagramModel::getNextVector() {
+PhaseVector VectorDiagramModel::getNextVector() {
   int &row = _iter.first;
   int &col = _iter.second;
   const auto idx = index(row, col);
-  const QLineF info = data(idx).value<QLineF>();
+  const PhaseVector info = data(idx).value<PhaseVector>();
 
   col++;
 
@@ -134,7 +138,7 @@ void VectorDiagramModel::fillModel(const std::vector<PhaseVector> &allPhases) {
 
     //! \todo get row and column
     const auto idx = this->index(row, column);
-    const auto data = QVariant::fromValue<QLineF>(coord);
+    const auto data = QVariant::fromValue<PhaseVector>(item);
 
     this->setData(idx, data);
   };

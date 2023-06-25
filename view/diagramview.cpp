@@ -16,8 +16,8 @@ void DiagramView::drawLines(VectorDiagramModel *model) const {
   QPen *pen = new QPen{Qt::black};
   pen->setWidth(3);
   while (model->hasNext()) {
-    QLineF nextLine{model->getNextVector()};
-    Arrow *arrow = new Arrow{nextLine, 60, 20};
+    PhaseVector nextLine{model->getNextVector()};
+    Arrow *arrow = new Arrow{nextLine.getCoordinates(), 60, 20};
     if (arrow->lenght() == 0) {
       continue;
     }

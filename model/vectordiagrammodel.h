@@ -10,9 +10,9 @@
 #define COLUMNS 3
 
 struct TableOfPhases {
-  QLineF phaseA{};
-  QLineF phaseB{};
-  QLineF phaseC{};
+  PhaseVector phaseA{};
+  PhaseVector phaseB{};
+  PhaseVector phaseC{};
 };
 
 class VectorDiagramModel : public QAbstractTableModel {
@@ -29,7 +29,7 @@ public:
   bool hasNext() const;
   bool isEmpty() const;
   void resetIter();
-  QLineF getNextVector();
+  PhaseVector getNextVector();
   int getColumnCount(const std::vector<PhaseVector> &allPhases) const;
   int getRowCount(const std::vector<PhaseVector> &allPhases) const;
   void fillModel(const std::vector<PhaseVector> &allPhases);

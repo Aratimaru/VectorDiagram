@@ -10,6 +10,7 @@ public:
   explicit Arrow(QAbstractGraphicsShapeItem *parent = nullptr);
   Arrow(QLineF &base, QLineF &leftSide, QLineF &rightSide);
   Arrow(QLineF &base, const float &angle = 90, const float &sideLenght = 10);
+  Arrow(QLineF base, const float &angle = 90, const float &sideLenght = 10);
 
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
