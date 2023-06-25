@@ -1,6 +1,7 @@
 #ifndef VECTORDIAGRAMMODEL_H
 #define VECTORDIAGRAMMODEL_H
 
+#include "data_structure/phasevector.h"
 #include <QAbstractTableModel>
 #include <QLineF>
 #include <QPointF>
@@ -25,10 +26,13 @@ public:
   bool setData(const QModelIndex &index, const QVariant &value,
                int role = Qt::EditRole) override;
   void reserve(int size);
-  bool hasNext();
-  bool isEmpty();
+  bool hasNext() const;
+  bool isEmpty() const;
   void resetIter();
   QLineF getNextVector();
+  int getColumnCount(const std::vector<PhaseVector> &allPhases) const;
+  int getRowCount(const std::vector<PhaseVector> &allPhases) const;
+  void fillModel(const std::vector<PhaseVector> &allPhases);
 
 signals:
   void editCompleted(const QString &);

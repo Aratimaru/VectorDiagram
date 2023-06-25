@@ -366,7 +366,7 @@
      <string>PushButton</string>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView">
+   <widget class="DiagramView" name="graphicsView">
     <property name="geometry">
      <rect>
       <x>330</x>
@@ -389,6 +389,13 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DiagramView</class>
+   <extends>QGraphicsView</extends>
+   <header>view/diagramview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

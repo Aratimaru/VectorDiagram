@@ -5,8 +5,8 @@
 
 #include <memory>
 
-#include "model/modelupdater.h"
-#include "view/viewupdater.h"
+#include "model/vectordiagrammodel.h"
+#include "view/diagramview.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -26,7 +26,6 @@ private slots:
 
 private:
   Ui::MainWindow *ui;
-  std::shared_ptr<ModelUpdater> _modelUpdater;
-  std::shared_ptr<ViewUpdater> _viewUpdater;
+  std::shared_ptr<VectorDiagramModel> _model;
 };
 #endif // MAINWINDOW_H

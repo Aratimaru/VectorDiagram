@@ -1,6 +1,6 @@
 #ifndef PHASEPARAMETERSSTORAGE_H
 #define PHASEPARAMETERSSTORAGE_H
-#include "complexnumberadapter.h"
+#include "calculations/complexnumberadapter.h"
 
 enum UnitPrefix {
   PICO = -12,

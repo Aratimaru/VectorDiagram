@@ -1,22 +1,18 @@
 #include "mainwindow.h"
 
-#include "calculations/vectorparameterscalculator.h"
-#include "data_structure/phaseparametersstorage.h"
+// #include "calculations/vectorparameterscalculator.h"
+// #include "data_structure/phaseparametersstorage.h"
 #include "data_structure/phasevector.h"
 #include "model/vectordiagrammodel.h"
 #include "ui_mainwindow.h"
-#include "view/arrow.h"
 
 #include <QBrush>
 #include <QPen>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
-      _modelUpdater(std::make_shared<ModelUpdater>()),
-      _viewUpdater(std::make_shared<ViewUpdater>()) {
+      _model(std::make_shared<VectorDiagramModel>()) {
   ui->setupUi(this);
-  _viewUpdater->setView(ui->graphicsView);
-  _viewUpdater->setModel(_modelUpdater.get());
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -63,6 +59,6 @@ void MainWindow::on_ConfirmButton_clicked() // choose 1 from and convert to
   phaseA.push_back(currentVector);
   phaseA.push_back(voltageVector);
 
-  _modelUpdater->fillModel(phaseA);
-  _viewUpdater->drawLines();
+  _model->fillModel(phaseA);
+  ui->graphicsView->drawLines(_model.get());
 }

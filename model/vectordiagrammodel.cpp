@@ -72,9 +72,9 @@ void VectorDiagramModel::reserve(int size) {
   _instances = QVector<TableOfPhases>(size);
 }
 
-bool VectorDiagramModel::hasNext() { return _hasNext; }
+bool VectorDiagramModel::hasNext() const { return _hasNext; }
 
-bool VectorDiagramModel::isEmpty() {
+bool VectorDiagramModel::isEmpty() const {
   return false; // todo
 }
 
@@ -84,8 +84,8 @@ void VectorDiagramModel::resetIter() {
 }
 
 QLineF VectorDiagramModel::getNextVector() {
-  auto &row = _iter.first;
-  auto &col = _iter.second;
+  int &row = _iter.first;
+  int &col = _iter.second;
   const auto idx = index(row, col);
   const QLineF info = data(idx).value<QLineF>();
 
@@ -100,4 +100,51 @@ QLineF VectorDiagramModel::getNextVector() {
     resetIter();
 
   return info;
+}
+
+int VectorDiagramModel::getRowCount(
+    const std::vector<PhaseVector> &allPhases) const {
+  int count{};
+  for (const auto &e : allPhases) {
+    if (e.getLabelPhase() == PhaseVectorPhase::PHASE_A) {
+      count++;
+    }
+  }
+  return count;
+}
+
+int VectorDiagramModel::getColumnCount(
+    const std::vector<PhaseVector> &allPhases) const {
+  int count{};
+  PhaseVectorPhase previousPhase = PhaseVectorPhase::NOT_DEFINED;
+  for (const auto &e : allPhases) {
+    if (previousPhase != e.getLabelPhase()) {
+      count++;
+    }
+    previousPhase = e.getLabelPhase();
+  }
+  return count;
+}
+
+void VectorDiagramModel::fillModel(const std::vector<PhaseVector> &allPhases) {
+  auto converter = [this](const PhaseVector &item, int row, int column) {
+    const QLineF coord = item.getCoordinates();
+
+    // Create index
+
+    //! \todo get row and column
+    const auto idx = this->index(row, column);
+    const auto data = QVariant::fromValue<QLineF>(coord);
+
+    this->setData(idx, data);
+  };
+
+  this->reserve(allPhases.size());
+
+  for (int i = 0; i < allPhases.size(); i++) {
+    int row = static_cast<int>(allPhases.at(i).getLabelPhase());
+    int column = static_cast<int>(allPhases.at(i).getLabelType());
+
+    converter(allPhases.at(i), row, column);
+  }
 }
