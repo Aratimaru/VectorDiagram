@@ -100,7 +100,7 @@ PhaseVector VectorDiagramModel::getNextVector() {
     row++;
   }
 
-  if (row >= ROWS)
+  if (row >= rowCount())
     resetIter();
 
   return info;
@@ -132,10 +132,7 @@ int VectorDiagramModel::getColumnCount(
 
 void VectorDiagramModel::fillModel(const std::vector<PhaseVector> &allPhases) {
   auto converter = [this](const PhaseVector &item, int row, int column) {
-    const QLineF coord = item.getCoordinates();
-
     // Create index
-
     //! \todo get row and column
     const auto idx = this->index(row, column);
     const auto data = QVariant::fromValue<PhaseVector>(item);
@@ -146,6 +143,8 @@ void VectorDiagramModel::fillModel(const std::vector<PhaseVector> &allPhases) {
   this->reserve(allPhases.size());
 
   for (int i = 0; i < allPhases.size(); i++) {
+
+    // we can be sure all vectors are in the same order all the time
     int row = static_cast<int>(allPhases.at(i).getLabelType());
     int column = static_cast<int>(allPhases.at(i).getLabelPhase());
 

@@ -7,14 +7,14 @@ class PhaseVectorCalculator : public Calculator {
 public:
   PhaseVectorCalculator();
   bool calculate(VectorDiagramModel &model) override;
-  PhaseVector findMissingVectorForOnePhase(VectorDiagramModel &model,
-                                           const PhaseVectorPhase &phase);
-  void findCurrentVector(const PhaseVector &voltageVector,
-                         const PhaseVector &resistenceVector);
-  void findVoltageVector(const PhaseVector &currentVector,
-                         const PhaseVector &resistenceVector);
-  void findResistenceVector(const PhaseVector &currentVector,
-                            const PhaseVector &voltageVector);
+  PhaseVector *findMissingVectorForOnePhase(VectorDiagramModel &model,
+                                            const PhaseVectorPhase &phase);
+  PhaseVector *findCurrentVector(const PhaseVector &voltageVector,
+                                 const PhaseVector &resistenceVector);
+  PhaseVector *findVoltageVector(const PhaseVector &currentVector,
+                                 const PhaseVector &resistenceVector);
+  PhaseVector *findResistenceVector(const PhaseVector &currentVector,
+                                    const PhaseVector &voltageVector);
 
 private:
   bool nessesaryVectorsKnown(const VectorDiagramModel &model,

@@ -6,9 +6,6 @@
 #include <QLineF>
 #include <QPointF>
 
-#define ROWS 2
-#define COLUMNS 3
-
 struct TableOfPhases {
   PhaseVector phaseA{};
   PhaseVector phaseB{};
@@ -38,8 +35,6 @@ signals:
   void editCompleted(const QString &);
 
 private:
-  QString _gridData[COLUMNS][ROWS]; // holds text entered into QTableView
-
   QVector<TableOfPhases> _instances{};
   QPair<int, int> _iter{0, 0};
   bool _hasNext{false};
