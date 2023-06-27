@@ -24,19 +24,17 @@ class PhaseVector // stores data in general form
 public:
   PhaseVector();
   PhaseVector(const ComplexNumberAdapter &begin,
-              const ComplexNumberAdapter &end);
+              const ComplexNumberAdapter &end,
+              const VectorLabel label = VectorLabel());
   PhaseVector(const ComplexNumberAdapter &begin,
-              const ComplexNumberAdapter &end, const VectorLabel label);
-  PhaseVector(const ComplexNumberAdapter &begin,
-              const ComplexNumberAdapter &end, const PhaseVectorType type,
-              const PhaseVectorPhase phase);
-  PhaseVector(const ComplexNumberAdapter &begin,
-              const ComplexNumberAdapter &end, const PhaseVectorType type,
-              const PhaseVectorPhase phase, const std::string customName);
-  PhaseVector(const ComplexNumberAdapter &end, const PhaseVectorType type,
-              const PhaseVectorPhase phase);
-  PhaseVector(const ComplexNumberAdapter &end, const PhaseVectorType type,
-              const PhaseVectorPhase phase, const std::string customName);
+              const ComplexNumberAdapter &end,
+              const PhaseVectorType type = PhaseVectorType::NOT_DEFINED,
+              const PhaseVectorPhase phase = PhaseVectorPhase::NOT_DEFINED,
+              const std::string customName = "");
+  PhaseVector(const ComplexNumberAdapter &end,
+              const PhaseVectorType type = PhaseVectorType::NOT_DEFINED,
+              const PhaseVectorPhase phase = PhaseVectorPhase::NOT_DEFINED,
+              const std::string customName = "");
 
   void setCoodinates(const ComplexNumberAdapter begin,
                      const ComplexNumberAdapter end); // in general form

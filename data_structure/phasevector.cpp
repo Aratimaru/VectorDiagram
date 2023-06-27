@@ -9,16 +9,6 @@ PhaseVector::PhaseVector() {
   _begin.toGeneralForm();
   _end.toGeneralForm();
 }
-PhaseVector::PhaseVector(const ComplexNumberAdapter &begin,
-                         const ComplexNumberAdapter &end) {
-  _begin = begin;
-  _end = end;
-  setLabelType(PhaseVectorType::NOT_DEFINED);
-  setLabelPhase(PhaseVectorPhase::NOT_DEFINED);
-
-  _begin.toGeneralForm();
-  _end.toGeneralForm();
-}
 
 PhaseVector::PhaseVector(const ComplexNumberAdapter &begin,
                          const ComplexNumberAdapter &end, VectorLabel label) {
@@ -30,43 +20,6 @@ PhaseVector::PhaseVector(const ComplexNumberAdapter &begin,
   _end.toGeneralForm();
 }
 
-PhaseVector::PhaseVector(const ComplexNumberAdapter &begin,
-                         const ComplexNumberAdapter &end,
-                         const PhaseVectorType type,
-                         const PhaseVectorPhase phase) {
-  PhaseVector(begin, end);
-  setLabelType(type);
-  setLabelPhase(phase);
-
-  _begin.toGeneralForm();
-  _end.toGeneralForm();
-}
-
-PhaseVector::PhaseVector(const ComplexNumberAdapter &begin,
-                         const ComplexNumberAdapter &end,
-                         const PhaseVectorType type,
-                         const PhaseVectorPhase phase,
-                         const std::string customName) {
-  PhaseVector(begin, end);
-  setLabelType(type);
-  setLabelPhase(phase);
-  setLabelName(customName);
-
-  _begin.toGeneralForm();
-  _end.toGeneralForm();
-}
-
-PhaseVector::PhaseVector(const ComplexNumberAdapter &end,
-                         const PhaseVectorType type,
-                         const PhaseVectorPhase phase) {
-  setCoodinates(end);
-  setLabelType(type);
-  setLabelPhase(phase);
-
-  _begin.toGeneralForm();
-  _end.toGeneralForm();
-}
-
 PhaseVector::PhaseVector(const ComplexNumberAdapter &end,
                          const PhaseVectorType type,
                          const PhaseVectorPhase phase,
@@ -79,9 +32,6 @@ PhaseVector::PhaseVector(const ComplexNumberAdapter &end,
   _begin.toGeneralForm();
   _end.toGeneralForm();
 }
-// std::pair<QPointF, QPointF> PhaseVector::getCoordinates() const {
-//   return {_Begin, _End};
-// }
 
 void PhaseVector::setCoodinates(const ComplexNumberAdapter begin,
                                 const ComplexNumberAdapter end) {
