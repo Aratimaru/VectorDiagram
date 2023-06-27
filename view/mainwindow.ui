@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="VecdyLabel">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>0</y>
+      <width>110</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Vecdy</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>311</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="3" column="2">
+      <widget class="QLabel" name="ImagVoltageGenLabel">
+       <property name="text">
+        <string>Imag</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="3">
+      <widget class="QLabel" name="RealCurrentExpLabel">
+       <property name="text">
+        <string>Real</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="V1Label">
+       <property name="text">
+        <string>V1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="3" colspan="2">
+      <widget class="QLabel" name="ExpCurrentLabel">
+       <property name="text">
+        <string>Exponential form</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="CurrentLabel">
+       <property name="text">
+        <string>Current</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="3">
+      <widget class="QLabel" name="I2CurrentExpReal">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="3">
+      <widget class="QLabel" name="RealVoltageExpLabel">
+       <property name="text">
+        <string>Real</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLabel" name="V2VoltageGenReal">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="0">
+      <widget class="QLabel" name="I3Label">
+       <property name="text">
+        <string>I3</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0">
+      <widget class="QLabel" name="I2Label">
+       <property name="text">
+        <string>I2</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="2">
+      <widget class="QLabel" name="V3VoltageGenImag">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="RealVoltageGenLabel">
+       <property name="text">
+        <string>Real</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="2">
+      <widget class="QLabel" name="UnitsVoltageLabel">
+       <property name="text">
+        <string>Units</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="V2Label">
+       <property name="text">
+        <string>V2</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" colspan="5">
+      <widget class="QLabel" name="EnterInputDataLabel">
+       <property name="text">
+        <string>Enter input data</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3" colspan="2">
+      <widget class="QLabel" name="ExpVoltagelabel">
+       <property name="text">
+        <string>Exponential form</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="3" colspan="2">
+      <widget class="QLabel" name="UnitsCurrent">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QLabel" name="RealCurrentGenLabel">
+       <property name="text">
+        <string>Real</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="1">
+      <widget class="QLabel" name="I3CurrentGenReal">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" colspan="2">
+      <widget class="QLabel" name="GenVoltageLabel">
+       <property name="text">
+        <string>General form</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="4">
+      <widget class="QLabel" name="V2VoltageExpImag">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="2">
+      <widget class="QLabel" name="I3CurrentGenImag">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="3">
+      <widget class="QLabel" name="I3CurrentExpReal">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="V3Label">
+       <property name="text">
+        <string>V3</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="3">
+      <widget class="QLabel" name="V2VoltageExpReal">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="2">
+      <widget class="QLabel" name="ImagCurrentGenLabel">
+       <property name="text">
+        <string>Imag</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="3">
+      <widget class="QLabel" name="V3VoltageExpReal">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="4">
+      <widget class="QLabel" name="I2CurrentExpImag">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="4">
+      <widget class="QLabel" name="I3CurrentExpImag">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0">
+      <widget class="QLabel" name="I1Label">
+       <property name="text">
+        <string>I1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="2">
+      <widget class="QLabel" name="I2CurrentGenImag">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="4">
+      <widget class="QLabel" name="V3VoltageExpImag">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="1">
+      <widget class="QLabel" name="I2CurrentGenReal">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="4">
+      <widget class="QLabel" name="ImagCurrentExpLabel">
+       <property name="text">
+        <string>Imag</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1" colspan="2">
+      <widget class="QLabel" name="GenCurrentLabel">
+       <property name="text">
+        <string>General form</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QLabel" name="V3VoltageGenReal">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="4">
+      <widget class="QLabel" name="ImagVoltageExpLabel">
+       <property name="text">
+        <string>Imag</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="2">
+      <widget class="QLabel" name="V2VoltageGenImag">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3" colspan="2">
+      <widget class="QLabel" name="UnitsVoltage">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1" colspan="2">
+      <widget class="QLabel" name="CurrentUnits">
+       <property name="text">
+        <string>Units</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="VoltageLabel">
+       <property name="text">
+        <string>Voltage</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="V1VoltageGenReal"/>
+     </item>
+     <item row="4" column="2">
+      <widget class="QLineEdit" name="V1VoltageGenImag"/>
+     </item>
+     <item row="4" column="3">
+      <widget class="QLineEdit" name="V1VoltageExpReal"/>
+     </item>
+     <item row="4" column="4">
+      <widget class="QLineEdit" name="V1VoltageExpImag"/>
+     </item>
+     <item row="10" column="1">
+      <widget class="QLineEdit" name="I1CurrentGenReal"/>
+     </item>
+     <item row="10" column="2">
+      <widget class="QLineEdit" name="I1CurrentGenImag"/>
+     </item>
+     <item row="10" column="3">
+      <widget class="QLineEdit" name="I1CurrentExpReal"/>
+     </item>
+     <item row="10" column="4">
+      <widget class="QLineEdit" name="I1CurrentExpImag"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="ConfirmButton">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>340</y>
+      <width>171</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="DiagramView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>30</y>
+      <width>400</width>
+      <height>400</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>17</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DiagramView</class>
+   <extends>QGraphicsView</extends>
+   <header>view/diagramview.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
