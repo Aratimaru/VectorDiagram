@@ -23,27 +23,25 @@ class PhaseVector // stores data in general form
 {
 public:
   PhaseVector();
-  PhaseVector(QPointF &begin, QPointF &end);
-  PhaseVector(ComplexNumberAdapter &begin, ComplexNumberAdapter &end);
-
-  PhaseVector(QPointF &begin, QPointF &end, VectorLabel label);
-  PhaseVector(QPointF &begin, QPointF &end, const PhaseVectorType type,
+  PhaseVector(const ComplexNumberAdapter &begin,
+              const ComplexNumberAdapter &end);
+  PhaseVector(const ComplexNumberAdapter &begin,
+              const ComplexNumberAdapter &end, const VectorLabel label);
+  PhaseVector(const ComplexNumberAdapter &begin,
+              const ComplexNumberAdapter &end, const PhaseVectorType type,
               const PhaseVectorPhase phase);
-  PhaseVector(QPointF &begin, QPointF &end, const PhaseVectorType type,
+  PhaseVector(const ComplexNumberAdapter &begin,
+              const ComplexNumberAdapter &end, const PhaseVectorType type,
               const PhaseVectorPhase phase, const std::string customName);
-  PhaseVector(QPointF &end, const PhaseVectorType type,
+  PhaseVector(const ComplexNumberAdapter &end, const PhaseVectorType type,
               const PhaseVectorPhase phase);
-  PhaseVector(ComplexNumberAdapter &end, const PhaseVectorType type,
-              const PhaseVectorPhase phase);
-  PhaseVector(QPointF &end, const PhaseVectorType type,
+  PhaseVector(const ComplexNumberAdapter &end, const PhaseVectorType type,
               const PhaseVectorPhase phase, const std::string customName);
 
-  //  std::pair<QPointF, QPointF> getCoordinates() const;
-  void setCoodinates(const QPointF begin,
-                     const QPointF end); // in general form
-  void setCoodinates(const QPointF end); // if vector begins at {0;0}
-  void setCoodinates(ComplexNumberAdapter end);
-  void setCoodinates(ComplexNumberAdapter begin, ComplexNumberAdapter end);
+  void setCoodinates(const ComplexNumberAdapter begin,
+                     const ComplexNumberAdapter end); // in general form
+  void
+  setCoodinates(const ComplexNumberAdapter end); // if vector begins at {0;0}
 
   QLineF getCoordinates() const;
 
@@ -63,8 +61,8 @@ public:
   friend std::istream &operator>>(std::istream &is, PhaseVector &c);
 
 private:
-  QPointF _begin;
-  QPointF _end;
+  ComplexNumberAdapter _begin;
+  ComplexNumberAdapter _end;
   VectorLabel _label;
 };
 

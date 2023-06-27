@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 
-// #include "calculations/vectorparameterscalculator.h"
 #include "data_structure/phasevector.h"
 #include "model/vectordiagrammodel.h"
 #include "ui_mainwindow.h"
@@ -24,6 +23,8 @@ void MainWindow::on_ConfirmButton_clicked() // choose 1 from and convert to
                                       ui->I1CurrentExpImag->text().toFloat()};
   ComplexNumberAdapter complexrVoltage{ui->V1VoltageExpReal->text().toFloat(),
                                        ui->V1VoltageExpImag->text().toFloat()};
+  complexCurrent.setForm(ComplexNumberForm::EXPONENTIAL);
+  complexrVoltage.setForm(ComplexNumberForm::EXPONENTIAL);
 
   PhaseVector currentVector(complexCurrent, PhaseVectorType::CURRENT,
                             PhaseVectorPhase::PHASE_A);

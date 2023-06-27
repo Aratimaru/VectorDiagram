@@ -42,7 +42,7 @@ ComplexNumberAdapter ComplexNumberAdapter::toExponentialForm() {
   return result;
 }
 
-ComplexNumberForm ComplexNumberAdapter::getForm() { return _form; }
+ComplexNumberForm ComplexNumberAdapter::getForm() const { return _form; }
 
 void ComplexNumberAdapter::setForm(ComplexNumberForm f) { _form = f; }
 
@@ -50,6 +50,14 @@ void ComplexNumberAdapter::setForm(bool f) { _form = ComplexNumberForm(f); }
 
 bool ComplexNumberAdapter::isDigit(const char &c) {
   return ((c > 47 && c < 58) || c == '.' || c == '-');
+}
+
+bool ComplexNumberAdapter::isNull() const {
+  return (this->real() == 0 && this->imag() == 0);
+}
+
+ComplexNumberAdapter::operator QPointF() const {
+  return QPointF(this->real(), this->imag());
 }
 
 ComplexNumberAdapter multExp(ComplexNumberAdapter c1,

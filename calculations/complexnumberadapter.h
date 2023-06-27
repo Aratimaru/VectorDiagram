@@ -1,5 +1,6 @@
 #ifndef COMPLEXNUMBERADAPTER_H
 #define COMPLEXNUMBERADAPTER_H
+#include "qpoint.h"
 #include <complex>
 #include <string>
 
@@ -26,10 +27,13 @@ public:
               &c2); // operations methods for exponential form
   friend ComplexNumberAdapter divideExp(ComplexNumberAdapter c1,
                                         const ComplexNumberAdapter &c2);
-  ComplexNumberForm getForm();
+  ComplexNumberForm getForm() const;
   void setForm(ComplexNumberForm f);
   void setForm(bool f);
   static bool isDigit(const char &c);
+  bool isNull() const;
+
+  operator QPointF() const;
 
 private:
   ComplexNumberForm _form; // 0 - gen, 1 -exp
