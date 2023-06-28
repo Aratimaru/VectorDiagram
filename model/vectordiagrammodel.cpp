@@ -73,7 +73,7 @@ bool VectorDiagramModel::setData(const QModelIndex &index,
 }
 
 void VectorDiagramModel::reserve(int size) {
-  _instances = QVector<TableOfPhases>(size);
+  _instances = QVector<TableOfPhases>(3);
 }
 
 bool VectorDiagramModel::hasNext() const { return _hasNext; }

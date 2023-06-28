@@ -60,8 +60,9 @@ ComplexNumberAdapter::operator QPointF() const {
   return QPointF(this->real(), this->imag());
 }
 
-ComplexNumberAdapter multExp(ComplexNumberAdapter c1,
-                             const ComplexNumberAdapter &c2) {
+ComplexNumberAdapter
+ComplexNumberAdapter::multExp(const ComplexNumberAdapter &c1,
+                              const ComplexNumberAdapter &c2) {
   ComplexNumberAdapter result;
 
   float real = c1.real() * c2.real();
@@ -72,8 +73,9 @@ ComplexNumberAdapter multExp(ComplexNumberAdapter c1,
   return result;
 }
 
-ComplexNumberAdapter divideExp(ComplexNumberAdapter c1,
-                               const ComplexNumberAdapter &c2) {
+ComplexNumberAdapter
+ComplexNumberAdapter::divExp(const ComplexNumberAdapter &c1,
+                             const ComplexNumberAdapter &c2) {
   ComplexNumberAdapter result;
 
   if (c2.real() == NULL_COMPLEX_NUMBER)

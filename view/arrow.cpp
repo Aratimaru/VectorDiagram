@@ -4,13 +4,15 @@
 Arrow::Arrow(QAbstractGraphicsShapeItem *parent)
     : QAbstractGraphicsShapeItem(parent) {}
 
-Arrow::Arrow(QLineF &base, QLineF &leftSide, QLineF &rightSide) {
+Arrow::Arrow(const ComplexNumberPair &base, QLineF &leftSide,
+             QLineF &rightSide) {
   _base = base;
   _leftSide = leftSide;
   _rightSide = rightSide;
 }
 
-Arrow::Arrow(QLineF base, const float &angle, const float &sideLenght) {
+Arrow::Arrow(const ComplexNumberPair &base, const float &angle,
+             const float &sideLenght) {
   _base = base;
   _angle = angle;
   _sideLenght = sideLenght;
@@ -22,7 +24,7 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
   (void)widget;
   (void)option;
   QList<QLineF> list;
-  list.append(_base);
+  list.append(QLineF(_base.first, _base.second));
   list.append(_leftSide);
   list.append(_rightSide);
   painter->setPen(this->pen());
@@ -33,37 +35,48 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 //! \todo change implementation
 QRectF Arrow::boundingRect() const {
   // find top left corner
-  float topLeftX = _base.x1() < _base.x2() ? _base.x1() : _base.x2();
-  float topLeftY = _base.y1() < _base.y2() ? _base.y1() : _base.y2();
+  float topLeftX = _base.first.real() < _base.second.real()
+                       ? _base.first.real()
+                       : _base.second.real();
+  float topLeftY = _base.first.imag() < _base.second.imag()
+                       ? _base.first.imag()
+                       : _base.second.imag();
 
   // find bottom right corner
-  float bottomRightX = _base.x1() > _base.x2() ? _base.x1() : _base.x2();
-  float bottomRightY = _base.y1() > _base.y2() ? _base.y1() : _base.y2();
+  float bottomRightX = _base.first.real() > _base.second.real()
+                           ? _base.first.real()
+                           : _base.second.real();
+  float bottomRightY = _base.first.imag() > _base.second.imag()
+                           ? _base.first.imag()
+                           : _base.second.imag();
 
   return QRectF(QPointF(topLeftX, topLeftY),
                 QPointF(bottomRightX, bottomRightY));
 }
 
-void Arrow::setArrowParameters(QLineF &base, QLineF &leftSide,
+void Arrow::setArrowParameters(ComplexNumberPair &base, QLineF &leftSide,
                                QLineF &rightSide) {
   _base = base;
   _leftSide = leftSide;
   _rightSide = rightSide;
 }
 
-void Arrow::setArrowParameters(QLineF &base, const float &angle,
-                               const float &sideLenght) {
+void Arrow::setArrowParameters(
+    std::pair<ComplexNumberAdapter, ComplexNumberAdapter> &base,
+    const float &angle, const float &sideLenght) {
   _base = base;
   _angle = angle;
   _sideLenght = sideLenght;
   calculateSidesByAngle();
 }
 
-QPointF Arrow::getP1() { return _base.p1(); }
+ComplexNumberAdapter Arrow::getP1() { return _base.first; }
 
-QPointF Arrow::getP2() { return _base.p2(); }
+ComplexNumberAdapter Arrow::getP2() { return _base.second; }
 
-float Arrow::lenght() const { return _base.length(); }
+float Arrow::length() const {
+  return QLineF(_base.first, _base.second).length();
+}
 
 void Arrow::calculateSidesByAngle() {
 
@@ -79,14 +92,14 @@ void Arrow::calculateSidesByAngle() {
    *           |
    */
 
-  const QPointF arrowHead = _base.p2();
+  const QPointF arrowHead = _base.second;
   _leftSide.setP1(QPointF{arrowHead.x(), arrowHead.y()});
   _rightSide.setP1(QPointF{arrowHead.x(), arrowHead.y()});
 
   const float BA_lenght = sin(_angle / 2 * M_PI / 180) * _sideLenght;
   const float BC_lenght = cos(_angle / 2 * M_PI / 180) * _sideLenght;
 
-  float coefficient = 1 - BC_lenght / _base.length();
+  float coefficient = 1 - BC_lenght / length();
   const float Bx = arrowHead.x() * coefficient;
   const float By = arrowHead.y() * coefficient;
 

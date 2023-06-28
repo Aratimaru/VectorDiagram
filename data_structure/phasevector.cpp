@@ -6,8 +6,8 @@ PhaseVector::PhaseVector() {
   setLabelType(PhaseVectorType::NOT_DEFINED);
   setLabelPhase(PhaseVectorPhase::NOT_DEFINED);
 
-  _begin.toGeneralForm();
-  _end.toGeneralForm();
+  _begin = _begin.toGeneralForm();
+  _end = _end.toGeneralForm();
 }
 
 PhaseVector::PhaseVector(const ComplexNumberAdapter &begin,
@@ -16,8 +16,8 @@ PhaseVector::PhaseVector(const ComplexNumberAdapter &begin,
   _end = end;
   _label = label;
 
-  _begin.toGeneralForm();
-  _end.toGeneralForm();
+  _begin = _begin.toGeneralForm();
+  _end = _end.toGeneralForm();
 }
 
 PhaseVector::PhaseVector(const ComplexNumberAdapter &end,
@@ -29,8 +29,17 @@ PhaseVector::PhaseVector(const ComplexNumberAdapter &end,
   setLabelPhase(phase);
   setLabelName(customName);
 
-  _begin.toGeneralForm();
-  _end.toGeneralForm();
+  _begin = _begin.toGeneralForm();
+  _end = _end.toGeneralForm();
+}
+
+PhaseVector::PhaseVector(const PhaseVector &other) {
+  this->_begin = other._begin;
+  this->_end = other._end;
+  this->_label = other._label;
+
+  _begin = _begin.toGeneralForm();
+  _end = _end.toGeneralForm();
 }
 
 void PhaseVector::setCoodinates(const ComplexNumberAdapter begin,
@@ -50,9 +59,7 @@ void PhaseVector::setCoodinates(const ComplexNumberAdapter end) {
   _end.toGeneralForm();
 }
 
-QLineF PhaseVector::getCoordinates() const {
-  return {{_begin.real(), _begin.imag()}, {_end.real(), _end.imag()}};
-}
+ComplexNumberPair PhaseVector::getCoordinates() const { return {_begin, _end}; }
 
 void PhaseVector::setLabel(const VectorLabel label) { _label = label; }
 

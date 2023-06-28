@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) // TODO: add units MV, MA, kA, kV...
   //  ComplexNumberAdapter inputNumberExp2{0.58f, 31.f};
   //  ComplexNumberAdapter resultExp = multExp(inputNumberExp1,
   //  inputNumberExp2); std::cout << "exp multiply\t" << resultExp << std::endl;
-  //  resultExp = divideExp(resultExp, inputNumberExp);
+  //  resultExp = divExp(resultExp, inputNumberExp);
   //  std::cout << "exp divide\t" << resultExp << std::endl;
 
   //  std::cout <<

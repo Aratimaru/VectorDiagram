@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 
+#include "calculations/phasevectorcalculator.h"
 #include "data_structure/phasevector.h"
 #include "model/vectordiagrammodel.h"
 #include "ui_mainwindow.h"
@@ -30,10 +31,15 @@ void MainWindow::on_ConfirmButton_clicked() // choose 1 from and convert to
                             PhaseVectorPhase::PHASE_A);
   PhaseVector voltageVector(complexrVoltage, PhaseVectorType::VOLTAGE,
                             PhaseVectorPhase::PHASE_A);
+  PhaseVector resistenceVector = *PhaseVectorCalculator::findResistenceVector(
+      currentVector, voltageVector);
+
   std::vector<PhaseVector> phaseA;
   phaseA.push_back(currentVector);
   phaseA.push_back(voltageVector);
+  phaseA.push_back(resistenceVector);
 
   _model->fillModel(phaseA);
+
   ui->graphicsView->drawLines(_model.get());
 }

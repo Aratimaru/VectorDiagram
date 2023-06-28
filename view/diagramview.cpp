@@ -18,7 +18,7 @@ void DiagramView::drawLines(VectorDiagramModel *model) const {
   while (model->hasNext()) {
     PhaseVector nextLine{model->getNextVector()};
     Arrow *arrow = new Arrow{nextLine.getCoordinates(), 60, 20};
-    if (arrow->lenght() == 0) {
+    if (arrow->length() == 0) {
       continue;
     }
     arrow->setPen(*pen);
@@ -33,7 +33,7 @@ void DiagramView::setupView() {
   brush->setStyle(Qt::CrossPattern);
   _scene->setBackgroundBrush(*brush);
   if (_scene == nullptr) {
-    assert(false);
+    Q_ASSERT(false);
   }
   this->setScene(_scene);
   this->scale(1, -1);

@@ -6,6 +6,7 @@
 
 #define UNDEFINED_COMPLEX_NUMBER (FLT_MAX, FLT_MAX)
 #define NULL_COMPLEX_NUMBER (0.f, 0.f)
+#define ComplexNumberPair std::pair<ComplexNumberAdapter, ComplexNumberAdapter>
 
 enum class ComplexNumberForm { GENERAL = 0, EXPONENTIAL };
 
@@ -21,12 +22,12 @@ public:
 
   // TODO: add multiplexion and division for exp form
 
-  friend ComplexNumberAdapter
-  multExp(ComplexNumberAdapter c1,
+  static ComplexNumberAdapter
+  multExp(const ComplexNumberAdapter &c1,
           const ComplexNumberAdapter
               &c2); // operations methods for exponential form
-  friend ComplexNumberAdapter divideExp(ComplexNumberAdapter c1,
-                                        const ComplexNumberAdapter &c2);
+  static ComplexNumberAdapter divExp(const ComplexNumberAdapter &c1,
+                                     const ComplexNumberAdapter &c2);
   ComplexNumberForm getForm() const;
   void setForm(ComplexNumberForm f);
   void setForm(bool f);

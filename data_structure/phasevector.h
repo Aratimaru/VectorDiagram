@@ -36,12 +36,14 @@ public:
               const PhaseVectorPhase phase = PhaseVectorPhase::NOT_DEFINED,
               const std::string customName = "");
 
+  PhaseVector(const PhaseVector &other);
+
   void setCoodinates(const ComplexNumberAdapter begin,
                      const ComplexNumberAdapter end); // in general form
   void
   setCoodinates(const ComplexNumberAdapter end); // if vector begins at {0;0}
 
-  QLineF getCoordinates() const;
+  ComplexNumberPair getCoordinates() const;
 
   void setLabel(const VectorLabel label);
   void setLabelType(const PhaseVectorType type);
