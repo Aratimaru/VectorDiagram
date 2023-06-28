@@ -4,14 +4,14 @@
 Arrow::Arrow(QAbstractGraphicsShapeItem *parent)
     : QAbstractGraphicsShapeItem(parent) {}
 
-Arrow::Arrow(const ComplexNumberPair &base, QLineF &leftSide,
+Arrow::Arrow(const ComplexNumberLine &base, QLineF &leftSide,
              QLineF &rightSide) {
   _base = base;
   _leftSide = leftSide;
   _rightSide = rightSide;
 }
 
-Arrow::Arrow(const ComplexNumberPair &base, const float &angle,
+Arrow::Arrow(const ComplexNumberLine &base, const float &angle,
              const float &sideLenght) {
   _base = base;
   _angle = angle;
@@ -54,16 +54,15 @@ QRectF Arrow::boundingRect() const {
                 QPointF(bottomRightX, bottomRightY));
 }
 
-void Arrow::setArrowParameters(ComplexNumberPair &base, QLineF &leftSide,
+void Arrow::setArrowParameters(ComplexNumberLine &base, QLineF &leftSide,
                                QLineF &rightSide) {
   _base = base;
   _leftSide = leftSide;
   _rightSide = rightSide;
 }
 
-void Arrow::setArrowParameters(
-    std::pair<ComplexNumberAdapter, ComplexNumberAdapter> &base,
-    const float &angle, const float &sideLenght) {
+void Arrow::setArrowParameters(ComplexNumberLine &base, const float &angle,
+                               const float &sideLenght) {
   _base = base;
   _angle = angle;
   _sideLenght = sideLenght;
@@ -96,6 +95,9 @@ void Arrow::calculateSidesByAngle() {
   _leftSide.setP1(QPointF{arrowHead.x(), arrowHead.y()});
   _rightSide.setP1(QPointF{arrowHead.x(), arrowHead.y()});
 
+  if (_sideLenght == 0) {
+    _sideLenght = _base.length() * 0.15;
+  }
   const float BA_lenght = sin(_angle / 2 * M_PI / 180) * _sideLenght;
   const float BC_lenght = cos(_angle / 2 * M_PI / 180) * _sideLenght;
 

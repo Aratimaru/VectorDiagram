@@ -43,7 +43,7 @@ public:
   void
   setCoodinates(const ComplexNumberAdapter end); // if vector begins at {0;0}
 
-  ComplexNumberPair getCoordinates() const;
+  ComplexNumberLine getCoordinates() const;
 
   void setLabel(const VectorLabel label);
   void setLabelType(const PhaseVectorType type);

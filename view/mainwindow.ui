@@ -356,7 +356,7 @@
    <widget class="QPushButton" name="ConfirmButton">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>170</x>
       <y>340</y>
       <width>171</width>
       <height>41</height>
@@ -369,11 +369,24 @@
    <widget class="DiagramView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>330</x>
+      <x>349</x>
       <y>30</y>
-      <width>400</width>
-      <height>400</height>
+      <width>381</width>
+      <height>381</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ClearButton">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>340</y>
+      <width>171</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
     </property>
    </widget>
   </widget>

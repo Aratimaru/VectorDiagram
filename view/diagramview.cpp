@@ -17,7 +17,7 @@ void DiagramView::drawLines(VectorDiagramModel *model) const {
   pen->setWidth(3);
   while (model->hasNext()) {
     PhaseVector nextLine{model->getNextVector()};
-    Arrow *arrow = new Arrow{nextLine.getCoordinates(), 60, 20};
+    Arrow *arrow = new Arrow{nextLine.getCoordinates(), 60, 15};
     if (arrow->length() == 0) {
       continue;
     }

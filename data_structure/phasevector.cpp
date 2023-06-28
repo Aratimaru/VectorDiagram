@@ -59,7 +59,7 @@ void PhaseVector::setCoodinates(const ComplexNumberAdapter end) {
   _end.toGeneralForm();
 }
 
-ComplexNumberPair PhaseVector::getCoordinates() const { return {_begin, _end}; }
+ComplexNumberLine PhaseVector::getCoordinates() const { return {_begin, _end}; }
 
 void PhaseVector::setLabel(const VectorLabel label) { _label = label; }
 

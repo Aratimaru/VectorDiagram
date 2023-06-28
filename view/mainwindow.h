@@ -24,6 +24,8 @@ public:
 private slots:
   void on_ConfirmButton_clicked();
 
+  void on_ClearButton_clicked();
+
 private:
   Ui::MainWindow *ui;
   std::shared_ptr<VectorDiagramModel> _model;

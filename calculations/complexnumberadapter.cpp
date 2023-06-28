@@ -1,4 +1,5 @@
 #include "complexnumberadapter.h"
+#include <QLineF>
 
 ComplexNumberAdapter::ComplexNumberAdapter() : std::complex<float>() {
   setForm(false);
@@ -88,3 +89,5 @@ ComplexNumberAdapter::divExp(const ComplexNumberAdapter &c1,
   result.imag(imag);
   return result;
 }
+
+int ComplexNumberLine::length() const { return QLineF(first, second).length(); }

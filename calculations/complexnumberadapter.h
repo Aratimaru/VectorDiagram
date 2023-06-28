@@ -6,7 +6,8 @@
 
 #define UNDEFINED_COMPLEX_NUMBER (FLT_MAX, FLT_MAX)
 #define NULL_COMPLEX_NUMBER (0.f, 0.f)
-#define ComplexNumberPair std::pair<ComplexNumberAdapter, ComplexNumberAdapter>
+// #define ComplexNumberLine std::pair<ComplexNumberAdapter,
+// ComplexNumberAdapter>
 
 enum class ComplexNumberForm { GENERAL = 0, EXPONENTIAL };
 
@@ -38,6 +39,12 @@ public:
 
 private:
   ComplexNumberForm _form; // 0 - gen, 1 -exp
+};
+
+struct ComplexNumberLine {
+  int length() const;
+  ComplexNumberAdapter first;
+  ComplexNumberAdapter second;
 };
 
 #endif // COMPLEXNUMBERADAPTER_H
