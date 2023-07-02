@@ -10,10 +10,8 @@ public:
 
   ~DiagramView();
   void drawLines(VectorDiagramModel *model) const;
-  //  void setModel(ModelUpdater *model);
 
 private:
-  //  std::shared_ptr<ModelUpdater> _modelUpdater;
   QGraphicsScene *_scene;
 
   void setupView();

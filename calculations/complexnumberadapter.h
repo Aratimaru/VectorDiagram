@@ -1,5 +1,6 @@
 #ifndef COMPLEXNUMBERADAPTER_H
 #define COMPLEXNUMBERADAPTER_H
+#include "qline.h"
 #include "qpoint.h"
 #include <complex>
 #include <string>
@@ -36,6 +37,7 @@ public:
   bool isNull() const;
 
   operator QPointF() const;
+  ComplexNumberAdapter &operator=(const QPointF &other);
 
 private:
   ComplexNumberForm _form; // 0 - gen, 1 -exp
@@ -45,6 +47,9 @@ struct ComplexNumberLine {
   int length() const;
   ComplexNumberAdapter first;
   ComplexNumberAdapter second;
+
+  operator QLineF() const;
+  ComplexNumberLine &operator=(const QLineF &other);
 };
 
 #endif // COMPLEXNUMBERADAPTER_H

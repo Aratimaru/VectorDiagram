@@ -19,6 +19,13 @@ Arrow::Arrow(const ComplexNumberLine &base, const float &angle,
   calculateSidesByAngle();
 }
 
+Arrow::Arrow(const QLineF &base, const float &angle, const float &sideLenght) {
+  _base = base;
+  _angle = angle;
+  _sideLenght = sideLenght;
+  calculateSidesByAngle();
+}
+
 void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                   QWidget *widget) {
   (void)widget;
@@ -32,7 +39,6 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
   painter->drawLines(list);
 }
 
-//! \todo change implementation
 QRectF Arrow::boundingRect() const {
   // find top left corner
   float topLeftX = _base.first.real() < _base.second.real()

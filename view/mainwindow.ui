@@ -371,9 +371,15 @@
      <rect>
       <x>349</x>
       <y>30</y>
-      <width>381</width>
-      <height>381</height>
+      <width>380</width>
+      <height>380</height>
      </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>380</width>
+      <height>380</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="ClearButton">

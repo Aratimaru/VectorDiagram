@@ -23,8 +23,8 @@ void DiagramView::drawLines(VectorDiagramModel *model) const {
     }
     arrow->setPen(*pen);
     _scene->addItem(arrow);
-    *pen = arrow->pen();
   }
+
   //! \todo add scaling
 }
 
@@ -35,6 +35,76 @@ void DiagramView::setupView() {
   if (_scene == nullptr) {
     Q_ASSERT(false);
   }
+  _scene->setSceneRect(-180, -180, 360, 360);
   this->setScene(_scene);
-  this->scale(1, -1);
+  //  this->scale(1, -1);
+
+  QPen gridPen(Qt::lightGray);
+  QPen axisPen(Qt::black);
+  QFont labelFont("Arial", 8);
+
+  // add mark for x axis
+  for (int x = 50; x <= _scene->width(); x += 50) {
+    QGraphicsLineItem *gridLinePositive =
+        new QGraphicsLineItem(x, -_scene->width() / 2, x, _scene->width() / 2);
+    QGraphicsLineItem *gridLineNegative = new QGraphicsLineItem(
+        -x, -_scene->width() / 2, -x, _scene->width() / 2);
+    gridLinePositive->setPen(gridPen);
+    gridLineNegative->setPen(gridPen);
+
+    _scene->addItem(gridLinePositive);
+    _scene->addItem(gridLineNegative);
+
+    QGraphicsTextItem *labelPositive =
+        new QGraphicsTextItem(QString::number(x));
+    labelPositive->setFont(labelFont);
+    labelPositive->setPos(x - labelPositive->boundingRect().width() / 2,
+                          -labelPositive->boundingRect().height());
+    _scene->addItem(labelPositive);
+
+    QGraphicsTextItem *labelNegative =
+        new QGraphicsTextItem(QString::number(-x));
+    labelNegative->setFont(labelFont);
+    labelNegative->setPos(-x - labelNegative->boundingRect().width() / 2,
+                          -labelNegative->boundingRect().height());
+    _scene->addItem(labelNegative);
+  }
+
+  // add mark for y axis
+  for (int y = 50; y <= _scene->height(); y += 50) {
+    QGraphicsLineItem *gridLinePositive = new QGraphicsLineItem(
+        -_scene->height() / 2, y, _scene->height() / 2, y);
+    QGraphicsLineItem *gridLineNegative = new QGraphicsLineItem(
+        -_scene->height() / 2, -y, _scene->height() / 2, -y);
+    gridLinePositive->setPen(gridPen);
+    gridLineNegative->setPen(gridPen);
+
+    _scene->addItem(gridLinePositive);
+    _scene->addItem(gridLineNegative);
+
+    QGraphicsTextItem *labelPositive =
+        new QGraphicsTextItem(QString::number(y));
+    labelPositive->setFont(labelFont);
+    labelPositive->setPos(-labelPositive->boundingRect().width(),
+                          y - labelPositive->boundingRect().height() / 2);
+    _scene->addItem(labelPositive);
+
+    QGraphicsTextItem *labelNegative =
+        new QGraphicsTextItem(QString::number(-y));
+    labelNegative->setFont(labelFont);
+    labelNegative->setPos(-labelPositive->boundingRect().width(),
+                          -y - labelPositive->boundingRect().height() / 2);
+    _scene->addItem(labelNegative);
+  }
+
+  // add axis lines
+  Arrow *xAxis = new Arrow(
+      QLineF{-_scene->width() / 2, 0, _scene->width() / 2, 0}, 60, 20);
+  Arrow *yAxis = new Arrow(
+      QLineF{0, -_scene->height() / 2, 0, _scene->height() / 2}, 60, 20);
+  xAxis->setPen(axisPen);
+  yAxis->setPen(axisPen);
+
+  _scene->addItem(xAxis);
+  _scene->addItem(yAxis);
 }

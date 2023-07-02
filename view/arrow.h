@@ -12,8 +12,8 @@ public:
   Arrow(const ComplexNumberLine &base, QLineF &leftSide, QLineF &rightSide);
   Arrow(const ComplexNumberLine &base, const float &angle = 60,
         const float &sideLenght = 0);
-  //  Arrow(ComplexNumberAdapter base, const float &angle = 90,
-  //        const float &sideLenght = 10);
+  Arrow(const QLineF &base, const float &angle = 60,
+        const float &sideLenght = 0);
 
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;

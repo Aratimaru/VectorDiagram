@@ -61,6 +61,12 @@ ComplexNumberAdapter::operator QPointF() const {
   return QPointF(this->real(), this->imag());
 }
 
+ComplexNumberAdapter &ComplexNumberAdapter::operator=(const QPointF &other) {
+  this->real(other.x());
+  this->imag(other.y());
+  return *this;
+}
+
 ComplexNumberAdapter
 ComplexNumberAdapter::multExp(const ComplexNumberAdapter &c1,
                               const ComplexNumberAdapter &c2) {
@@ -91,3 +97,13 @@ ComplexNumberAdapter::divExp(const ComplexNumberAdapter &c1,
 }
 
 int ComplexNumberLine::length() const { return QLineF(first, second).length(); }
+
+ComplexNumberLine::operator QLineF() const {
+  return QLineF(first.real(), first.imag(), second.real(), second.imag());
+}
+
+ComplexNumberLine &ComplexNumberLine::operator=(const QLineF &other) {
+  this->first = other.p1();
+  this->second = other.p2();
+  return *this;
+}
