@@ -15,16 +15,17 @@ DiagramView::~DiagramView() { delete _scene; }
 void DiagramView::drawLines(VectorDiagramModel *model) const {
   QPen *pen = new QPen{Qt::black};
   pen->setWidth(3);
-  while (model->hasNext()) {
-    PhaseVector nextLine{model->getNextVector()};
-    Arrow *arrow = new Arrow{nextLine.getCoordinates(), 60, 15};
-    if (arrow->length() == 0) {
-      continue;
-    }
-    arrow->setPen(*pen);
-    _scene->addItem(arrow);
-  }
 
+  for (int i = 0; i < model->rowCount(); i++)
+    for (int j = 0; j < model->columnCount(); j++) {
+      PhaseVector vector = model->data(model->index(i, j)).value<PhaseVector>();
+      Arrow *arrow = new Arrow{vector.getCoordinates(), 60, 15};
+      if (arrow->length() == 0) {
+        continue;
+      }
+      arrow->setPen(*pen);
+      _scene->addItem(arrow);
+    }
   //! \todo add scaling
 }
 

@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() { delete ui; }
 
-void MainWindow::on_ConfirmButton_clicked() // choose 1 from and convert to
+void MainWindow::on_ConfirmButton_clicked() // choose 1 form and convert to
                                             // another automatically
 {
   ComplexNumberAdapter complexCurrent;
@@ -24,16 +24,20 @@ void MainWindow::on_ConfirmButton_clicked() // choose 1 from and convert to
 
   if (!ui->I1CurrentGenReal->text().isNull() &&
       !ui->I1CurrentGenImag->text().isNull()) {
-    complexCurrent = {ui->I1CurrentGenReal->text().toFloat(),
-                      ui->I1CurrentGenImag->text().toFloat()};
-    complexrVoltage = {ui->V1VoltageGenReal->text().toFloat(),
-                       ui->V1VoltageGenImag->text().toFloat()};
+    complexCurrent =
+        ComplexNumberAdapter{ui->I1CurrentGenReal->text().toFloat(),
+                             ui->I1CurrentGenImag->text().toFloat()};
+    complexrVoltage =
+        ComplexNumberAdapter{ui->V1VoltageGenReal->text().toFloat(),
+                             ui->V1VoltageGenImag->text().toFloat()};
   } else {
 
-    complexCurrent = {ui->I1CurrentExpReal->text().toFloat(),
-                      ui->I1CurrentExpImag->text().toFloat()};
-    complexrVoltage = {ui->V1VoltageExpReal->text().toFloat(),
-                       ui->V1VoltageExpImag->text().toFloat()};
+    complexCurrent =
+        ComplexNumberAdapter{ui->I1CurrentExpReal->text().toFloat(),
+                             ui->I1CurrentExpImag->text().toFloat()};
+    complexrVoltage =
+        ComplexNumberAdapter{ui->V1VoltageExpReal->text().toFloat(),
+                             ui->V1VoltageExpImag->text().toFloat()};
   }
 
   complexCurrent.setForm(ComplexNumberForm::EXPONENTIAL);

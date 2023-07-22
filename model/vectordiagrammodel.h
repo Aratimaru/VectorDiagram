@@ -23,10 +23,7 @@ public:
   bool setData(const QModelIndex &index, const QVariant &value,
                int role = Qt::EditRole) override;
   void reserve(int size);
-  bool hasNext() const;
   bool isEmpty() const;
-  void resetIter();
-  PhaseVector getNextVector();
   int getColumnCount(const std::vector<PhaseVector> &allPhases) const;
   int getRowCount(const std::vector<PhaseVector> &allPhases) const;
   void fillModel(const std::vector<PhaseVector> &allPhases);
@@ -36,8 +33,6 @@ signals:
 
 private:
   QVector<TableOfPhases> _instances{};
-  QPair<int, int> _iter{0, 0};
-  bool _hasNext{false};
 };
 
 #endif // VECTORDIAGRAMMODEL_H

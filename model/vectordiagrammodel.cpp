@@ -67,8 +67,6 @@ bool VectorDiagramModel::setData(const QModelIndex &index,
     Q_ASSERT(false);
     break;
   }
-
-  _hasNext = true;
   return true;
 }
 
@@ -76,34 +74,8 @@ void VectorDiagramModel::reserve(int size) {
   _instances = QVector<TableOfPhases>(3);
 }
 
-bool VectorDiagramModel::hasNext() const { return _hasNext; }
-
 bool VectorDiagramModel::isEmpty() const {
   return false; // todo
-}
-
-void VectorDiagramModel::resetIter() {
-  _iter = {0, 0};
-  _hasNext = false; // think about the algorithm
-}
-
-PhaseVector VectorDiagramModel::getNextVector() {
-  int &row = _iter.first;
-  int &col = _iter.second;
-  const auto idx = index(row, col);
-  const PhaseVector info = data(idx).value<PhaseVector>();
-
-  col++;
-
-  if (col >= columnCount()) {
-    col = 0;
-    row++;
-  }
-
-  if (row >= rowCount())
-    resetIter();
-
-  return info;
 }
 
 int VectorDiagramModel::getRowCount(
