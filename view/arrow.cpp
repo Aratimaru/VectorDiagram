@@ -37,24 +37,31 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
   painter->setPen(this->pen());
   painter->setBrush(this->brush());
   painter->drawLines(list);
+  painter->drawRect(boundingRect());
 }
 
 QRectF Arrow::boundingRect() const {
   // find top left corner
-  float topLeftX = _base.first.real() < _base.second.real()
-                       ? _base.first.real()
-                       : _base.second.real();
-  float topLeftY = _base.first.imag() < _base.second.imag()
-                       ? _base.first.imag()
-                       : _base.second.imag();
+  const float topBaseLeftX = std::min(_base.first.real(), _base.second.real());
+  const float topSideLeftX = std::min(_leftSide.p2().x(), _rightSide.p2().x());
+  const float topLeftX = std::min(topBaseLeftX, topSideLeftX);
+
+  const float topBaseLeftY = std::min(_base.first.imag(), _base.second.imag());
+  const float topSideLeftY = std::min(_leftSide.p2().y(), _rightSide.p2().y());
+  const float topLeftY = std::min(topBaseLeftY, topSideLeftY);
 
   // find bottom right corner
-  float bottomRightX = _base.first.real() > _base.second.real()
-                           ? _base.first.real()
-                           : _base.second.real();
-  float bottomRightY = _base.first.imag() > _base.second.imag()
-                           ? _base.first.imag()
-                           : _base.second.imag();
+  const float BottomBaseRightX =
+      std::max(_base.first.real(), _base.second.real());
+  const float BottomSideRightX =
+      std::max(_leftSide.p2().x(), _rightSide.p2().x());
+  const float bottomRightX = std::max(BottomBaseRightX, BottomSideRightX);
+
+  const float BottomBaseRightY =
+      std::max(_base.first.imag(), _base.second.imag());
+  const float BottomSideRightY =
+      std::max(_leftSide.p2().y(), _rightSide.p2().y());
+  const float bottomRightY = std::max(BottomBaseRightY, BottomSideRightY);
 
   return QRectF(QPointF(topLeftX, topLeftY),
                 QPointF(bottomRightX, bottomRightY));
