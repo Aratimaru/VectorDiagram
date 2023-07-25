@@ -37,7 +37,6 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
   painter->setPen(this->pen());
   painter->setBrush(this->brush());
   painter->drawLines(list);
-  painter->drawRect(boundingRect());
 }
 
 QRectF Arrow::boundingRect() const {

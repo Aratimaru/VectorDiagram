@@ -12,7 +12,7 @@ DiagramView::DiagramView(QWidget *widget) : DiagramView() {
 
 DiagramView::~DiagramView() { delete _scene; }
 
-void DiagramView::drawLines(VectorDiagramModel *model) const {
+void DiagramView::drawModel(const VectorDiagramModel *model) {
   QPen *pen = new QPen{Qt::black};
   pen->setWidth(3);
 
@@ -20,6 +20,7 @@ void DiagramView::drawLines(VectorDiagramModel *model) const {
     for (int j = 0; j < model->columnCount(); j++) {
       PhaseVector vector = model->data(model->index(i, j)).value<PhaseVector>();
       Arrow *arrow = new Arrow{vector.getCoordinates(), 60, 15};
+      vectorsHolder.push_back(arrow);
       if (arrow->length() == 0) {
         continue;
       }
@@ -27,6 +28,39 @@ void DiagramView::drawLines(VectorDiagramModel *model) const {
       _scene->addItem(arrow);
     }
   //! \todo add scaling
+}
+
+void DiagramView::clear(const VectorDiagramModel *model) {
+  for (const auto &arrow : vectorsHolder) {
+    _scene->removeItem(arrow);
+  }
+  vectorsHolder.clear();
+}
+
+void DiagramView::wheelEvent(QWheelEvent *event) {
+
+  if (event->modifiers() & Qt::ControlModifier) {
+    // zoom
+    const ViewportAnchor anchor = transformationAnchor();
+    setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+    int angle = event->angleDelta().y();
+    qreal factor;
+    if (angle > 0) {
+      factor = 1.1;
+    } else {
+      factor = 0.9;
+    }
+    scale(factor, factor);
+    setTransformationAnchor(anchor);
+  } else {
+    QGraphicsView::wheelEvent(event);
+  }
+}
+
+void DiagramView::mouseMoveEvent(QMouseEvent *event) {
+  if (event->buttons() == Qt::LeftButton) {
+    centerOn(mapToScene(event->pos()));
+  }
 }
 
 void DiagramView::setupView() {

@@ -56,9 +56,9 @@ void MainWindow::on_ConfirmButton_clicked() // choose 1 form and convert to
 
   _model->fillModel(phaseA);
 
-  ui->graphicsView->drawLines(_model.get());
+  ui->graphicsView->drawModel(_model.get());
 }
 
 void MainWindow::on_ClearButton_clicked() {
-  ui->graphicsView->scene()->clear();
+  ui->graphicsView->clear(_model.get());
 }
