@@ -363,16 +363,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Draw</string>
     </property>
    </widget>
    <widget class="DiagramView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>349</x>
+      <x>320</x>
       <y>30</y>
-      <width>380</width>
-      <height>380</height>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="maximumSize">
@@ -392,7 +392,17 @@
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Clear</string>
+    </property>
+   </widget>
+   <widget class="DiagramPlot" name="PlotDiagram" native="true">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>30</y>
+      <width>351</width>
+      <height>301</height>
+     </rect>
     </property>
    </widget>
   </widget>
@@ -413,6 +423,12 @@
    <class>DiagramView</class>
    <extends>QGraphicsView</extends>
    <header>view/diagramview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>DiagramPlot</class>
+   <extends>QWidget</extends>
+   <header location="global">view/diagramplot.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

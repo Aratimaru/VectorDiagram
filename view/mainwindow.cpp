@@ -12,6 +12,12 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
       _model(std::make_shared<VectorDiagramModel>()) {
   ui->setupUi(this);
+  ui->PlotDiagram->xAxis->setLabel("X");
+  ui->PlotDiagram->yAxis->setLabel("Y");
+  ui->PlotDiagram->xAxis->setRange(-300, 300);
+  ui->PlotDiagram->yAxis->setRange(-300, 300);
+  ui->PlotDiagram->setInteractions(
+      {QCP::iRangeDrag, QCP::iRangeZoom, QCP::iSelectPlottables});
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -57,8 +63,10 @@ void MainWindow::on_ConfirmButton_clicked() // choose 1 form and convert to
   _model->fillModel(phaseA);
 
   ui->graphicsView->drawModel(_model.get());
+  ui->PlotDiagram->drawDataFromModel(_model.get());
 }
 
 void MainWindow::on_ClearButton_clicked() {
   ui->graphicsView->clear(_model.get());
+  ui->PlotDiagram->clear();
 }
