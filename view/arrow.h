@@ -24,8 +24,11 @@ public:
   void setArrowParameters(ComplexNumberLine &base, const float &angle = 60,
                           const float &sideLenght = 20);
 
-  ComplexNumberAdapter getP1();
-  ComplexNumberAdapter getP2();
+  ComplexNumberAdapter getP1() const;
+  ComplexNumberAdapter getP2() const;
+
+  QPointF getLeftSideP2() const;
+  QPointF getRightSideP2() const;
   float length() const;
 
 private:

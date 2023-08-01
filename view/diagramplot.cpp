@@ -1,5 +1,4 @@
 #include "diagramplot.h"
-#include "arrow.h"
 
 DiagramPlot::DiagramPlot() {}
 DiagramPlot::DiagramPlot(QWidget *widget) : DiagramPlot() {
@@ -14,24 +13,42 @@ void DiagramPlot::drawDataFromModel(const VectorDiagramModel *model) {
     for (int j = 0; j < model->columnCount(); j++) {
       PhaseVector vector = model->data(model->index(i, j)).value<PhaseVector>();
       Arrow *arrow = new Arrow{vector.getCoordinates(), 60, 15};
-      vectorsHolder.push_back(arrow);
-      if (arrow->length() == 0) {
-        continue;
-      }
-      arrow->setPen(*pen);
+      const auto arrowCoordinates = turnArrowToVectorOfCoordinates(arrow);
+      //      if (arrow->length() == 0) {
+      //        continue;
+      //      }
       this->addGraph();
       this->graph(i * model->rowCount() + j)
-          ->setData({arrow->getP1().real()}, {arrow->getP1().imag()});
+          ->setData(arrowCoordinates.first, arrowCoordinates.second, true);
+      this->graph(i * model->rowCount() + j)->setPen(*pen);
     }
   }
-  this->rescaleAxes();
   this->replot();
-  this->update();
 }
 
 void DiagramPlot::clear() {
   for (int i = 0; i < this->graphCount(); i++) {
     this->removeGraph(i);
   }
-  vectorsHolder.clear();
+  this->replot();
+}
+
+QPair<QVector<double>, QVector<double>>
+DiagramPlot::turnArrowToVectorOfCoordinates(const Arrow *arrow) {
+  QVector<double> x;
+  QVector<double> y;
+
+  x.push_back(arrow->getP1().real());
+  x.push_back(arrow->getP2().real());
+  x.push_back(arrow->getLeftSideP2().x());
+  x.push_back(arrow->getP2().real());
+  x.push_back(arrow->getRightSideP2().x());
+
+  y.push_back(arrow->getP1().imag());
+  y.push_back(arrow->getP2().imag());
+  y.push_back(arrow->getLeftSideP2().y());
+  y.push_back(arrow->getP2().imag());
+  y.push_back(arrow->getRightSideP2().y());
+
+  return {x, y};
 }

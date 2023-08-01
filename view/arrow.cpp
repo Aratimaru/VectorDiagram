@@ -81,9 +81,13 @@ void Arrow::setArrowParameters(ComplexNumberLine &base, const float &angle,
   calculateSidesByAngle();
 }
 
-ComplexNumberAdapter Arrow::getP1() { return _base.first; }
+ComplexNumberAdapter Arrow::getP1() const { return _base.first; }
 
-ComplexNumberAdapter Arrow::getP2() { return _base.second; }
+ComplexNumberAdapter Arrow::getP2() const { return _base.second; }
+
+QPointF Arrow::getLeftSideP2() const { return _leftSide.p2(); }
+
+QPointF Arrow::getRightSideP2() const { return _rightSide.p2(); }
 
 float Arrow::length() const {
   return QLineF(_base.first, _base.second).length();

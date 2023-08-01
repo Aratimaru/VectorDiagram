@@ -61,12 +61,7 @@ void MainWindow::on_ConfirmButton_clicked() // choose 1 form and convert to
   phaseA.push_back(voltageVector);
 
   _model->fillModel(phaseA);
-
-  ui->graphicsView->drawModel(_model.get());
   ui->PlotDiagram->drawDataFromModel(_model.get());
 }
 
-void MainWindow::on_ClearButton_clicked() {
-  ui->graphicsView->clear(_model.get());
-  ui->PlotDiagram->clear();
-}
+void MainWindow::on_ClearButton_clicked() { ui->PlotDiagram->clear(); }
