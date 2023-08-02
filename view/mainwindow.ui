@@ -366,22 +366,6 @@
      <string>Draw</string>
     </property>
    </widget>
-   <widget class="DiagramView" name="graphicsView">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>30</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>2400</width>
-      <height>2400</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QPushButton" name="ClearButton">
     <property name="geometry">
      <rect>
@@ -395,15 +379,27 @@
      <string>Clear</string>
     </property>
    </widget>
-   <widget class="DiagramPlot" name="PlotDiagram" native="true">
+   <widget class="QWidget" name="gridLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>30</y>
-      <width>351</width>
-      <height>301</height>
+      <x>339</x>
+      <y>29</y>
+      <width>331</width>
+      <height>291</height>
      </rect>
     </property>
+    <layout class="QGridLayout" name="PlotLayout">
+     <item row="0" column="0">
+      <widget class="DiagramPlot" name="PlotDiagram" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -419,11 +415,6 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>DiagramView</class>
-   <extends>QGraphicsView</extends>
-   <header>view/diagramview.h</header>
-  </customwidget>
   <customwidget>
    <class>DiagramPlot</class>
    <extends>QWidget</extends>

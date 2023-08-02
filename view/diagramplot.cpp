@@ -12,7 +12,7 @@ void DiagramPlot::drawDataFromModel(const VectorDiagramModel *model) {
   for (int i = 0; i < model->rowCount(); i++) {
     for (int j = 0; j < model->columnCount(); j++) {
       PhaseVector vector = model->data(model->index(i, j)).value<PhaseVector>();
-      Arrow *arrow = new Arrow{vector.getCoordinates(), 60, 15};
+      Arrow *arrow = new Arrow{vector.getCoordinates(), 60};
       const auto arrowCoordinates = turnArrowToVectorOfCoordinates(arrow);
       //      if (arrow->length() == 0) {
       //        continue;
@@ -27,8 +27,9 @@ void DiagramPlot::drawDataFromModel(const VectorDiagramModel *model) {
 }
 
 void DiagramPlot::clear() {
-  for (int i = 0; i < this->graphCount(); i++) {
-    this->removeGraph(i);
+  int count = this->graphCount();
+  for (int i = 0; i < count; i++) {
+    this->removeGraph(count - i - 1);
   }
   this->replot();
 }

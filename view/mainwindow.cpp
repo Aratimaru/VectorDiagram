@@ -12,12 +12,15 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
       _model(std::make_shared<VectorDiagramModel>()) {
   ui->setupUi(this);
+
   ui->PlotDiagram->xAxis->setLabel("X");
   ui->PlotDiagram->yAxis->setLabel("Y");
   ui->PlotDiagram->xAxis->setRange(-300, 300);
   ui->PlotDiagram->yAxis->setRange(-300, 300);
   ui->PlotDiagram->setInteractions(
       {QCP::iRangeDrag, QCP::iRangeZoom, QCP::iSelectPlottables});
+  ui->PlotDiagram->setSizePolicy(QSizePolicy::Expanding,
+                                 QSizePolicy::Expanding);
 }
 
 MainWindow::~MainWindow() { delete ui; }
