@@ -20,6 +20,7 @@ class MainWindow : public QMainWindow {
 public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
+  void resizeEvent(QResizeEvent *e);
 
 private slots:
   void on_ConfirmButton_clicked();

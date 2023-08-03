@@ -71,7 +71,7 @@ bool VectorDiagramModel::setData(const QModelIndex &index,
 }
 
 void VectorDiagramModel::reserve(int size) {
-  _instances = QVector<TableOfPhases>(3);
+  _instances = QVector<TableOfPhases>(4);
 }
 
 bool VectorDiagramModel::isEmpty() const {

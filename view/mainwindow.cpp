@@ -19,11 +19,13 @@ MainWindow::MainWindow(QWidget *parent)
   ui->PlotDiagram->yAxis->setRange(-300, 300);
   ui->PlotDiagram->setInteractions(
       {QCP::iRangeDrag, QCP::iRangeZoom, QCP::iSelectPlottables});
-  ui->PlotDiagram->setSizePolicy(QSizePolicy::Expanding,
-                                 QSizePolicy::Expanding);
 }
 
 MainWindow::~MainWindow() { delete ui; }
+
+void MainWindow::resizeEvent(QResizeEvent *e) {
+  ui->PlotDiagram->yAxis->setScaleRatio(ui->PlotDiagram->xAxis, 1.0);
+}
 
 void MainWindow::on_ConfirmButton_clicked() // choose 1 form and convert to
                                             // another automatically
@@ -31,14 +33,17 @@ void MainWindow::on_ConfirmButton_clicked() // choose 1 form and convert to
   ComplexNumberAdapter complexCurrent;
   ComplexNumberAdapter complexrVoltage;
 
-  if (!ui->I1CurrentGenReal->text().isNull() &&
-      !ui->I1CurrentGenImag->text().isNull()) {
+  if (!ui->I1CurrentGenReal->text().isEmpty() &&
+      !ui->I1CurrentGenImag->text().isEmpty()) {
     complexCurrent =
         ComplexNumberAdapter{ui->I1CurrentGenReal->text().toFloat(),
                              ui->I1CurrentGenImag->text().toFloat()};
     complexrVoltage =
         ComplexNumberAdapter{ui->V1VoltageGenReal->text().toFloat(),
                              ui->V1VoltageGenImag->text().toFloat()};
+
+    complexCurrent.setForm(ComplexNumberForm::GENERAL);
+    complexrVoltage.setForm(ComplexNumberForm::GENERAL);
   } else {
 
     complexCurrent =
@@ -47,10 +52,10 @@ void MainWindow::on_ConfirmButton_clicked() // choose 1 form and convert to
     complexrVoltage =
         ComplexNumberAdapter{ui->V1VoltageExpReal->text().toFloat(),
                              ui->V1VoltageExpImag->text().toFloat()};
-  }
 
-  complexCurrent.setForm(ComplexNumberForm::EXPONENTIAL);
-  complexrVoltage.setForm(ComplexNumberForm::EXPONENTIAL);
+    complexCurrent.setForm(ComplexNumberForm::EXPONENTIAL);
+    complexrVoltage.setForm(ComplexNumberForm::EXPONENTIAL);
+  }
 
   PhaseVector currentVector(complexCurrent, PhaseVectorType::CURRENT,
                             PhaseVectorPhase::PHASE_A);

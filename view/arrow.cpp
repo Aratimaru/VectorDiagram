@@ -45,9 +45,9 @@ QRectF Arrow::boundingRect() const {
   const float topSideLeftX = std::min(_leftSide.p2().x(), _rightSide.p2().x());
   const float topLeftX = std::min(topBaseLeftX, topSideLeftX);
 
-  const float topBaseLeftY = std::min(_base.first.imag(), _base.second.imag());
-  const float topSideLeftY = std::min(_leftSide.p2().y(), _rightSide.p2().y());
-  const float topLeftY = std::min(topBaseLeftY, topSideLeftY);
+  const float topBaseLeftY = std::max(_base.first.imag(), _base.second.imag());
+  const float topSideLeftY = std::max(_leftSide.p2().y(), _rightSide.p2().y());
+  const float topLeftY = std::max(topBaseLeftY, topSideLeftY);
 
   // find bottom right corner
   const float BottomBaseRightX =
@@ -57,10 +57,10 @@ QRectF Arrow::boundingRect() const {
   const float bottomRightX = std::max(BottomBaseRightX, BottomSideRightX);
 
   const float BottomBaseRightY =
-      std::max(_base.first.imag(), _base.second.imag());
+      std::min(_base.first.imag(), _base.second.imag());
   const float BottomSideRightY =
-      std::max(_leftSide.p2().y(), _rightSide.p2().y());
-  const float bottomRightY = std::max(BottomBaseRightY, BottomSideRightY);
+      std::min(_leftSide.p2().y(), _rightSide.p2().y());
+  const float bottomRightY = std::min(BottomBaseRightY, BottomSideRightY);
 
   return QRectF(QPointF(topLeftX, topLeftY),
                 QPointF(bottomRightX, bottomRightY));
@@ -112,7 +112,7 @@ void Arrow::calculateSidesByAngle() {
   _rightSide.setP1(QPointF{arrowHead.x(), arrowHead.y()});
 
   if (_sideLenght == 0) {
-    _sideLenght = _base.length() * 0.15;
+    _sideLenght = _base.length() * 0.1;
   }
   const float BA_lenght = sin(_angle / 2 * M_PI / 180) * _sideLenght;
   const float BC_lenght = cos(_angle / 2 * M_PI / 180) * _sideLenght;
