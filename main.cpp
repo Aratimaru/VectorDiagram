@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) // TODO: add units MV, MA, kA, kV...
   //  phaseParameterStorage.setVoltage(voltage);
 
   //  VectorParametersCalculator calculator;
-  //  std::vector<PhaseVector> phaseVectors;
+  //  QVector<PhaseVector> phaseVectors;
   //  phaseVectors = calculator.calculate(phaseParameterStorage);
 
   //  std::cout << phaseVectors.at(0) << std::endl;

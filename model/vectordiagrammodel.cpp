@@ -71,7 +71,7 @@ bool VectorDiagramModel::setData(const QModelIndex &index,
 }
 
 void VectorDiagramModel::reserve(int size) {
-  _instances = QVector<TableOfPhases>(4);
+  _instances = QVector<TableOfPhases>(size);
 }
 
 bool VectorDiagramModel::isEmpty() const {
@@ -79,7 +79,7 @@ bool VectorDiagramModel::isEmpty() const {
 }
 
 int VectorDiagramModel::getRowCount(
-    const std::vector<PhaseVector> &allPhases) const {
+    const QVector<PhaseVector> &allPhases) const {
   int count{};
   for (const auto &e : allPhases) {
     if (e.getLabelPhase() == PhaseVectorPhase::PHASE_A) {
@@ -90,7 +90,7 @@ int VectorDiagramModel::getRowCount(
 }
 
 int VectorDiagramModel::getColumnCount(
-    const std::vector<PhaseVector> &allPhases) const {
+    const QVector<PhaseVector> &allPhases) const {
   int count{};
   PhaseVectorPhase previousPhase = PhaseVectorPhase::NOT_DEFINED;
   for (const auto &e : allPhases) {
@@ -102,7 +102,8 @@ int VectorDiagramModel::getColumnCount(
   return count;
 }
 
-void VectorDiagramModel::fillModel(const std::vector<PhaseVector> &allPhases) {
+void VectorDiagramModel::fillModel(
+    QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector> &phaseVectors) {
   auto converter = [this](const PhaseVector &item, int row, int column) {
     // Create index
     //! \todo get row and column
@@ -112,14 +113,22 @@ void VectorDiagramModel::fillModel(const std::vector<PhaseVector> &allPhases) {
     this->setData(idx, data);
   };
 
-  this->reserve(allPhases.size());
+  int size = 0;
+  for (const auto &vec : phaseVectors) {
+    if (vec.getCoordinates().length() != 0) {
+      size++;
+    }
+  }
 
-  for (int i = 0; i < allPhases.size(); i++) {
+  this->reserve(size);
 
-    // we can be sure all vectors are in the same order all the time
-    int row = static_cast<int>(allPhases.at(i).getLabelType());
-    int column = static_cast<int>(allPhases.at(i).getLabelPhase());
+  for (const auto &vec : phaseVectors) {
+    if (vec.getCoordinates().length() != 0) {
 
-    converter(allPhases.at(i), row, column);
+      int row = static_cast<int>(vec.getLabelType());
+      int column = static_cast<int>(vec.getLabelPhase());
+
+      converter(vec, row, column);
+    }
   }
 }

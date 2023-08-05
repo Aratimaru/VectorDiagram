@@ -1,8 +1,10 @@
 #include "phasevector.h"
 
 PhaseVector::PhaseVector() {
-  _begin = INCORRECT_NUMBER;
-  _end = INCORRECT_NUMBER;
+  _begin.imag(FLT_MAX);
+  _begin.real(FLT_MAX);
+  _end.imag(FLT_MAX);
+  _end.real(FLT_MAX);
   setLabelType(PhaseVectorType::NOT_DEFINED);
   setLabelPhase(PhaseVectorPhase::NOT_DEFINED);
 
@@ -52,7 +54,7 @@ void PhaseVector::setCoodinates(const ComplexNumberAdapter begin,
 }
 
 void PhaseVector::setCoodinates(const ComplexNumberAdapter end) {
-  _begin = {0, 0};
+  _begin = QPointF{0, 0};
   _end = end;
 
   _begin.toGeneralForm();

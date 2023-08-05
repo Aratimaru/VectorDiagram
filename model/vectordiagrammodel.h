@@ -24,9 +24,9 @@ public:
                int role = Qt::EditRole) override;
   void reserve(int size);
   bool isEmpty() const;
-  int getColumnCount(const std::vector<PhaseVector> &allPhases) const;
-  int getRowCount(const std::vector<PhaseVector> &allPhases) const;
-  void fillModel(const std::vector<PhaseVector> &allPhases);
+  int getColumnCount(const QVector<PhaseVector> &allPhases) const;
+  int getRowCount(const QVector<PhaseVector> &allPhases) const;
+  void fillModel(QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector> &phaseVectors);
 
 signals:
   void editCompleted(const QString &);

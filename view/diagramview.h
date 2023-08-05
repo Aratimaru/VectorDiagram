@@ -20,7 +20,7 @@ public:
 
 private:
   QGraphicsScene *_scene;
-  std::vector<QGraphicsItem *> vectorsHolder;
+  QVector<QGraphicsItem *> vectorsHolder;
 
   void setupView();
 };

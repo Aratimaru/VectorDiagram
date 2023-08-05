@@ -8,9 +8,6 @@
 #include <QLineF>
 #include <QPointF>
 
-#define INCORRECT_NUMBER                                                       \
-  { FLT_MAX, FLT_MAX }
-
 enum class PhaseVectorType { CURRENT = 0, VOLTAGE, RESISTENCE, NOT_DEFINED };
 enum class PhaseVectorPhase { PHASE_A = 0, PHASE_B, PHASE_C, NOT_DEFINED };
 struct VectorLabel {

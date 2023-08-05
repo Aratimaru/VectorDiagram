@@ -22,6 +22,16 @@ public:
   ~MainWindow();
   void resizeEvent(QResizeEvent *e);
 
+private:
+  ComplexNumberAdapter
+  chooseCorrectField(const QPair<PhaseVectorPhase, PhaseVectorType> &key);
+  QMap<QPair<PhaseVectorPhase, PhaseVectorType>, ComplexNumberAdapter>
+  getParametersFromUI();
+  QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector>
+  constructVectorsFromParameters(
+      const QMap<QPair<PhaseVectorPhase, PhaseVectorType>, ComplexNumberAdapter>
+          &parameters);
+
 private slots:
   void on_ConfirmButton_clicked();
 
