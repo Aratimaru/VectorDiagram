@@ -25,7 +25,13 @@ MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::resizeEvent(QResizeEvent *e) {
   QMainWindow::resizeEvent(e);
-  ui->PlotDiagram->yAxis->setScaleRatio(ui->PlotDiagram->xAxis, 1.0);
+  int maxRangeAxis = std::max(ui->PlotDiagram->xAxis->range().size(),
+                              ui->PlotDiagram->yAxis->range().size());
+  if (maxRangeAxis == ui->PlotDiagram->xAxis->range().size()) {
+    this->ui->PlotDiagram->yAxis->setScaleRatio(ui->PlotDiagram->xAxis, 1.0);
+  } else {
+    this->ui->PlotDiagram->xAxis->setScaleRatio(ui->PlotDiagram->yAxis, 1.0);
+  }
 }
 
 ComplexNumberAdapter MainWindow::chooseCorrectField(
@@ -164,24 +170,24 @@ MainWindow::constructVectorsFromParameters(
 
   result[{PhaseVectorPhase::PHASE_A, PhaseVectorType::CURRENT}] = PhaseVector(
       parameters[{PhaseVectorPhase::PHASE_A, PhaseVectorType::CURRENT}],
-      PhaseVectorType::CURRENT, PhaseVectorPhase::PHASE_A);
+      PhaseVectorType::CURRENT, PhaseVectorPhase::PHASE_A, "Ia");
   result[{PhaseVectorPhase::PHASE_A, PhaseVectorType::VOLTAGE}] = PhaseVector(
       parameters[{PhaseVectorPhase::PHASE_A, PhaseVectorType::VOLTAGE}],
-      PhaseVectorType::VOLTAGE, PhaseVectorPhase::PHASE_A);
+      PhaseVectorType::VOLTAGE, PhaseVectorPhase::PHASE_A, "Va");
 
   result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT}] = PhaseVector(
       parameters[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT}],
-      PhaseVectorType::CURRENT, PhaseVectorPhase::PHASE_B);
+      PhaseVectorType::CURRENT, PhaseVectorPhase::PHASE_B, "Ib");
   result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE}] = PhaseVector(
       parameters[{PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE}],
-      PhaseVectorType::VOLTAGE, PhaseVectorPhase::PHASE_B);
+      PhaseVectorType::VOLTAGE, PhaseVectorPhase::PHASE_B, "Vb");
 
   result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT}] = PhaseVector(
       parameters[{PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT}],
-      PhaseVectorType::CURRENT, PhaseVectorPhase::PHASE_C);
+      PhaseVectorType::CURRENT, PhaseVectorPhase::PHASE_C, "Ic");
   result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE}] = PhaseVector(
       parameters[{PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE}],
-      PhaseVectorType::VOLTAGE, PhaseVectorPhase::PHASE_C);
+      PhaseVectorType::VOLTAGE, PhaseVectorPhase::PHASE_C, "Vc");
 
   return result;
 }

@@ -53,6 +53,7 @@ public:
   std::string getLabelName() const;
 
   bool isEmpty();
+  int length() const;
 
   friend std::ostream &operator<<(std::ostream &os, const PhaseVector &c);
   friend std::istream &operator>>(std::istream &is, PhaseVector &c);

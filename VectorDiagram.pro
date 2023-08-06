@@ -13,6 +13,7 @@ SOURCES += \
     view/arrow.cpp \
     calculations/complexnumberadapter.cpp \
     main.cpp \
+    view/cparrow.cpp \
     view/diagramplot.cpp \
     view/diagramview.cpp \
     view/mainwindow.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     view/arrow.h \
     calculations/calculator.h \
     calculations/complexnumberadapter.h \
+    view/cparrow.h \
     view/diagramplot.h \
     view/diagramview.h \
     view/mainwindow.h \

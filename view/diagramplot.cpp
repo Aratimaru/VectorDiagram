@@ -1,4 +1,5 @@
 #include "diagramplot.h"
+#include "view/cparrow.h"
 
 DiagramPlot::DiagramPlot() {}
 DiagramPlot::DiagramPlot(QWidget *widget) : DiagramPlot() {
@@ -9,21 +10,26 @@ void DiagramPlot::drawDataFromModel(const VectorDiagramModel *model) {
   QPen *pen = new QPen{Qt::black};
   pen->setWidth(3);
 
-  // will be changed in the method
+  // will be changed in findBoundingRect() method
   QRectF newBoundingRect;
 
   for (int i = 0; i < model->rowCount(); i++) {
     for (int j = 0; j < model->columnCount(); j++) {
       PhaseVector vector = model->data(model->index(i, j)).value<PhaseVector>();
-      Arrow *arrow = new Arrow{vector.getCoordinates(), 30};
-      const auto arrowCoordinates = turnArrowToVectorOfCoordinates(arrow);
-      if (arrow->length() == 0) {
+      if (vector.length() == 0) {
         continue;
       }
-      this->addGraph();
-      this->graph(graphCount() - 1)
-          ->setData(arrowCoordinates.first, arrowCoordinates.second, true);
-      this->graph(graphCount() - 1)->setPen(*pen);
+
+      CPArrow *arrow = new CPArrow(this);
+      arrow->start->setCoords(vector.getCoordinates().first);
+      arrow->end->setCoords(vector.getCoordinates().second);
+      arrow->setHead(QCPLineEnding::esLineArrow);
+
+      QCPItemText *label = new QCPItemText(this);
+      label->setText(QString::fromStdString(vector.getLabel().customName));
+      label->setPadding(QMargins(5, 0, 5, 0));
+      label->setPositionAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+      label->position->setParentAnchor(arrow->end);
 
       findBoundingRect(arrow->boundingRect(), newBoundingRect);
     }
@@ -33,21 +39,31 @@ void DiagramPlot::drawDataFromModel(const VectorDiagramModel *model) {
 }
 
 void DiagramPlot::clear() {
-  int count = this->graphCount();
+  int count = this->itemCount();
   for (int i = 0; i < count; i++) {
-    this->removeGraph(count - i - 1);
+    this->removeItem(count - i - 1);
   }
   this->replot();
 }
 
 void DiagramPlot::resizeEvent(QResizeEvent *e) {
   QCustomPlot::resizeEvent(e);
-  this->yAxis->setScaleRatio(xAxis, 1.0);
+  int maxRangeAxis = std::max(xAxis->range().size(), yAxis->range().size());
+  if (maxRangeAxis == xAxis->range().size()) {
+    this->yAxis->setScaleRatio(xAxis, 1.0);
+  } else {
+    this->xAxis->setScaleRatio(yAxis, 1.0);
+  }
 }
 
 void DiagramPlot::wheelEvent(QWheelEvent *e) {
   QCustomPlot::wheelEvent(e);
-  this->yAxis->setScaleRatio(xAxis, 1.0);
+  int maxRangeAxis = std::max(xAxis->range().size(), yAxis->range().size());
+  if (maxRangeAxis == xAxis->range().size()) {
+    this->yAxis->setScaleRatio(xAxis, 1.0);
+  } else {
+    this->xAxis->setScaleRatio(yAxis, 1.0);
+  }
 }
 
 QPair<QVector<double>, QVector<double>>
@@ -89,8 +105,14 @@ void DiagramPlot::findBoundingRect(const QRectF &current,
 
 void DiagramPlot::rescaleAxis(const QRectF &boundingRect) {
   xAxis->setRange(boundingRect.topLeft().x(), boundingRect.bottomRight().x());
-  xAxis->scaleRange(3);
+  xAxis->scaleRange(2);
   yAxis->setRange(boundingRect.bottomRight().y(), boundingRect.topLeft().y());
-  yAxis->scaleRange(3);
-  this->yAxis->setScaleRatio(xAxis, 1.0);
+  yAxis->scaleRange(2);
+
+  int maxRangeAxis = std::max(xAxis->range().size(), yAxis->range().size());
+  if (maxRangeAxis == xAxis->range().size()) {
+    this->yAxis->setScaleRatio(xAxis, 1.0);
+  } else {
+    this->xAxis->setScaleRatio(yAxis, 1.0);
+  }
 }

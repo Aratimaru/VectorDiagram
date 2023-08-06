@@ -87,6 +87,8 @@ std::string PhaseVector::getLabelName() const { return _label.customName; }
 
 bool PhaseVector::isEmpty() { return (_begin.isNull()); }
 
+int PhaseVector::length() const { return QLineF(_begin, _end).length(); }
+
 std::ostream &operator<<(std::ostream &os, const PhaseVector &c) {
   if (c._label.type == PhaseVectorType::CURRENT) {
     os << "Current\t";
