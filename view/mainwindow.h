@@ -4,8 +4,10 @@
 #include <QMainWindow>
 
 #include <memory>
+#include <tuple>
 
 #include "model/vectordiagrammodel.h"
+#include "qlineedit.h"
 #include "view/diagramview.h"
 
 QT_BEGIN_NAMESPACE
@@ -23,14 +25,21 @@ public:
   void resizeEvent(QResizeEvent *e);
 
 private:
-  ComplexNumberAdapter
-  chooseCorrectField(const QPair<PhaseVectorPhase, PhaseVectorType> &key);
-  QMap<QPair<PhaseVectorPhase, PhaseVectorType>, ComplexNumberAdapter>
+  ComplexNumberAdapter readField(
+      const std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>
+          &key);
+
+  QMap<std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>,
+       ComplexNumberAdapter>
   getParametersFromUI();
+
   QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector>
   constructVectorsFromParameters(
-      const QMap<QPair<PhaseVectorPhase, PhaseVectorType>, ComplexNumberAdapter>
-          &parameters);
+      const QMap<
+          std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>,
+          ComplexNumberAdapter> &parameters);
+
+  void setupParametrFieldsNames();
 
 private slots:
   void on_ConfirmButton_clicked();
@@ -40,5 +49,18 @@ private slots:
 private:
   Ui::MainWindow *ui;
   std::shared_ptr<VectorDiagramModel> _model;
+
+  // need to track prev parameters to choose the last updated field
+  QMap<std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>,
+       ComplexNumberAdapter>
+      previousParameters;
+  QMap<std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>,
+       ComplexNumberAdapter>
+      currentParameters;
+
+  // store QLineEdit addresses
+  QMap<std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm, bool>,
+       QLineEdit *>
+      parameterFields;
 };
 #endif // MAINWINDOW_H
