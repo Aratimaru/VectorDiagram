@@ -11,6 +11,7 @@
 // ComplexNumberAdapter>
 
 enum class ComplexNumberForm { GENERAL = 0, EXPONENTIAL };
+enum class ComplexNumberPart { Re, Im };
 
 class ComplexNumberAdapter : public std::complex<float> {
 public:

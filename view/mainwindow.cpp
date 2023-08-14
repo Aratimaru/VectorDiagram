@@ -36,121 +36,15 @@ void MainWindow::resizeEvent(QResizeEvent *e) {
   }
 }
 
-// ComplexNumberAdapter MainWindow::chooseCorrectField(
-//     const QPair<PhaseVectorPhase, PhaseVectorType> &key) {
-//   //! \todo complete other phases
-
-//  ComplexNumberAdapter result;
-
-//  switch (key.first) {
-//  case PhaseVectorPhase::PHASE_A:
-//    if (key.second == PhaseVectorType::CURRENT) {
-//      if (!ui->I1CurrentGenReal->text().isEmpty()) {
-//        result = ComplexNumberAdapter{ui->I1CurrentGenReal->text().toFloat(),
-//                                      ui->I1CurrentGenImag->text().toFloat()};
-//        result.setForm(ComplexNumberForm::GENERAL);
-
-//        ui->I1CurrentExpReal->setText(QString::fromStdString(
-//            std::to_string(result.toExponentialForm().real())));
-//        ui->I1CurrentExpImag->setText(QString::fromStdString(
-//            std::to_string(result.toExponentialForm().imag())));
-//      } else if (!ui->I1CurrentExpReal->text().isEmpty()) {
-//        result = ComplexNumberAdapter{ui->I1CurrentExpReal->text().toFloat(),
-//                                      ui->I1CurrentExpImag->text().toFloat()};
-//        result.setForm(ComplexNumberForm::EXPONENTIAL);
-
-//        ui->I1CurrentGenReal->setText(QString::fromStdString(
-//            std::to_string(result.toGeneralForm().real())));
-//        ui->I1CurrentGenImag->setText(QString::fromStdString(
-//            std::to_string(result.toGeneralForm().imag())));
-//      }
-//    }
-//    if (key.second == PhaseVectorType::VOLTAGE) {
-//      if (!ui->V1VoltageGenReal->text().isEmpty()) {
-//        result = ComplexNumberAdapter{ui->V1VoltageGenReal->text().toFloat(),
-//                                      ui->V1VoltageGenImag->text().toFloat()};
-//        result.setForm(ComplexNumberForm::GENERAL);
-
-//        ui->V1VoltageExpReal->setText(QString::fromStdString(
-//            std::to_string(result.toExponentialForm().real())));
-//        ui->V1VoltageExpImag->setText(QString::fromStdString(
-//            std::to_string(result.toExponentialForm().imag())));
-//      } else if (!ui->V1VoltageExpReal->text().isEmpty()) {
-//        result = ComplexNumberAdapter{ui->V1VoltageExpReal->text().toFloat(),
-//                                      ui->V1VoltageExpImag->text().toFloat()};
-//        result.setForm(ComplexNumberForm::EXPONENTIAL);
-
-//        ui->V1VoltageGenReal->setText(QString::fromStdString(
-//            std::to_string(result.toGeneralForm().real())));
-//        ui->V1VoltageGenImag->setText(QString::fromStdString(
-//            std::to_string(result.toGeneralForm().imag())));
-//      }
-//    }
-
-//    break;
-//  case PhaseVectorPhase::PHASE_B:
-//    if (key.second == PhaseVectorType::CURRENT) {
-//      if (!ui->I1CurrentGenReal->text().isEmpty()) {
-//        result = ComplexNumberAdapter{ui->I2CurrentGenReal->text().toFloat(),
-//                                      ui->I2CurrentGenImag->text().toFloat()};
-//        result.setForm(ComplexNumberForm::GENERAL);
-//      } else {
-//        result = ComplexNumberAdapter{ui->I2CurrentExpReal->text().toFloat(),
-//                                      ui->I2CurrentExpImag->text().toFloat()};
-//        result.setForm(ComplexNumberForm::EXPONENTIAL);
-//      }
-//    }
-//    if (key.second == PhaseVectorType::VOLTAGE) {
-//      if (!ui->V1VoltageGenReal->text().isEmpty()) {
-//        result = ComplexNumberAdapter{ui->V2VoltageGenReal->text().toFloat(),
-//                                      ui->V2VoltageGenImag->text().toFloat()};
-//        result.setForm(ComplexNumberForm::GENERAL);
-//      } else {
-//        result = ComplexNumberAdapter{ui->V2VoltageExpReal->text().toFloat(),
-//                                      ui->V2VoltageExpImag->text().toFloat()};
-//        result.setForm(ComplexNumberForm::EXPONENTIAL);
-//      }
-//    }
-
-//    break;
-//  case PhaseVectorPhase::PHASE_C:
-//    if (key.second == PhaseVectorType::CURRENT) {
-//      if (!ui->I1CurrentGenReal->text().isEmpty()) {
-//        result = ComplexNumberAdapter{ui->I3CurrentGenReal->text().toFloat(),
-//                                      ui->I3CurrentGenImag->text().toFloat()};
-//        result.setForm(ComplexNumberForm::GENERAL);
-//      } else {
-//        result = ComplexNumberAdapter{ui->I3CurrentExpReal->text().toFloat(),
-//                                      ui->I3CurrentExpImag->text().toFloat()};
-//        result.setForm(ComplexNumberForm::EXPONENTIAL);
-//      }
-//    }
-//    if (key.second == PhaseVectorType::VOLTAGE) {
-//      if (!ui->V1VoltageGenReal->text().isEmpty()) {
-//        result = ComplexNumberAdapter{ui->V3VoltageGenReal->text().toFloat(),
-//                                      ui->V3VoltageGenImag->text().toFloat()};
-//        result.setForm(ComplexNumberForm::GENERAL);
-//      } else {
-//        result = ComplexNumberAdapter{ui->V3VoltageExpReal->text().toFloat(),
-//                                      ui->V3VoltageExpImag->text().toFloat()};
-//        result.setForm(ComplexNumberForm::EXPONENTIAL);
-//      }
-//    }
-
-//    break;
-//  default:
-//    break;
-//  }
-//  return result;
-//}
-
-ComplexNumberAdapter MainWindow::readField(
+ComplexNumberAdapter MainWindow::constructPoint(
     const std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>
         &key) {
-  std::tuple realPart = std::make_tuple(std::get<0>(key), std::get<1>(key),
-                                        std::get<2>(key), true);
-  std::tuple imagPart = std::make_tuple(std::get<0>(key), std::get<1>(key),
-                                        std::get<2>(key), false);
+  std::tuple realPart =
+      std::make_tuple(std::get<0>(key), std::get<1>(key), std::get<2>(key),
+                      ComplexNumberPart::Re);
+  std::tuple imagPart =
+      std::make_tuple(std::get<0>(key), std::get<1>(key), std::get<2>(key),
+                      ComplexNumberPart::Im);
   return ComplexNumberAdapter{parameterFields[realPart]->text().toFloat(),
                               parameterFields[imagPart]->text().toFloat()};
 }
@@ -164,57 +58,57 @@ MainWindow::getParametersFromUI() {
   // Ia
   result[{PhaseVectorPhase::PHASE_A, PhaseVectorType::CURRENT,
           ComplexNumberForm::GENERAL}] =
-      readField({PhaseVectorPhase::PHASE_A, PhaseVectorType::CURRENT,
-                 ComplexNumberForm::GENERAL});
+      constructPoint({PhaseVectorPhase::PHASE_A, PhaseVectorType::CURRENT,
+                      ComplexNumberForm::GENERAL});
   result[{PhaseVectorPhase::PHASE_A, PhaseVectorType::CURRENT,
           ComplexNumberForm::EXPONENTIAL}] =
-      readField({PhaseVectorPhase::PHASE_A, PhaseVectorType::CURRENT,
-                 ComplexNumberForm::EXPONENTIAL});
+      constructPoint({PhaseVectorPhase::PHASE_A, PhaseVectorType::CURRENT,
+                      ComplexNumberForm::EXPONENTIAL});
   // Ib
-  result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
-          ComplexNumberForm::GENERAL}] =
-      readField({PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
-                 ComplexNumberForm::GENERAL});
-  result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
-          ComplexNumberForm::EXPONENTIAL}] =
-      readField({PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
-                 ComplexNumberForm::EXPONENTIAL});
+  //  result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
+  //          ComplexNumberForm::GENERAL}] =
+  //      constructPoint({PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
+  //                      ComplexNumberForm::GENERAL});
+  //  result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
+  //          ComplexNumberForm::EXPONENTIAL}] =
+  //      constructPoint({PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
+  //                      ComplexNumberForm::EXPONENTIAL});
   // Ic
-  result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
-          ComplexNumberForm::GENERAL}] =
-      readField({PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
-                 ComplexNumberForm::GENERAL});
-  result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
-          ComplexNumberForm::EXPONENTIAL}] =
-      readField({PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
-                 ComplexNumberForm::EXPONENTIAL});
+  //  result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
+  //          ComplexNumberForm::GENERAL}] =
+  //      constructPoint({PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
+  //                      ComplexNumberForm::GENERAL});
+  //  result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
+  //          ComplexNumberForm::EXPONENTIAL}] =
+  //      constructPoint({PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
+  //                      ComplexNumberForm::EXPONENTIAL});
   // Ua
   result[{PhaseVectorPhase::PHASE_A, PhaseVectorType::VOLTAGE,
           ComplexNumberForm::GENERAL}] =
-      readField({PhaseVectorPhase::PHASE_A, PhaseVectorType::VOLTAGE,
-                 ComplexNumberForm::GENERAL});
+      constructPoint({PhaseVectorPhase::PHASE_A, PhaseVectorType::VOLTAGE,
+                      ComplexNumberForm::GENERAL});
   result[{PhaseVectorPhase::PHASE_A, PhaseVectorType::VOLTAGE,
           ComplexNumberForm::EXPONENTIAL}] =
-      readField({PhaseVectorPhase::PHASE_A, PhaseVectorType::VOLTAGE,
-                 ComplexNumberForm::EXPONENTIAL});
+      constructPoint({PhaseVectorPhase::PHASE_A, PhaseVectorType::VOLTAGE,
+                      ComplexNumberForm::EXPONENTIAL});
   // Ub
-  result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
-          ComplexNumberForm::GENERAL}] =
-      readField({PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
-                 ComplexNumberForm::GENERAL});
-  result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
-          ComplexNumberForm::EXPONENTIAL}] =
-      readField({PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
-                 ComplexNumberForm::EXPONENTIAL});
-  // Uc
-  result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
-          ComplexNumberForm::GENERAL}] =
-      readField({PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
-                 ComplexNumberForm::GENERAL});
-  result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
-          ComplexNumberForm::EXPONENTIAL}] =
-      readField({PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
-                 ComplexNumberForm::EXPONENTIAL});
+  //  result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
+  //          ComplexNumberForm::GENERAL}] =
+  //      constructPoint({PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
+  //                      ComplexNumberForm::GENERAL});
+  //  result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
+  //          ComplexNumberForm::EXPONENTIAL}] =
+  //      constructPoint({PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
+  //                      ComplexNumberForm::EXPONENTIAL});
+  //   Uc
+  //  result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
+  //          ComplexNumberForm::GENERAL}] =
+  //      constructPoint({PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
+  //                      ComplexNumberForm::GENERAL});
+  //  result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
+  //          ComplexNumberForm::EXPONENTIAL}] =
+  //      constructPoint({PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
+  //                      ComplexNumberForm::EXPONENTIAL});
   return result;
 }
 
@@ -228,37 +122,43 @@ MainWindow::constructVectorsFromParameters(
       parameters[{PhaseVectorPhase::PHASE_A, PhaseVectorType::CURRENT,
                   ComplexNumberForm::GENERAL}],
       PhaseVectorType::CURRENT, PhaseVectorPhase::PHASE_A, "Ia");
+  //  result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT}] =
+  //  PhaseVector(
+  //      parameters[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
+  //                  ComplexNumberForm::GENERAL}],
+  //      PhaseVectorType::CURRENT, PhaseVectorPhase::PHASE_B, "Ib");
+  //  result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT}] =
+  //  PhaseVector(
+  //      parameters[{PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
+  //                  ComplexNumberForm::GENERAL}],
+  //      PhaseVectorType::CURRENT, PhaseVectorPhase::PHASE_C, "Ic");
+
   result[{PhaseVectorPhase::PHASE_A, PhaseVectorType::VOLTAGE}] = PhaseVector(
       parameters[{PhaseVectorPhase::PHASE_A, PhaseVectorType::VOLTAGE,
                   ComplexNumberForm::GENERAL}],
-      PhaseVectorType::VOLTAGE, PhaseVectorPhase::PHASE_A, "Va");
-
-  result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT}] = PhaseVector(
-      parameters[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
-                  ComplexNumberForm::GENERAL}],
-      PhaseVectorType::CURRENT, PhaseVectorPhase::PHASE_B, "Ib");
-  result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE}] = PhaseVector(
-      parameters[{PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
-                  ComplexNumberForm::GENERAL}],
-      PhaseVectorType::VOLTAGE, PhaseVectorPhase::PHASE_B, "Vb");
-
-  result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT}] = PhaseVector(
-      parameters[{PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
-                  ComplexNumberForm::GENERAL}],
-      PhaseVectorType::CURRENT, PhaseVectorPhase::PHASE_C, "Ic");
-  result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE}] = PhaseVector(
-      parameters[{PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
-                  ComplexNumberForm::GENERAL}],
-      PhaseVectorType::VOLTAGE, PhaseVectorPhase::PHASE_C, "Vc");
+      PhaseVectorType::VOLTAGE, PhaseVectorPhase::PHASE_A, "Ua");
+  //  result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE}] =
+  //  PhaseVector(
+  //      parameters[{PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
+  //                  ComplexNumberForm::GENERAL}],
+  //      PhaseVectorType::VOLTAGE, PhaseVectorPhase::PHASE_B, "Ub");
+  //  result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE}] =
+  //  PhaseVector(
+  //      parameters[{PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
+  //                  ComplexNumberForm::GENERAL}],
+  //      PhaseVectorType::VOLTAGE, PhaseVectorPhase::PHASE_C, "Uc");
 
   return result;
 }
 
 void MainWindow::setupParametrFieldsNames() {
+
   parameterFields[{PhaseVectorPhase::PHASE_A, PhaseVectorType::CURRENT,
-                   ComplexNumberForm::GENERAL, true}] = ui->I1CurrentGenReal;
+                   ComplexNumberForm::GENERAL, ComplexNumberPart::Re}] =
+      ui->I1CurrentGenReal;
   parameterFields[{PhaseVectorPhase::PHASE_A, PhaseVectorType::CURRENT,
-                   ComplexNumberForm::GENERAL, false}] = ui->I1CurrentGenImag;
+                   ComplexNumberForm::GENERAL, ComplexNumberPart::Im}] =
+      ui->I1CurrentGenImag;
   //  parameterFields[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
   //                   ComplexNumberForm::GENERAL, true}] =
   //                   ui->I2CurrentGenReal;
@@ -273,10 +173,10 @@ void MainWindow::setupParametrFieldsNames() {
   //                   ui->I3CurrentGenImag;
 
   parameterFields[{PhaseVectorPhase::PHASE_A, PhaseVectorType::CURRENT,
-                   ComplexNumberForm::EXPONENTIAL, true}] =
+                   ComplexNumberForm::EXPONENTIAL, ComplexNumberPart::Re}] =
       ui->I1CurrentExpReal;
   parameterFields[{PhaseVectorPhase::PHASE_A, PhaseVectorType::CURRENT,
-                   ComplexNumberForm::EXPONENTIAL, false}] =
+                   ComplexNumberForm::EXPONENTIAL, ComplexNumberPart::Im}] =
       ui->I1CurrentExpImag;
   //  parameterFields[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
   //                   ComplexNumberForm::GENERAL, true}] =
@@ -292,9 +192,11 @@ void MainWindow::setupParametrFieldsNames() {
   //                   ui->I3CurrentGenImag;
 
   parameterFields[{PhaseVectorPhase::PHASE_A, PhaseVectorType::VOLTAGE,
-                   ComplexNumberForm::GENERAL, true}] = ui->V1VoltageGenReal;
+                   ComplexNumberForm::GENERAL, ComplexNumberPart::Re}] =
+      ui->V1VoltageGenReal;
   parameterFields[{PhaseVectorPhase::PHASE_A, PhaseVectorType::VOLTAGE,
-                   ComplexNumberForm::GENERAL, false}] = ui->V1VoltageGenImag;
+                   ComplexNumberForm::GENERAL, ComplexNumberPart::Im}] =
+      ui->V1VoltageGenImag;
   //  parameterFields[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
   //                   ComplexNumberForm::GENERAL, true}] =
   //                   ui->I2CurrentGenReal;
@@ -309,10 +211,10 @@ void MainWindow::setupParametrFieldsNames() {
   //                   ui->I3CurrentGenImag;
 
   parameterFields[{PhaseVectorPhase::PHASE_A, PhaseVectorType::VOLTAGE,
-                   ComplexNumberForm::EXPONENTIAL, true}] =
+                   ComplexNumberForm::EXPONENTIAL, ComplexNumberPart::Re}] =
       ui->V1VoltageExpReal;
   parameterFields[{PhaseVectorPhase::PHASE_A, PhaseVectorType::VOLTAGE,
-                   ComplexNumberForm::EXPONENTIAL, false}] =
+                   ComplexNumberForm::EXPONENTIAL, ComplexNumberPart::Im}] =
       ui->V1VoltageExpImag;
   //  parameterFields[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
   //                   ComplexNumberForm::GENERAL, true}] =

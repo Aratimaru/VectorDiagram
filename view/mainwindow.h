@@ -25,7 +25,7 @@ public:
   void resizeEvent(QResizeEvent *e);
 
 private:
-  ComplexNumberAdapter readField(
+  ComplexNumberAdapter constructPoint(
       const std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>
           &key);
 
@@ -59,7 +59,8 @@ private:
       currentParameters;
 
   // store QLineEdit addresses
-  QMap<std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm, bool>,
+  QMap<std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm,
+                  ComplexNumberPart>,
        QLineEdit *>
       parameterFields;
 };
