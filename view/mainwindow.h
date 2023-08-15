@@ -39,6 +39,15 @@ private:
           std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>,
           ComplexNumberAdapter> &parameters);
 
+  QMap<std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>,
+       ComplexNumberAdapter>
+  determineChangedFields();
+
+  void calculateOtherFormFieldBasedOnChangedInput(
+      const QMap<
+          std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>,
+          ComplexNumberAdapter> &difference);
+
   void setupParametrFieldsNames();
 
 private slots:

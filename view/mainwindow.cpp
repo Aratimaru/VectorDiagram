@@ -7,6 +7,7 @@
 
 #include <QBrush>
 #include <QPen>
+#include <format>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
@@ -64,24 +65,24 @@ MainWindow::getParametersFromUI() {
           ComplexNumberForm::EXPONENTIAL}] =
       constructPoint({PhaseVectorPhase::PHASE_A, PhaseVectorType::CURRENT,
                       ComplexNumberForm::EXPONENTIAL});
-  // Ib
-  //  result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
-  //          ComplexNumberForm::GENERAL}] =
-  //      constructPoint({PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
-  //                      ComplexNumberForm::GENERAL});
-  //  result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
-  //          ComplexNumberForm::EXPONENTIAL}] =
-  //      constructPoint({PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
-  //                      ComplexNumberForm::EXPONENTIAL});
-  // Ic
-  //  result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
-  //          ComplexNumberForm::GENERAL}] =
-  //      constructPoint({PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
-  //                      ComplexNumberForm::GENERAL});
-  //  result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
-  //          ComplexNumberForm::EXPONENTIAL}] =
-  //      constructPoint({PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
-  //                      ComplexNumberForm::EXPONENTIAL});
+  //  // Ib
+  //    result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
+  //            ComplexNumberForm::GENERAL}] =
+  //        constructPoint({PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
+  //                        ComplexNumberForm::GENERAL});
+  //    result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
+  //            ComplexNumberForm::EXPONENTIAL}] =
+  //        constructPoint({PhaseVectorPhase::PHASE_B, PhaseVectorType::CURRENT,
+  //                        ComplexNumberForm::EXPONENTIAL});
+  //  // Ic
+  //    result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
+  //            ComplexNumberForm::GENERAL}] =
+  //        constructPoint({PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
+  //                        ComplexNumberForm::GENERAL});
+  //    result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
+  //            ComplexNumberForm::EXPONENTIAL}] =
+  //        constructPoint({PhaseVectorPhase::PHASE_C, PhaseVectorType::CURRENT,
+  //                        ComplexNumberForm::EXPONENTIAL});
   // Ua
   result[{PhaseVectorPhase::PHASE_A, PhaseVectorType::VOLTAGE,
           ComplexNumberForm::GENERAL}] =
@@ -91,24 +92,24 @@ MainWindow::getParametersFromUI() {
           ComplexNumberForm::EXPONENTIAL}] =
       constructPoint({PhaseVectorPhase::PHASE_A, PhaseVectorType::VOLTAGE,
                       ComplexNumberForm::EXPONENTIAL});
-  // Ub
-  //  result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
-  //          ComplexNumberForm::GENERAL}] =
-  //      constructPoint({PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
-  //                      ComplexNumberForm::GENERAL});
-  //  result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
-  //          ComplexNumberForm::EXPONENTIAL}] =
-  //      constructPoint({PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
-  //                      ComplexNumberForm::EXPONENTIAL});
-  //   Uc
-  //  result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
-  //          ComplexNumberForm::GENERAL}] =
-  //      constructPoint({PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
-  //                      ComplexNumberForm::GENERAL});
-  //  result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
-  //          ComplexNumberForm::EXPONENTIAL}] =
-  //      constructPoint({PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
-  //                      ComplexNumberForm::EXPONENTIAL});
+  //  // Ub
+  //    result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
+  //            ComplexNumberForm::GENERAL}] =
+  //        constructPoint({PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
+  //                        ComplexNumberForm::GENERAL});
+  //    result[{PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
+  //            ComplexNumberForm::EXPONENTIAL}] =
+  //        constructPoint({PhaseVectorPhase::PHASE_B, PhaseVectorType::VOLTAGE,
+  //                        ComplexNumberForm::EXPONENTIAL});
+  //  //   Uc
+  //    result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
+  //            ComplexNumberForm::GENERAL}] =
+  //        constructPoint({PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
+  //                        ComplexNumberForm::GENERAL});
+  //    result[{PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
+  //            ComplexNumberForm::EXPONENTIAL}] =
+  //        constructPoint({PhaseVectorPhase::PHASE_C, PhaseVectorType::VOLTAGE,
+  //                        ComplexNumberForm::EXPONENTIAL});
   return result;
 }
 
@@ -149,6 +150,91 @@ MainWindow::constructVectorsFromParameters(
   //      PhaseVectorType::VOLTAGE, PhaseVectorPhase::PHASE_C, "Uc");
 
   return result;
+}
+
+QMap<std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>,
+     ComplexNumberAdapter>
+MainWindow::determineChangedFields() {
+  QMap<std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>,
+       ComplexNumberAdapter>
+      changedFields;
+
+  for (const auto &e : currentParameters.keys()) {
+    if (currentParameters[e] != previousParameters[e]) {
+      changedFields.insert(e, currentParameters[e]);
+
+      // debug
+      qDebug() << "changedFields" << changedFields[e].real()
+               << changedFields[e].imag() << '\n';
+      qDebug() << "PhaseVectorPhase " << (int)std::get<0>(e)
+               << "PhaseVectorType " << (int)std::get<1>(e)
+               << "ComplexNumberForm " << (int)std::get<2>(e) << '\n';
+    }
+  }
+  qDebug() << "---------------------------------------------------" << '\n';
+
+  return changedFields;
+}
+
+void MainWindow::calculateOtherFormFieldBasedOnChangedInput(
+    const QMap<std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>,
+               ComplexNumberAdapter> &difference) {
+  for (const auto &e : difference.keys()) {
+
+    std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm,
+               ComplexNumberPart>
+        genRealKey =
+            std::make_tuple(get<0>(e), get<1>(e), ComplexNumberForm::GENERAL,
+                            ComplexNumberPart::Re);
+    std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm,
+               ComplexNumberPart>
+        genImagKey =
+            std::make_tuple(get<0>(e), get<1>(e), ComplexNumberForm::GENERAL,
+                            ComplexNumberPart::Im);
+    std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm,
+               ComplexNumberPart>
+        expRealKey = std::make_tuple(get<0>(e), get<1>(e),
+                                     ComplexNumberForm::EXPONENTIAL,
+                                     ComplexNumberPart::Re);
+    std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm,
+               ComplexNumberPart>
+        expImagKey = std::make_tuple(get<0>(e), get<1>(e),
+                                     ComplexNumberForm::EXPONENTIAL,
+                                     ComplexNumberPart::Im);
+
+    // lets calculate both forms
+    float genReal = currentParameters[e].toGeneralForm().real();
+    float genImag = currentParameters[e].toGeneralForm().imag();
+
+    float expReal = currentParameters[e].toExponentialForm().real();
+    float expImag = currentParameters[e].toExponentialForm().imag();
+
+    std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>
+        genParamKey =
+            std::make_tuple(get<0>(e), get<1>(e), ComplexNumberForm::GENERAL);
+    std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>
+        expParamKey = std::make_tuple(get<0>(e), get<1>(e),
+                                      ComplexNumberForm::EXPONENTIAL);
+
+    // need to update current info
+    currentParameters[genParamKey] = ComplexNumberAdapter{genReal, genImag};
+    currentParameters[expParamKey] = ComplexNumberAdapter{expReal, expImag};
+
+    // update QLineEdit
+    QString genTextReal =
+        QString::fromStdString(std::format("{:.2f}", genReal));
+    QString genTextImag =
+        QString::fromStdString(std::format("{:.2f}", genImag));
+    QString expTextReal =
+        QString::fromStdString(std::format("{:.2f}", expReal));
+    QString expTextImag =
+        QString::fromStdString(std::format("{:.2f}", expImag));
+
+    parameterFields[genRealKey]->setText(genTextReal);
+    parameterFields[genImagKey]->setText(genTextImag);
+    parameterFields[expRealKey]->setText(expTextReal);
+    parameterFields[expImagKey]->setText(expTextImag);
+  }
 }
 
 void MainWindow::setupParametrFieldsNames() {
@@ -230,15 +316,17 @@ void MainWindow::setupParametrFieldsNames() {
   //                   ui->I3CurrentGenImag;
 }
 
-void MainWindow::on_ConfirmButton_clicked() // choose 1 form and convert to
-                                            // another automatically, display
-                                            // found info
-{
+void MainWindow::on_ConfirmButton_clicked() {
   currentParameters = getParametersFromUI();
 
-  // difference = findDifference(previousParameters, currentParameters);
-  // applyDifference(currentParameters);
+  QMap<std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>,
+       ComplexNumberAdapter>
+      difference = determineChangedFields();
 
+  // choose 1 form and convert to
+  // another automatically, display
+  // found info
+  calculateOtherFormFieldBasedOnChangedInput(difference);
   previousParameters = currentParameters;
 
   QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector> phaseVectors =
