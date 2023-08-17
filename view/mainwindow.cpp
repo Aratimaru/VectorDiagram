@@ -46,8 +46,10 @@ ComplexNumberAdapter MainWindow::constructPoint(
   std::tuple imagPart =
       std::make_tuple(std::get<0>(key), std::get<1>(key), std::get<2>(key),
                       ComplexNumberPart::Im);
-  return ComplexNumberAdapter{parameterFields[realPart]->text().toFloat(),
+  ComplexNumberAdapter result{parameterFields[realPart]->text().toFloat(),
                               parameterFields[imagPart]->text().toFloat()};
+  result.setForm(std::get<2>(key));
+  return result;
 }
 
 QMap<std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>,
@@ -161,11 +163,13 @@ MainWindow::determineChangedFields() {
 
   for (const auto &e : currentParameters.keys()) {
     if (currentParameters[e] != previousParameters[e]) {
-      changedFields.insert(e, currentParameters[e]);
+      changedFields[e] = currentParameters[e];
 
       // debug
-      qDebug() << "changedFields" << changedFields[e].real()
-               << changedFields[e].imag() << '\n';
+      qDebug() << "changedFields: \ncurrent" << changedFields[e].real()
+               << changedFields[e].imag()
+               << "\nprevious:" << previousParameters[e].real()
+               << previousParameters[e].imag() << '\n';
       qDebug() << "PhaseVectorPhase " << (int)std::get<0>(e)
                << "PhaseVectorType " << (int)std::get<1>(e)
                << "ComplexNumberForm " << (int)std::get<2>(e) << '\n';
@@ -209,6 +213,11 @@ void MainWindow::calculateOtherFormFieldBasedOnChangedInput(
     float expReal = currentParameters[e].toExponentialForm().real();
     float expImag = currentParameters[e].toExponentialForm().imag();
 
+    genReal = std::round(std::round(genReal * 1000.f) / 10.f) / 100.f;
+    genImag = std::round(std::round(genImag * 1000.f) / 10.f) / 100.f;
+    expReal = std::round(std::round(expReal * 1000.f) / 10.f) / 100.f;
+    expImag = std::round(std::round(expImag * 1000.f) / 10.f) / 100.f;
+
     std::tuple<PhaseVectorPhase, PhaseVectorType, ComplexNumberForm>
         genParamKey =
             std::make_tuple(get<0>(e), get<1>(e), ComplexNumberForm::GENERAL);
@@ -217,8 +226,23 @@ void MainWindow::calculateOtherFormFieldBasedOnChangedInput(
                                       ComplexNumberForm::EXPONENTIAL);
 
     // need to update current info
+    qDebug() << "currentParameters[genParamKey]"
+             << currentParameters[genParamKey].real()
+             << currentParameters[genParamKey].imag() << '\n';
+    qDebug() << "currentParameters[expParamKey]"
+             << currentParameters[expParamKey].real()
+             << currentParameters[expParamKey].imag() << '\n';
+
     currentParameters[genParamKey] = ComplexNumberAdapter{genReal, genImag};
     currentParameters[expParamKey] = ComplexNumberAdapter{expReal, expImag};
+
+    qDebug() << "After update" << '\n';
+    qDebug() << "currentParameters[genParamKey]"
+             << currentParameters[genParamKey].real()
+             << currentParameters[genParamKey].imag() << '\n';
+    qDebug() << "currentParameters[expParamKey]"
+             << currentParameters[expParamKey].real()
+             << currentParameters[expParamKey].imag() << '\n';
 
     // update QLineEdit
     QString genTextReal =
