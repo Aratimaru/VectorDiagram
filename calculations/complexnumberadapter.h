@@ -18,6 +18,7 @@ public:
   ComplexNumberAdapter();
   ComplexNumberAdapter(std::complex<float>);
   ComplexNumberAdapter(float r, float i);
+  ComplexNumberAdapter(float r, float i, ComplexNumberForm f);
   ComplexNumberAdapter
   toGeneralForm(); // returns pair of real and imaginary values
   ComplexNumberAdapter

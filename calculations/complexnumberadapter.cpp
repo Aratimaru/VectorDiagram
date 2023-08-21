@@ -12,7 +12,13 @@ ComplexNumberAdapter::ComplexNumberAdapter(std::complex<float> a)
 
 ComplexNumberAdapter::ComplexNumberAdapter(float r, float i)
     : std::complex<float>(r, i) {
-  setForm(true);
+  setForm(false);
+}
+
+ComplexNumberAdapter::ComplexNumberAdapter(float r, float i,
+                                           ComplexNumberForm f)
+    : std::complex<float>(r, i) {
+  setForm(f);
 }
 
 ComplexNumberAdapter ComplexNumberAdapter::toGeneralForm() {

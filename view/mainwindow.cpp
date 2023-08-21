@@ -233,8 +233,18 @@ void MainWindow::calculateOtherFormFieldBasedOnChangedInput(
              << currentParameters[expParamKey].real()
              << currentParameters[expParamKey].imag() << '\n';
 
-    currentParameters[genParamKey] = ComplexNumberAdapter{genReal, genImag};
-    currentParameters[expParamKey] = ComplexNumberAdapter{expReal, expImag};
+    // for debugging
+    //     ComplexNumberAdapter testGen =
+    //         ComplexNumberAdapter{genReal, genImag,
+    //         ComplexNumberForm::GENERAL};
+    //     ComplexNumberAdapter testExp =
+    //         ComplexNumberAdapter{expReal, expImag,
+    //         ComplexNumberForm::EXPONENTIAL};
+
+    currentParameters[genParamKey] =
+        ComplexNumberAdapter{genReal, genImag, ComplexNumberForm::GENERAL};
+    currentParameters[expParamKey] =
+        ComplexNumberAdapter{expReal, expImag, ComplexNumberForm::EXPONENTIAL};
 
     qDebug() << "After update" << '\n';
     qDebug() << "currentParameters[genParamKey]"
@@ -357,7 +367,19 @@ void MainWindow::on_ConfirmButton_clicked() {
       constructVectorsFromParameters(currentParameters);
 
   _model->fillModel(phaseVectors);
+  ui->PlotDiagram->clear();
   ui->PlotDiagram->drawDataFromModel(_model.get());
 }
 
 void MainWindow::on_ClearButton_clicked() { ui->PlotDiagram->clear(); }
+
+// void MainWindow::on_V1VoltageGenReal_textChanged(const QString &arg1) {
+//   ComplexNumberAdapter genForm{ui->V1VoltageGenReal->text().toFloat(),
+//                                ui->V1VoltageGenImag->text().toFloat(),
+//                                ComplexNumberForm::GENERAL};
+//   ComplexNumberAdapter expForm{genForm.toExponentialForm().real(),
+//                                genForm.toExponentialForm().imag(),
+//                                ComplexNumberForm::EXPONENTIAL};
+//   ui->V1VoltageExpReal->setText(
+//       QString::fromStdString(std::format("{:.2f}", expForm.real())));
+// }

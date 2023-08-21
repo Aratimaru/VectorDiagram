@@ -55,6 +55,8 @@ private slots:
 
   void on_ClearButton_clicked();
 
+  //  void on_V1VoltageGenReal_textChanged(const QString &arg1);
+
 private:
   Ui::MainWindow *ui;
   std::shared_ptr<VectorDiagramModel> _model;
