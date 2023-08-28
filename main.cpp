@@ -1,3 +1,4 @@
+#include "qprocess.h"
 #include "view/mainwindow.h"
 #include <QApplication>
 #include <iostream>
@@ -10,6 +11,28 @@ using namespace std::complex_literals;
 
 int main(int argc, char *argv[]) // TODO: add units MV, MA, kA, kV...
 {
+  QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+  QString program = "python.exe";
+
+  QStringList arguments;
+  arguments << "main.py"
+            << "Test_set\\19.PNG";
+
+  QProcess *imageRecognizerProcess = new QProcess();
+  imageRecognizerProcess->setProcessEnvironment(env);
+  imageRecognizerProcess->setWorkingDirectory(
+      "D:\\Studing\\Diploma\\Hand-Drawn-Electrical-Circuit-"
+      "Recognition-using-YOLOv5");
+  imageRecognizerProcess->start(program, arguments);
+  if (!imageRecognizerProcess->waitForStarted(100))
+    qDebug() << " Unable to startn process ::"
+             << imageRecognizerProcess->error() << " Error msg"
+             << imageRecognizerProcess->errorString();
+
+  imageRecognizerProcess->waitForFinished();
+  QString output(imageRecognizerProcess->readAllStandardOutput());
+  qDebug() << "output: " << output << '\n';
+
   QApplication a(argc, argv);
   MainWindow w;
   w.show();

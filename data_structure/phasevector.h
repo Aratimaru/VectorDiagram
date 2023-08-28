@@ -10,9 +10,19 @@
 
 enum class PhaseVectorType { CURRENT = 0, VOLTAGE, RESISTENCE, NOT_DEFINED };
 enum class PhaseVectorPhase { PHASE_A = 0, PHASE_B, PHASE_C, NOT_DEFINED };
+enum class PhaseVectorMetricPrefics {
+  NANO = -9,
+  MICRO = -6,
+  MILLI = -3,
+  STANDARD = 1,
+  KILO = 3,
+  MEGA = 6,
+  GIGA = 9
+};
 struct VectorLabel {
   PhaseVectorType type{PhaseVectorType::NOT_DEFINED};
   PhaseVectorPhase phase{PhaseVectorPhase::NOT_DEFINED};
+  PhaseVectorMetricPrefics metricPrefics{PhaseVectorMetricPrefics::STANDARD};
   std::string customName{};
 };
 

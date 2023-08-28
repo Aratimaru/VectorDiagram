@@ -31,6 +31,7 @@ void DiagramPlot::drawDataFromModel(const VectorDiagramModel *model) {
       label->setPositionAlignment(Qt::AlignLeft | Qt::AlignVCenter);
       label->position->setParentAnchor(arrow->end);
 
+      // find diagram size to show all arrows
       findBoundingRect(arrow->boundingRect(), newBoundingRect);
     }
   }
