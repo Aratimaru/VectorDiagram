@@ -1,5 +1,6 @@
 QT       += core gui
 QT          += core
+QT += widgets
 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
@@ -16,6 +17,7 @@ SOURCES += \
     view/cparrow.cpp \
     view/diagramplot.cpp \
     view/diagramview.cpp \
+    view/diagramwindow.cpp \
     view/mainwindow.cpp \
     data_structure/phasevector.cpp \
     calculations/phasevectorcalculator.cpp \
@@ -29,6 +31,7 @@ HEADERS += \
     view/cparrow.h \
     view/diagramplot.h \
     view/diagramview.h \
+    view/diagramwindow.h \
     view/mainwindow.h \
     data_structure/phasevector.h \
     calculations/phasevectorcalculator.h \
@@ -36,6 +39,7 @@ HEADERS += \
     view/qcustomplot.h
 
 FORMS += \
+    view/diagramwindow.ui \
     view/mainwindow.ui
 
 # Default rules for deployment.
