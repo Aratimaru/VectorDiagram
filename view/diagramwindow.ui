@@ -23,13 +23,13 @@
       <height>911</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_40" stretch="2,5">
+    <layout class="QHBoxLayout" name="CentralLayout" stretch="2,5">
      <item>
-      <layout class="QVBoxLayout" name="mainhorizontalLayout" stretch="1,4,0,4,0">
+      <layout class="QVBoxLayout" name="DataLayout" stretch="1,4,0,4,0,1">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <layout class="QHBoxLayout" name="EnterDataLayout">
          <item>
-          <widget class="QLabel" name="EnterInputDataLabel_2">
+          <widget class="QLabel" name="EnterInputDataLabel">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -58,9 +58,9 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_16" stretch="1,0,5,0,5,0">
+        <layout class="QHBoxLayout" name="V1Layout" stretch="1,0,5,0,5,0">
          <item>
-          <widget class="QLabel" name="VoltageLabel_3">
+          <widget class="QLabel" name="V1Label">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
              <horstretch>0</horstretch>
@@ -84,7 +84,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QFrame" name="frame_11">
+          <widget class="QFrame" name="LeftV1Line">
            <property name="frameShape">
             <enum>QFrame::VLine</enum>
            </property>
@@ -94,45 +94,38 @@
           </widget>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,1,2">
+          <layout class="QVBoxLayout" name="V1StartLayout" stretch="1,1,2">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_17">
-             <property name="sizeConstraint">
-              <enum>QLayout::SetDefaultConstraint</enum>
+            <widget class="QLabel" name="V1StartLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <item>
-              <widget class="QLabel" name="startVL_3">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>11</pointsize>
-                </font>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Plain</enum>
-               </property>
-               <property name="text">
-                <string>Start coordinates</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-            </layout>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="text">
+              <string>Start coordinates</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_18">
+            <layout class="QHBoxLayout" name="V1GenStartLayout" stretch="0,0,0,0">
              <item>
-              <widget class="QLabel" name="V1Xstart_3">
+              <widget class="QLabel" name="V1StartGenXLabel">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -162,7 +155,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="V1VoltageGenReal_4">
+              <widget class="QLineEdit" name="V1StartGenXEdit">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -178,7 +171,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="V1Ystart_3">
+              <widget class="QLabel" name="V1StartGenYLabel">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -208,7 +201,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="V1VoltageGenImag_4">
+              <widget class="QLineEdit" name="V1StartGenYEdit">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -226,12 +219,12 @@
             </layout>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_10">
+            <layout class="QVBoxLayout" name="V1ImagStartLayout">
              <property name="spacing">
               <number>0</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_19" stretch="8,3">
+              <layout class="QHBoxLayout" name="V1ImagStartALayout" stretch="8,3">
                <property name="sizeConstraint">
                 <enum>QLayout::SetFixedSize</enum>
                </property>
@@ -239,7 +232,7 @@
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="V1EIStart_3">
+                <widget class="QLabel" name="V1ImagStartALabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -272,7 +265,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="V1VoltageExpImag_4">
+                <widget class="QLineEdit" name="V1ImagStartAEdit">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -290,9 +283,9 @@
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="1,5,7">
+              <layout class="QHBoxLayout" name="V1ImagStartULayout" stretch="1,5,7">
                <item>
-                <widget class="QLabel" name="V1Ustart_3">
+                <widget class="QLabel" name="V1ImagStartULabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
                    <horstretch>0</horstretch>
@@ -322,7 +315,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="V1VoltageExpReal_5">
+                <widget class="QLineEdit" name="V1ImagStartUEdit">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -338,7 +331,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="V1EStart_3">
+                <widget class="QLabel" name="V1ImagStartELabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -374,7 +367,7 @@
           </layout>
          </item>
          <item>
-          <widget class="QFrame" name="frame">
+          <widget class="QFrame" name="CentralV1Line">
            <property name="frameShape">
             <enum>QFrame::VLine</enum>
            </property>
@@ -384,45 +377,38 @@
           </widget>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_4" stretch="1,1,2">
+          <layout class="QVBoxLayout" name="V1EndLayout" stretch="1,1,2">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_21">
-             <property name="sizeConstraint">
-              <enum>QLayout::SetFixedSize</enum>
+            <widget class="QLabel" name="V1EndLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <item>
-              <widget class="QLabel" name="endVL_4">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>11</pointsize>
-                </font>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Plain</enum>
-               </property>
-               <property name="text">
-                <string>End coordinates</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-            </layout>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="text">
+              <string>End coordinates</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_22">
+            <layout class="QHBoxLayout" name="V1GenEndLayout">
              <item>
-              <widget class="QLabel" name="V1Xend_3">
+              <widget class="QLabel" name="V1EndGenXLabel">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -452,7 +438,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="V1VoltageGenReal_7">
+              <widget class="QLineEdit" name="V1EndGenXEdit">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -468,7 +454,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="V1Yend_4">
+              <widget class="QLabel" name="V1EndGenYLabel">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -498,7 +484,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="V1VoltageGenImag_7">
+              <widget class="QLineEdit" name="V1EndGenYEdit">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -516,12 +502,12 @@
             </layout>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_9">
+            <layout class="QVBoxLayout" name="V1ImagEndLayout">
              <property name="spacing">
               <number>0</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_23" stretch="8,3">
+              <layout class="QHBoxLayout" name="V1ImagEndALayout" stretch="8,3">
                <property name="sizeConstraint">
                 <enum>QLayout::SetFixedSize</enum>
                </property>
@@ -529,7 +515,7 @@
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="V1IEnd_4">
+                <widget class="QLabel" name="V1ImagEndALabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -562,7 +548,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="V1VoltageExpImag_10">
+                <widget class="QLineEdit" name="V1ImagEndAEdit">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -580,9 +566,9 @@
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_24" stretch="1,5,7">
+              <layout class="QHBoxLayout" name="V1ImagEndULayout" stretch="1,5,7">
                <item>
-                <widget class="QLabel" name="V1Uend_4">
+                <widget class="QLabel" name="V1ImagEndULabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -612,7 +598,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="V1VoltageExpReal_8">
+                <widget class="QLineEdit" name="V1ImagEndUEdit">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -628,7 +614,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="V1EEnd_4">
+                <widget class="QLabel" name="V1ImagEndELabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -664,7 +650,7 @@
           </layout>
          </item>
          <item>
-          <widget class="QFrame" name="frame_8">
+          <widget class="QFrame" name="RightV1Line">
            <property name="frameShape">
             <enum>QFrame::VLine</enum>
            </property>
@@ -676,7 +662,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QFrame" name="frame_3">
+        <widget class="QFrame" name="CentralLine">
          <property name="frameShape">
           <enum>QFrame::HLine</enum>
          </property>
@@ -686,9 +672,9 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,0,5,0,5,0">
+        <layout class="QHBoxLayout" name="I1Layout" stretch="1,0,5,0,5,0">
          <item>
-          <widget class="QLabel" name="I1Label_3">
+          <widget class="QLabel" name="I1Label">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
              <horstretch>0</horstretch>
@@ -718,7 +704,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QFrame" name="frame_10">
+          <widget class="QFrame" name="LeftI1Line">
            <property name="frameShape">
             <enum>QFrame::VLine</enum>
            </property>
@@ -728,42 +714,38 @@
           </widget>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,2">
+          <layout class="QVBoxLayout" name="I1StartLayout" stretch="1,1,2">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_8">
-             <item>
-              <widget class="QLabel" name="startVL_4">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>11</pointsize>
-                </font>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Plain</enum>
-               </property>
-               <property name="text">
-                <string>Start coordinates</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            <widget class="QLabel" name="I1StartLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="text">
+              <string>Start coordinates</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <layout class="QHBoxLayout" name="I1GenStartLayout">
              <item>
-              <widget class="QLabel" name="V1Xstart_5">
+              <widget class="QLabel" name="I1StartGenXLabel">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -793,7 +775,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="I1CurrentGenReal_4">
+              <widget class="QLineEdit" name="I1StartGenXEdit">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -809,7 +791,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="V1Ystart_4">
+              <widget class="QLabel" name="I1StartGenYLabel">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -839,7 +821,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="I1CurrentGenImag_4">
+              <widget class="QLineEdit" name="I1StartGenYEdit">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -857,14 +839,14 @@
             </layout>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_12">
+            <layout class="QVBoxLayout" name="I1ImagStartLayout">
              <property name="spacing">
               <number>0</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="8,3">
+              <layout class="QHBoxLayout" name="I1ImagStartALayout" stretch="8,3">
                <item>
-                <widget class="QLabel" name="V1IEnd_3">
+                <widget class="QLabel" name="I1ImagStartALabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -897,7 +879,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="V1VoltageExpImag_11">
+                <widget class="QLineEdit" name="I1ImagStartAEditl">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -915,9 +897,9 @@
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="1,5,7">
+              <layout class="QHBoxLayout" name="I1ImagStartULayout" stretch="1,5,7">
                <item>
-                <widget class="QLabel" name="V1Ustart_4">
+                <widget class="QLabel" name="I1ImagStartULabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -947,7 +929,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="V1VoltageExpImag_6">
+                <widget class="QLineEdit" name="I1ImagStartUEdit">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -963,7 +945,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="V1EEnd_3">
+                <widget class="QLabel" name="I1ImagStartELabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -999,7 +981,7 @@
           </layout>
          </item>
          <item>
-          <widget class="QFrame" name="frame_2">
+          <widget class="QFrame" name="Central1Line">
            <property name="frameShape">
             <enum>QFrame::VLine</enum>
            </property>
@@ -1009,42 +991,38 @@
           </widget>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout" stretch="1,1,2">
+          <layout class="QVBoxLayout" name="I1EndLayout" stretch="1,1,2">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <item>
-              <widget class="QLabel" name="endVL_2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>11</pointsize>
-                </font>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Plain</enum>
-               </property>
-               <property name="text">
-                <string>End coordinates</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            <widget class="QLabel" name="I1EndLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="text">
+              <string>End coordinates</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <layout class="QHBoxLayout" name="I1GenEndLayout">
              <item>
-              <widget class="QLabel" name="V1Xstart_4">
+              <widget class="QLabel" name="I1EndGenXLabel">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -1074,7 +1052,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="I1CurrentExpReal_3">
+              <widget class="QLineEdit" name="I1EndGenXEdit">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -1090,7 +1068,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="V1Yend_2">
+              <widget class="QLabel" name="I1EndGenYLabel">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -1120,7 +1098,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="I1CurrentExpImag_3">
+              <widget class="QLineEdit" name="I1EndGenYEdit">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -1138,14 +1116,14 @@
             </layout>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_11">
+            <layout class="QVBoxLayout" name="I1ImagEndLayout">
              <property name="spacing">
               <number>0</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="8,3">
+              <layout class="QHBoxLayout" name="I1ImagEndALayout" stretch="8,3">
                <item>
-                <widget class="QLabel" name="V1EIStart_2">
+                <widget class="QLabel" name="I1ImagEndALabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1178,7 +1156,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="V1VoltageExpImag_9">
+                <widget class="QLineEdit" name="I1ImagEndAEdit">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1196,9 +1174,9 @@
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,5,7">
+              <layout class="QHBoxLayout" name="I1ImagEndULayout" stretch="1,5,7">
                <item>
-                <widget class="QLabel" name="V1Uend_2">
+                <widget class="QLabel" name="I1ImagEndULabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1228,7 +1206,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="V1VoltageExpReal_4">
+                <widget class="QLineEdit" name="I1ImagEndUEdit">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1244,7 +1222,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="V1EStart_2">
+                <widget class="QLabel" name="I1ImagEndELabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1280,7 +1258,7 @@
           </layout>
          </item>
          <item>
-          <widget class="QFrame" name="frame_9">
+          <widget class="QFrame" name="RightI1Line">
            <property name="frameShape">
             <enum>QFrame::VLine</enum>
            </property>
@@ -1292,7 +1270,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QFrame" name="frame_7">
+        <widget class="QFrame" name="Bottomline">
          <property name="frameShape">
           <enum>QFrame::HLine</enum>
          </property>
@@ -1300,6 +1278,46 @@
           <enum>QFrame::Raised</enum>
          </property>
         </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="ButtonLayout" stretch="3,3">
+         <item>
+          <widget class="QPushButton" name="ClearBtn">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>20</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Clear</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="DrawBtn">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>20</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Draw</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </item>
