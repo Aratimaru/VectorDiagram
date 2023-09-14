@@ -22,6 +22,21 @@ PhaseVector::PhaseVector(const ComplexNumberAdapter &begin,
   _end = _end.toGeneralForm();
 }
 
+PhaseVector::PhaseVector(const ComplexNumberAdapter &begin,
+                         const ComplexNumberAdapter &end,
+                         const PhaseVectorType type,
+                         const PhaseVectorPhase phase,
+                         const std::string customName) {
+  _begin = begin;
+  _end = end;
+  setLabelType(type);
+  setLabelPhase(phase);
+  setLabelName(customName);
+
+  _begin = _begin.toGeneralForm();
+  _end = _end.toGeneralForm();
+}
+
 PhaseVector::PhaseVector(const ComplexNumberAdapter &end,
                          const PhaseVectorType type,
                          const PhaseVectorPhase phase,
