@@ -1,10 +1,10 @@
 #include "phasevector.h"
 
 PhaseVector::PhaseVector() {
-  _begin.imag(FLT_MAX);
-  _begin.real(FLT_MAX);
-  _end.imag(FLT_MAX);
-  _end.real(FLT_MAX);
+  _begin.imag(0);
+  _begin.real(0);
+  _end.imag(0);
+  _end.real(0);
   setLabelType(PhaseVectorType::NOT_DEFINED);
   setLabelPhase(PhaseVectorPhase::NOT_DEFINED);
 

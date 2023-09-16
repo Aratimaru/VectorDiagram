@@ -87,22 +87,39 @@ void DiagramWindow::setupWindow(QMainWindow *DiagramWindow) {
           &DiagramWindow::handleClearBtnClicked);
   connect(ui->DrawBtn, &QPushButton::clicked, this,
           &DiagramWindow::handleDrawBtnClicked);
-  connect(ui->V1StartGenXEdit, &QLineEdit::textChanged, this,
-          &DiagramWindow::handleV1StartGenXEditTextChanged);
-  connect(ui->V1StartGenYEdit, &QLineEdit::textChanged, this,
-          &DiagramWindow::handleV1StartGenYEditTextChanged);
-  connect(ui->V1EndGenXEdit, &QLineEdit::textChanged, this,
-          &DiagramWindow::handleV1EndGenXEditTextChanged);
-  connect(ui->V1EndGenYEdit, &QLineEdit::textChanged, this,
-          &DiagramWindow::handleV1EndGenYEditTextChanged);
-  connect(ui->V1ImagStartAEdit, &QLineEdit::textChanged, this,
-          &DiagramWindow::handleV1ImagStartAEditTextChanged);
-  connect(ui->V1ImagEndAEdit, &QLineEdit::textChanged, this,
-          &DiagramWindow::handleV1ImagEndAEditTextChanged);
-  connect(ui->V1ImagStartUEdit, &QLineEdit::textChanged, this,
-          &DiagramWindow::handleV1ImagStartUEditTextChanged);
-  connect(ui->V1ImagEndUEdit, &QLineEdit::textChanged, this,
-          &DiagramWindow::handleV1ImagEndUEditTextChanged);
+  connect(ui->V1StartGenXEdit, &QLineEdit::textEdited, this,
+          &DiagramWindow::handleV1StartGenTextEdited);
+  connect(ui->V1StartGenYEdit, &QLineEdit::textEdited, this,
+          &DiagramWindow::handleV1StartGenTextEdited);
+  connect(ui->V1EndGenXEdit, &QLineEdit::textEdited, this,
+          &DiagramWindow::handleV1EndGenTextEdited);
+  connect(ui->V1EndGenYEdit, &QLineEdit::textEdited, this,
+          &DiagramWindow::handleV1EndGenTextEdited);
+  connect(ui->V1StartExpAEdit, &QLineEdit::textEdited, this,
+          &DiagramWindow::handleV1StartExpTextEdited);
+  connect(ui->V1EndExpAEdit, &QLineEdit::textEdited, this,
+          &DiagramWindow::handleV1EndExpTextEdited);
+  connect(ui->V1StartExpUEdit, &QLineEdit::textEdited, this,
+          &DiagramWindow::handleV1StartExpTextEdited);
+  connect(ui->V1EndExpUEdit, &QLineEdit::textEdited, this,
+          &DiagramWindow::handleV1EndExpTextEdited);
+
+  connect(ui->I1StartGenXEdit, &QLineEdit::textEdited, this,
+          &DiagramWindow::handleI1StartGenTextEdited);
+  connect(ui->I1StartGenYEdit, &QLineEdit::textEdited, this,
+          &DiagramWindow::handleI1StartGenTextEdited);
+  connect(ui->I1EndGenXEdit, &QLineEdit::textEdited, this,
+          &DiagramWindow::handleI1EndGenTextEdited);
+  connect(ui->I1EndGenYEdit, &QLineEdit::textEdited, this,
+          &DiagramWindow::handleI1EndGenTextEdited);
+  connect(ui->I1StartExpAEdit, &QLineEdit::textEdited, this,
+          &DiagramWindow::handleI1StartExpTextEdited);
+  connect(ui->I1EndExpAEdit, &QLineEdit::textEdited, this,
+          &DiagramWindow::handleI1EndExpTextEdited);
+  connect(ui->I1StartExpUEdit, &QLineEdit::textEdited, this,
+          &DiagramWindow::handleI1StartExpTextEdited);
+  connect(ui->I1EndExpUEdit, &QLineEdit::textEdited, this,
+          &DiagramWindow::handleI1EndExpTextEdited);
 }
 
 void DiagramWindow::handleClearBtnClicked() { ui->PlotDiagram->clear(); }
@@ -119,21 +136,109 @@ void DiagramWindow::handleDrawBtnClicked() {
   ui->PlotDiagram->drawDataFromModel(_model.get());
 }
 
-void DiagramWindow::handleV1StartGenXEditTextChanged(const QString &arg1) {}
+void DiagramWindow::handleV1StartGenTextEdited(const QString &arg1) {
+  ComplexNumberAdapter genForm{ui->V1StartGenXEdit->text().toFloat(),
+                               ui->V1StartGenYEdit->text().toFloat(),
+                               ComplexNumberForm::GENERAL};
+  ComplexNumberAdapter expForm{genForm.toExponentialForm().real(),
+                               genForm.toExponentialForm().imag(),
+                               ComplexNumberForm::EXPONENTIAL};
+  ui->V1StartExpUEdit->setText(
+      QString::fromStdString(std::format("{:.2f}", expForm.real())));
+  ui->V1StartExpAEdit->setText(
+      QString::fromStdString(std::format("{:.2f}", expForm.imag())));
+}
 
-void DiagramWindow::handleV1StartGenYEditTextChanged(const QString &arg1) {}
+void DiagramWindow::handleV1EndGenTextEdited(const QString &arg1) {
+  ComplexNumberAdapter genForm{ui->V1EndGenXEdit->text().toFloat(),
+                               ui->V1EndGenYEdit->text().toFloat(),
+                               ComplexNumberForm::GENERAL};
+  ComplexNumberAdapter expForm{genForm.toExponentialForm().real(),
+                               genForm.toExponentialForm().imag(),
+                               ComplexNumberForm::EXPONENTIAL};
+  ui->V1EndExpUEdit->setText(
+      QString::fromStdString(std::format("{:.2f}", expForm.real())));
+  ui->V1EndExpAEdit->setText(
+      QString::fromStdString(std::format("{:.2f}", expForm.imag())));
+}
 
-void DiagramWindow::handleV1EndGenXEditTextChanged(const QString &arg1) {}
+void DiagramWindow::handleV1StartExpTextEdited(const QString &arg1) {
+  ComplexNumberAdapter expForm{ui->V1StartExpUEdit->text().toFloat(),
+                               ui->V1StartExpAEdit->text().toFloat(),
+                               ComplexNumberForm::EXPONENTIAL};
+  ComplexNumberAdapter genForm{expForm.toGeneralForm().real(),
+                               expForm.toGeneralForm().imag(),
+                               ComplexNumberForm::GENERAL};
+  ui->V1StartGenXEdit->setText(
+      QString::fromStdString(std::format("{:.2f}", genForm.real())));
+  ui->V1StartGenYEdit->setText(
+      QString::fromStdString(std::format("{:.2f}", genForm.imag())));
+}
 
-void DiagramWindow::handleV1EndGenYEditTextChanged(const QString &arg1) {}
+void DiagramWindow::handleV1EndExpTextEdited(const QString &arg1) {
+  ComplexNumberAdapter expForm{ui->V1EndExpUEdit->text().toFloat(),
+                               ui->V1EndExpAEdit->text().toFloat(),
+                               ComplexNumberForm::EXPONENTIAL};
+  ComplexNumberAdapter genForm{expForm.toGeneralForm().real(),
+                               expForm.toGeneralForm().imag(),
+                               ComplexNumberForm::EXPONENTIAL};
+  ui->V1EndGenXEdit->setText(
+      QString::fromStdString(std::format("{:.2f}", genForm.real())));
+  ui->V1EndGenYEdit->setText(
+      QString::fromStdString(std::format("{:.2f}", genForm.imag())));
+}
 
-void DiagramWindow::handleV1ImagStartAEditTextChanged(const QString &arg1) {}
+void DiagramWindow::handleI1StartGenTextEdited(const QString &arg1) {
+  ComplexNumberAdapter genForm{ui->I1StartGenXEdit->text().toFloat(),
+                               ui->I1StartGenYEdit->text().toFloat(),
+                               ComplexNumberForm::GENERAL};
+  ComplexNumberAdapter expForm{genForm.toExponentialForm().real(),
+                               genForm.toExponentialForm().imag(),
+                               ComplexNumberForm::EXPONENTIAL};
+  ui->I1StartExpUEdit->setText(
+      QString::fromStdString(std::format("{:.2f}", expForm.real())));
+  ui->I1StartExpAEdit->setText(
+      QString::fromStdString(std::format("{:.2f}", expForm.imag())));
+}
 
-void DiagramWindow::handleV1ImagEndAEditTextChanged(const QString &arg1) {}
+void DiagramWindow::handleI1EndGenTextEdited(const QString &arg1) {
+  ComplexNumberAdapter genForm{ui->I1EndGenXEdit->text().toFloat(),
+                               ui->I1EndGenYEdit->text().toFloat(),
+                               ComplexNumberForm::GENERAL};
+  ComplexNumberAdapter expForm{genForm.toExponentialForm().real(),
+                               genForm.toExponentialForm().imag(),
+                               ComplexNumberForm::EXPONENTIAL};
+  ui->I1EndExpUEdit->setText(
+      QString::fromStdString(std::format("{:.2f}", expForm.real())));
+  ui->I1EndExpAEdit->setText(
+      QString::fromStdString(std::format("{:.2f}", expForm.imag())));
+}
 
-void DiagramWindow::handleV1ImagStartUEditTextChanged(const QString &arg1) {}
+void DiagramWindow::handleI1StartExpTextEdited(const QString &arg1) {
+  ComplexNumberAdapter expForm{ui->I1StartExpUEdit->text().toFloat(),
+                               ui->I1StartExpAEdit->text().toFloat(),
+                               ComplexNumberForm::EXPONENTIAL};
+  ComplexNumberAdapter genForm{expForm.toGeneralForm().real(),
+                               expForm.toGeneralForm().imag(),
+                               ComplexNumberForm::GENERAL};
+  ui->I1StartGenXEdit->setText(
+      QString::fromStdString(std::format("{:.2f}", genForm.real())));
+  ui->I1StartGenYEdit->setText(
+      QString::fromStdString(std::format("{:.2f}", genForm.imag())));
+}
 
-void DiagramWindow::handleV1ImagEndUEditTextChanged(const QString &arg1) {}
+void DiagramWindow::handleI1EndExpTextEdited(const QString &arg1) {
+  ComplexNumberAdapter expForm{ui->I1EndExpUEdit->text().toFloat(),
+                               ui->I1EndExpAEdit->text().toFloat(),
+                               ComplexNumberForm::EXPONENTIAL};
+  ComplexNumberAdapter genForm{expForm.toGeneralForm().real(),
+                               expForm.toGeneralForm().imag(),
+                               ComplexNumberForm::EXPONENTIAL};
+  ui->I1EndGenXEdit->setText(
+      QString::fromStdString(std::format("{:.2f}", genForm.real())));
+  ui->I1EndGenYEdit->setText(
+      QString::fromStdString(std::format("{:.2f}", genForm.imag())));
+}
 
 bool DiagramWindow::validateInputParameters() {
   auto isNumber = [](const QString &s) {

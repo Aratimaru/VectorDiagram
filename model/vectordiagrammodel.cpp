@@ -122,6 +122,7 @@ void VectorDiagramModel::fillModel(
 
   this->reserve(size);
 
+  //!\todo
   for (const auto &vec : phaseVectors) {
     if (vec.getCoordinates().length() != 0) {
 

@@ -1,3 +1,9 @@
+/*
+ * ******************
+ * NOT USED ANYMORE *
+ * ******************
+ */
+
 #include "mainwindow.h"
 
 #include "calculations/phasevectorcalculator.h"

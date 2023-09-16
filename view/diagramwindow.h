@@ -17,14 +17,15 @@ private slots:
   void handleClearBtnClicked();
   void handleDrawBtnClicked();
 
-  void handleV1StartGenXEditTextChanged(const QString &arg1);
-  void handleV1StartGenYEditTextChanged(const QString &arg1);
-  void handleV1EndGenXEditTextChanged(const QString &arg1);
-  void handleV1EndGenYEditTextChanged(const QString &arg1);
-  void handleV1ImagStartAEditTextChanged(const QString &arg1);
-  void handleV1ImagEndAEditTextChanged(const QString &arg1);
-  void handleV1ImagStartUEditTextChanged(const QString &arg1);
-  void handleV1ImagEndUEditTextChanged(const QString &arg1);
+  void handleV1StartGenTextEdited(const QString &arg1);
+  void handleV1EndGenTextEdited(const QString &arg1);
+  void handleV1StartExpTextEdited(const QString &arg1);
+  void handleV1EndExpTextEdited(const QString &arg1);
+
+  void handleI1StartGenTextEdited(const QString &arg1);
+  void handleI1EndGenTextEdited(const QString &arg1);
+  void handleI1StartExpTextEdited(const QString &arg1);
+  void handleI1EndExpTextEdited(const QString &arg1);
 
 private:
   bool validateInputParameters();

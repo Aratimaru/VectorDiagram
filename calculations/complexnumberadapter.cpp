@@ -33,8 +33,8 @@ ComplexNumberAdapter ComplexNumberAdapter::toGeneralForm() {
               (std::cos(this->imag() * (std::atan(1.0f) * 4 / 180.f))));
   result.imag(this->real() *
               (std::sin(this->imag() * (std::atan(1.0f) * 4 / 180.f))));
-  qDebug() << __FUNCTION__ << "Exponential: real " << this->real() << "/t imag "
-           << this->imag() << "General: real " << result.real() << "/t imag "
+  qDebug() << __FUNCTION__ << "Exponential: real " << this->real() << "\t imag "
+           << this->imag() << "General: real " << result.real() << "\t imag "
            << result.imag();
   return result;
 }
@@ -51,9 +51,9 @@ ComplexNumberAdapter ComplexNumberAdapter::toExponentialForm() {
   result.imag(std::atan(this->imag() / this->real()) * 180.f /
               (std::atan(1.0f) * 4.f)); // std::atan(1.0)*4 = PI
 
-  qDebug() << __FUNCTION__ << "General: real " << this->real() << "/t imag "
+  qDebug() << __FUNCTION__ << "General: real " << this->real() << "\t imag "
            << this->imag() << "Exponential: real " << result.real()
-           << "/t imag " << result.imag();
+           << "\t imag " << result.imag();
   return result;
 }
 

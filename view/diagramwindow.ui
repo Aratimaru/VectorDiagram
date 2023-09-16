@@ -258,12 +258,12 @@
             </layout>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="V1ImagStartLayout">
+            <layout class="QVBoxLayout" name="V1StartExpLayout">
              <property name="spacing">
               <number>0</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="V1ImagStartALayout" stretch="8,3">
+              <layout class="QHBoxLayout" name="V1StartExpALayout" stretch="8,3">
                <property name="sizeConstraint">
                 <enum>QLayout::SetFixedSize</enum>
                </property>
@@ -271,7 +271,7 @@
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="V1ImagStartALabel">
+                <widget class="QLabel" name="V1StartExpALabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -304,7 +304,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="V1ImagStartAEdit">
+                <widget class="QLineEdit" name="V1StartExpAEdit">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -322,9 +322,9 @@
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="V1ImagStartULayout" stretch="1,5,7">
+              <layout class="QHBoxLayout" name="V1StartExpULayout" stretch="1,5,7">
                <item>
-                <widget class="QLabel" name="V1ImagStartULabel">
+                <widget class="QLabel" name="V1StartExpULabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
                    <horstretch>0</horstretch>
@@ -354,7 +354,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="V1ImagStartUEdit">
+                <widget class="QLineEdit" name="V1StartExpUEdit">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -370,7 +370,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="V1ImagStartELabel">
+                <widget class="QLabel" name="V1StartExpELabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -541,12 +541,12 @@
             </layout>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="V1ImagEndLayout">
+            <layout class="QVBoxLayout" name="V1EndExpLayout">
              <property name="spacing">
               <number>0</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="V1ImagEndALayout" stretch="8,3">
+              <layout class="QHBoxLayout" name="V1EndExpALayout" stretch="8,3">
                <property name="sizeConstraint">
                 <enum>QLayout::SetFixedSize</enum>
                </property>
@@ -554,7 +554,7 @@
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="V1ImagEndALabel">
+                <widget class="QLabel" name="V1EndExpALabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -587,7 +587,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="V1ImagEndAEdit">
+                <widget class="QLineEdit" name="V1EndExpAEdit">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -605,9 +605,9 @@
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="V1ImagEndULayout" stretch="1,5,7">
+              <layout class="QHBoxLayout" name="V1EndExpULayout" stretch="1,5,7">
                <item>
-                <widget class="QLabel" name="V1ImagEndULabel">
+                <widget class="QLabel" name="V1EndExpULabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -637,7 +637,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="V1ImagEndUEdit">
+                <widget class="QLineEdit" name="V1EndExpUEdit">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -653,7 +653,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="V1ImagEndELabel">
+                <widget class="QLabel" name="V1EndExpELabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -878,14 +878,14 @@
             </layout>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="I1ImagStartLayout">
+            <layout class="QVBoxLayout" name="I1StartExpLayout">
              <property name="spacing">
               <number>0</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="I1ImagStartALayout" stretch="8,3">
+              <layout class="QHBoxLayout" name="I1StartExpALayout" stretch="8,3">
                <item>
-                <widget class="QLabel" name="I1ImagStartALabel">
+                <widget class="QLabel" name="I1StartExpALabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -918,7 +918,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="I1ImagStartAEditl">
+                <widget class="QLineEdit" name="I1StartExpAEdit">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -936,9 +936,9 @@
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="I1ImagStartULayout" stretch="1,5,7">
+              <layout class="QHBoxLayout" name="I1StartExpULayout" stretch="1,5,7">
                <item>
-                <widget class="QLabel" name="I1ImagStartULabel">
+                <widget class="QLabel" name="I1StartExpULabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -968,7 +968,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="I1ImagStartUEdit">
+                <widget class="QLineEdit" name="I1StartExpUEdit">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -984,7 +984,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="I1ImagStartELabel">
+                <widget class="QLabel" name="I1StartExpELabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1155,14 +1155,14 @@
             </layout>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="I1ImagEndLayout">
+            <layout class="QVBoxLayout" name="I1EndExpLayout">
              <property name="spacing">
               <number>0</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="I1ImagEndALayout" stretch="8,3">
+              <layout class="QHBoxLayout" name="I1EndExpALayout" stretch="8,3">
                <item>
-                <widget class="QLabel" name="I1ImagEndALabel">
+                <widget class="QLabel" name="I1EndExpALabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1195,7 +1195,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="I1ImagEndAEdit">
+                <widget class="QLineEdit" name="I1EndExpAEdit">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1213,9 +1213,9 @@
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="I1ImagEndULayout" stretch="1,5,7">
+              <layout class="QHBoxLayout" name="I1EndExpULayout" stretch="1,5,7">
                <item>
-                <widget class="QLabel" name="I1ImagEndULabel">
+                <widget class="QLabel" name="I1EndExpULabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1245,7 +1245,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="I1ImagEndUEdit">
+                <widget class="QLineEdit" name="I1EndExpUEdit">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1261,7 +1261,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="I1ImagEndELabel">
+                <widget class="QLabel" name="I1EndExpELabel">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
