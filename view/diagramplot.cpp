@@ -67,25 +67,25 @@ void DiagramPlot::wheelEvent(QWheelEvent *e) {
   }
 }
 
-QPair<QVector<double>, QVector<double>>
-DiagramPlot::turnArrowToVectorOfCoordinates(const Arrow *arrow) {
-  QVector<double> x;
-  QVector<double> y;
+// QPair<QVector<double>, QVector<double>>
+// DiagramPlot::turnArrowToVectorOfCoordinates(const Arrow *arrow) {
+//   QVector<double> x;
+//   QVector<double> y;
 
-  x.push_back(arrow->getP1().real());
-  x.push_back(arrow->getP2().real());
-  x.push_back(arrow->getLeftSideP2().x());
-  x.push_back(arrow->getP2().real());
-  x.push_back(arrow->getRightSideP2().x());
+//  x.push_back(arrow->getP1().real());
+//  x.push_back(arrow->getP2().real());
+//  x.push_back(arrow->getLeftSideP2().x());
+//  x.push_back(arrow->getP2().real());
+//  x.push_back(arrow->getRightSideP2().x());
 
-  y.push_back(arrow->getP1().imag());
-  y.push_back(arrow->getP2().imag());
-  y.push_back(arrow->getLeftSideP2().y());
-  y.push_back(arrow->getP2().imag());
-  y.push_back(arrow->getRightSideP2().y());
+//  y.push_back(arrow->getP1().imag());
+//  y.push_back(arrow->getP2().imag());
+//  y.push_back(arrow->getLeftSideP2().y());
+//  y.push_back(arrow->getP2().imag());
+//  y.push_back(arrow->getRightSideP2().y());
 
-  return {x, y};
-}
+//  return {x, y};
+//}
 
 void DiagramPlot::findBoundingRect(const QRectF &current,
                                    QRectF &newBoundingRect) {

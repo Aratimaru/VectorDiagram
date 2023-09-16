@@ -1,4 +1,5 @@
 #include "complexnumberadapter.h"
+#include "qdebug.h"
 #include <QLineF>
 
 ComplexNumberAdapter::ComplexNumberAdapter() : std::complex<float>() {
@@ -32,6 +33,9 @@ ComplexNumberAdapter ComplexNumberAdapter::toGeneralForm() {
               (std::cos(this->imag() * (std::atan(1.0f) * 4 / 180.f))));
   result.imag(this->real() *
               (std::sin(this->imag() * (std::atan(1.0f) * 4 / 180.f))));
+  qDebug() << __FUNCTION__ << "Exponential: real " << this->real() << "/t imag "
+           << this->imag() << "General: real " << result.real() << "/t imag "
+           << result.imag();
   return result;
 }
 
@@ -46,6 +50,10 @@ ComplexNumberAdapter ComplexNumberAdapter::toExponentialForm() {
   result.real(std::sqrt(std::pow(this->real(), 2) + std::pow(this->imag(), 2)));
   result.imag(std::atan(this->imag() / this->real()) * 180.f /
               (std::atan(1.0f) * 4.f)); // std::atan(1.0)*4 = PI
+
+  qDebug() << __FUNCTION__ << "General: real " << this->real() << "/t imag "
+           << this->imag() << "Exponential: real " << result.real()
+           << "/t imag " << result.imag();
   return result;
 }
 
@@ -54,10 +62,6 @@ ComplexNumberForm ComplexNumberAdapter::getForm() const { return _form; }
 void ComplexNumberAdapter::setForm(ComplexNumberForm f) { _form = f; }
 
 void ComplexNumberAdapter::setForm(bool f) { _form = ComplexNumberForm(f); }
-
-bool ComplexNumberAdapter::isDigit(const char &c) {
-  return ((c > 47 && c < 58) || c == '.' || c == '-');
-}
 
 bool ComplexNumberAdapter::isNull() const {
   return (this->real() == 0 && this->imag() == 0);

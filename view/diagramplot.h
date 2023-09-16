@@ -1,7 +1,6 @@
 #ifndef DIAGRAMPLOT_H
 #define DIAGRAMPLOT_H
 
-#include "view/arrow.h"
 #include <model/vectordiagrammodel.h>
 #include <view/qcustomplot.h>
 
@@ -15,9 +14,8 @@ public:
   void wheelEvent(QWheelEvent *e);
 
 private:
-  void setupView();
-  QPair<QVector<double>, QVector<double>>
-  turnArrowToVectorOfCoordinates(const Arrow *arrow);
+  //  QPair<QVector<double>, QVector<double>>
+  //  turnArrowToVectorOfCoordinates(const Arrow *arrow);
   void findBoundingRect(const QRectF &current, QRectF &newBoundingRect);
   void rescaleAxis(const QRectF &boundingRect);
 };

@@ -27,9 +27,11 @@ private slots:
   void handleV1ImagEndUEditTextChanged(const QString &arg1);
 
 private:
+  bool validateInputParameters();
   PhaseVectorPhase getCurrentPhase();
   QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector>
   getParametersFromUi();
+  void setupWindow(QMainWindow *DiagramWindow);
 
 public:
   explicit DiagramWindow(QWidget *parent = nullptr);

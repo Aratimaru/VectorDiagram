@@ -35,7 +35,6 @@ public:
   ComplexNumberForm getForm() const;
   void setForm(ComplexNumberForm f);
   void setForm(bool f);
-  static bool isDigit(const char &c);
   bool isNull() const;
 
   operator QPointF() const;
