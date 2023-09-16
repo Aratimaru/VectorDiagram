@@ -1,7 +1,9 @@
 #include "vectordiagrammodel.h"
 
 VectorDiagramModel::VectorDiagramModel(QObject *parent)
-    : QAbstractTableModel{parent} {}
+    : QAbstractTableModel{parent} {
+  _instances.resize(3);
+}
 
 int VectorDiagramModel::rowCount(const QModelIndex & /*parent*/) const {
   return _instances.size();
@@ -108,7 +110,6 @@ void VectorDiagramModel::fillModel(
 
     this->setData(idx, data);
   };
-  _instances.resize(3);
   for (const auto &vec : phaseVectors) {
     if (vec.getCoordinates().length() != 0) {
 
