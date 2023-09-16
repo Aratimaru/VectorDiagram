@@ -70,6 +70,11 @@
            <property name="font">
             <font>
              <pointsize>16</pointsize>
+             <italic>false</italic>
+             <bold>true</bold>
+             <underline>false</underline>
+             <strikeout>false</strikeout>
+             <kerning>true</kerning>
             </font>
            </property>
            <property name="frameShape">

@@ -6,6 +6,18 @@ DiagramWindow::DiagramWindow(QWidget *parent)
       _model(std::make_shared<VectorDiagramModel>()) {
   ui->setupUi(this);
 
+  ui->PlotDiagram->xAxis->setLabel("X");
+  ui->PlotDiagram->yAxis->setLabel("Y");
+  ui->PlotDiagram->xAxis->setRange(-300, 300);
+  ui->PlotDiagram->yAxis->setRange(-300, 300);
+  ui->PlotDiagram->setInteractions(
+      {QCP::iRangeDrag, QCP::iRangeZoom, QCP::iSelectPlottables});
+
+  ui->ChoosePhaseComboBox->addItem("Not defined");
+  ui->ChoosePhaseComboBox->addItem("A");
+  ui->ChoosePhaseComboBox->addItem("B");
+  ui->ChoosePhaseComboBox->addItem("C");
+
   connect(ui->ClearBtn, &QPushButton::clicked, this,
           &DiagramWindow::handleClearBtnClicked);
   connect(ui->DrawBtn, &QPushButton::clicked, this,
@@ -53,6 +65,10 @@ DiagramWindow::getParametersFromUi() {
   QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector> result;
 
   PhaseVectorPhase phase = getCurrentPhase();
+  if (phase == PhaseVectorPhase::NOT_DEFINED) {
+    QMessageBox::critical(this, "Error", "Please specify phase for the vector");
+    return result;
+  }
   float I1StartGenXEdit = ui->I1StartGenXEdit->text().toFloat();
   float I1StartGenYEdit = ui->I1StartGenYEdit->text().toFloat();
   float I1EndGenXEdit = ui->I1EndGenXEdit->text().toFloat();
