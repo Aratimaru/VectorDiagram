@@ -70,10 +70,6 @@ bool VectorDiagramModel::setData(const QModelIndex &index,
   return true;
 }
 
-void VectorDiagramModel::reserve(int size) {
-  _instances = QVector<TableOfPhases>(size);
-}
-
 bool VectorDiagramModel::isEmpty() const {
   return false; // todo
 }
@@ -112,17 +108,7 @@ void VectorDiagramModel::fillModel(
 
     this->setData(idx, data);
   };
-
-  int size = 0;
-  for (const auto &vec : phaseVectors) {
-    if (vec.getCoordinates().length() != 0) {
-      size++;
-    }
-  }
-
-  this->reserve(size);
-
-  //!\todo
+  _instances.resize(3);
   for (const auto &vec : phaseVectors) {
     if (vec.getCoordinates().length() != 0) {
 
