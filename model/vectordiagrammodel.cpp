@@ -66,6 +66,7 @@ bool VectorDiagramModel::setData(const QModelIndex &index,
     holderStruct->phaseC = dataPair;
     break;
   default:
+    qDebug() << Q_FUNC_INFO << "Invalid column provided" << '\n';
     Q_ASSERT(false);
     break;
   }
@@ -102,9 +103,8 @@ int VectorDiagramModel::getColumnCount(
 
 void VectorDiagramModel::fillModel(
     QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector> &phaseVectors) {
-  auto converter = [this](const PhaseVector &item, int row, int column) {
+  auto setData = [this](const PhaseVector &item, int row, int column) {
     // Create index
-    //! \todo get row and column
     const auto idx = this->index(row, column);
     const auto data = QVariant::fromValue<PhaseVector>(item);
 
@@ -116,7 +116,16 @@ void VectorDiagramModel::fillModel(
       int row = static_cast<int>(vec.getLabelType());
       int column = static_cast<int>(vec.getLabelPhase());
 
-      converter(vec, row, column);
+      setData(vec, row, column);
+    }
+  }
+}
+
+void VectorDiagramModel::clear() {
+  for (int row = 0; row < rowCount(); row++) {
+    for (int col = 0; col < columnCount(); col++) {
+      this->setData(index(row, col),
+                    QVariant::fromValue<PhaseVector>(PhaseVector()));
     }
   }
 }

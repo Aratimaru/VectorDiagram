@@ -26,7 +26,7 @@ void DiagramPlot::drawDataFromModel(const VectorDiagramModel *model) {
       arrow->setHead(QCPLineEnding::esLineArrow);
 
       QCPItemText *label = new QCPItemText(this);
-      label->setText(QString::fromStdString(vector.getLabel().customName));
+      label->setText(vector.getLabelName());
       label->setPadding(QMargins(5, 0, 5, 0));
       label->setPositionAlignment(Qt::AlignLeft | Qt::AlignVCenter);
       label->position->setParentAnchor(arrow->end);

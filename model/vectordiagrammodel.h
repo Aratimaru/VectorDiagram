@@ -27,6 +27,7 @@ public:
   int getRowCount(const QVector<PhaseVector> &allPhases) const;
   void fillModel(QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector>
                      &phaseVectors);
+  void clear();
 
 signals:
   void editCompleted(const QString &);

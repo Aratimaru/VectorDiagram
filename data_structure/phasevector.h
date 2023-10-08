@@ -5,8 +5,10 @@
 #include <iostream>
 #include <utility>
 
+#include <QDebug>
 #include <QLineF>
 #include <QPointF>
+#include <QString>
 
 enum class PhaseVectorType { CURRENT = 0, VOLTAGE, RESISTENCE, NOT_DEFINED };
 enum class PhaseVectorPhase { PHASE_A = 0, PHASE_B, PHASE_C, NOT_DEFINED };
@@ -23,7 +25,7 @@ struct VectorLabel {
   PhaseVectorType type{PhaseVectorType::NOT_DEFINED};
   PhaseVectorPhase phase{PhaseVectorPhase::NOT_DEFINED};
   PhaseVectorMetricPrefics metricPrefics{PhaseVectorMetricPrefics::STANDARD};
-  std::string customName{};
+  QString customName{};
 };
 
 class PhaseVector // stores data in general form
@@ -37,11 +39,11 @@ public:
               const ComplexNumberAdapter &end,
               const PhaseVectorType type = PhaseVectorType::NOT_DEFINED,
               const PhaseVectorPhase phase = PhaseVectorPhase::NOT_DEFINED,
-              const std::string customName = "");
+              const QString customName = "");
   PhaseVector(const ComplexNumberAdapter &end,
               const PhaseVectorType type = PhaseVectorType::NOT_DEFINED,
               const PhaseVectorPhase phase = PhaseVectorPhase::NOT_DEFINED,
-              const std::string customName = "");
+              const QString customName = "");
 
   PhaseVector(const PhaseVector &other);
 
@@ -52,15 +54,19 @@ public:
 
   ComplexNumberLine getCoordinates() const;
 
+  QString PhaseVectorTypeToString();
+  QString PhaseVectorPhaseToString(bool upperCase = false);
+
   void setLabel(const VectorLabel label);
   void setLabelType(const PhaseVectorType type);
   void setLabelPhase(const PhaseVectorPhase phase);
-  void setLabelName(const std::string customName);
+  void setLabelName(const QString customName);
+  void setLabelNameFromTypeAndPhase();
 
   VectorLabel getLabel() const;
   PhaseVectorType getLabelType() const;
   PhaseVectorPhase getLabelPhase() const;
-  std::string getLabelName() const;
+  QString getLabelName() const;
 
   bool isEmpty();
   int length() const;
