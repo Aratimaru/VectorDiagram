@@ -12,20 +12,55 @@ DiagramView::DiagramView(QWidget *widget) : DiagramView() {
 
 DiagramView::~DiagramView() { delete _scene; }
 
-void DiagramView::drawLines(VectorDiagramModel *model) const {
+void DiagramView::drawModel(const VectorDiagramModel *model) {
   QPen *pen = new QPen{Qt::black};
   pen->setWidth(3);
-  while (model->hasNext()) {
-    PhaseVector nextLine{model->getNextVector()};
-    Arrow *arrow = new Arrow{nextLine.getCoordinates(), 60, 20};
-    if (arrow->lenght() == 0) {
-      continue;
+
+  for (int i = 0; i < model->rowCount(); i++)
+    for (int j = 0; j < model->columnCount(); j++) {
+      PhaseVector vector = model->data(model->index(i, j)).value<PhaseVector>();
+      Arrow *arrow = new Arrow{vector.getCoordinates(), 60, 15};
+      vectorsHolder.push_back(arrow);
+      if (arrow->length() == 0) {
+        continue;
+      }
+      arrow->setPen(*pen);
+      _scene->addItem(arrow);
     }
-    arrow->setPen(*pen);
-    _scene->addItem(arrow);
-    *pen = arrow->pen();
-  }
   //! \todo add scaling
+}
+
+void DiagramView::clear(const VectorDiagramModel *model) {
+  for (const auto &arrow : vectorsHolder) {
+    _scene->removeItem(arrow);
+  }
+  vectorsHolder.clear();
+}
+
+void DiagramView::wheelEvent(QWheelEvent *event) {
+
+  if (event->modifiers() & Qt::ControlModifier) {
+    // zoom
+    const ViewportAnchor anchor = transformationAnchor();
+    setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+    int angle = event->angleDelta().y();
+    qreal factor;
+    if (angle > 0) {
+      factor = 1.1;
+    } else {
+      factor = 0.9;
+    }
+    scale(factor, factor);
+    setTransformationAnchor(anchor);
+  } else {
+    QGraphicsView::wheelEvent(event);
+  }
+}
+
+void DiagramView::mouseMoveEvent(QMouseEvent *event) {
+  if (event->buttons() == Qt::LeftButton) {
+    centerOn(mapToScene(event->pos()));
+  }
 }
 
 void DiagramView::setupView() {
@@ -33,8 +68,78 @@ void DiagramView::setupView() {
   brush->setStyle(Qt::CrossPattern);
   _scene->setBackgroundBrush(*brush);
   if (_scene == nullptr) {
-    assert(false);
+    Q_ASSERT(false);
   }
+  _scene->setSceneRect(-180, -180, 360, 360);
   this->setScene(_scene);
-  this->scale(1, -1);
+  //  this->scale(1, -1);
+
+  QPen gridPen(Qt::lightGray);
+  QPen axisPen(Qt::black);
+  QFont labelFont("Arial", 8);
+
+  // add mark for x axis
+  for (int x = 50; x <= _scene->width(); x += 50) {
+    QGraphicsLineItem *gridLinePositive =
+        new QGraphicsLineItem(x, -_scene->width() / 2, x, _scene->width() / 2);
+    QGraphicsLineItem *gridLineNegative = new QGraphicsLineItem(
+        -x, -_scene->width() / 2, -x, _scene->width() / 2);
+    gridLinePositive->setPen(gridPen);
+    gridLineNegative->setPen(gridPen);
+
+    _scene->addItem(gridLinePositive);
+    _scene->addItem(gridLineNegative);
+
+    QGraphicsTextItem *labelPositive =
+        new QGraphicsTextItem(QString::number(x));
+    labelPositive->setFont(labelFont);
+    labelPositive->setPos(x - labelPositive->boundingRect().width() / 2,
+                          -labelPositive->boundingRect().height());
+    _scene->addItem(labelPositive);
+
+    QGraphicsTextItem *labelNegative =
+        new QGraphicsTextItem(QString::number(-x));
+    labelNegative->setFont(labelFont);
+    labelNegative->setPos(-x - labelNegative->boundingRect().width() / 2,
+                          -labelNegative->boundingRect().height());
+    _scene->addItem(labelNegative);
+  }
+
+  // add mark for y axis
+  for (int y = 50; y <= _scene->height(); y += 50) {
+    QGraphicsLineItem *gridLinePositive = new QGraphicsLineItem(
+        -_scene->height() / 2, y, _scene->height() / 2, y);
+    QGraphicsLineItem *gridLineNegative = new QGraphicsLineItem(
+        -_scene->height() / 2, -y, _scene->height() / 2, -y);
+    gridLinePositive->setPen(gridPen);
+    gridLineNegative->setPen(gridPen);
+
+    _scene->addItem(gridLinePositive);
+    _scene->addItem(gridLineNegative);
+
+    QGraphicsTextItem *labelPositive =
+        new QGraphicsTextItem(QString::number(y));
+    labelPositive->setFont(labelFont);
+    labelPositive->setPos(-labelPositive->boundingRect().width(),
+                          y - labelPositive->boundingRect().height() / 2);
+    _scene->addItem(labelPositive);
+
+    QGraphicsTextItem *labelNegative =
+        new QGraphicsTextItem(QString::number(-y));
+    labelNegative->setFont(labelFont);
+    labelNegative->setPos(-labelPositive->boundingRect().width(),
+                          -y - labelPositive->boundingRect().height() / 2);
+    _scene->addItem(labelNegative);
+  }
+
+  // add axis lines
+  Arrow *xAxis = new Arrow(
+      QLineF{-_scene->width() / 2, 0, _scene->width() / 2, 0}, 60, 20);
+  Arrow *yAxis = new Arrow(
+      QLineF{0, -_scene->height() / 2, 0, _scene->height() / 2}, 60, 20);
+  xAxis->setPen(axisPen);
+  yAxis->setPen(axisPen);
+
+  _scene->addItem(xAxis);
+  _scene->addItem(yAxis);
 }

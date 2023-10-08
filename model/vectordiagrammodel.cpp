@@ -1,7 +1,9 @@
 #include "vectordiagrammodel.h"
 
 VectorDiagramModel::VectorDiagramModel(QObject *parent)
-    : QAbstractTableModel{parent} {}
+    : QAbstractTableModel{parent} {
+  _instances.resize(3);
+}
 
 int VectorDiagramModel::rowCount(const QModelIndex & /*parent*/) const {
   return _instances.size();
@@ -64,50 +66,19 @@ bool VectorDiagramModel::setData(const QModelIndex &index,
     holderStruct->phaseC = dataPair;
     break;
   default:
+    qDebug() << Q_FUNC_INFO << "Invalid column provided" << '\n';
     Q_ASSERT(false);
     break;
   }
-
-  _hasNext = true;
   return true;
 }
-
-void VectorDiagramModel::reserve(int size) {
-  _instances = QVector<TableOfPhases>(size);
-}
-
-bool VectorDiagramModel::hasNext() const { return _hasNext; }
 
 bool VectorDiagramModel::isEmpty() const {
   return false; // todo
 }
 
-void VectorDiagramModel::resetIter() {
-  _iter = {0, 0};
-  _hasNext = false; // think about the algorithm
-}
-
-PhaseVector VectorDiagramModel::getNextVector() {
-  int &row = _iter.first;
-  int &col = _iter.second;
-  const auto idx = index(row, col);
-  const PhaseVector info = data(idx).value<PhaseVector>();
-
-  col++;
-
-  if (col >= columnCount()) {
-    col = 0;
-    row++;
-  }
-
-  if (row >= rowCount())
-    resetIter();
-
-  return info;
-}
-
 int VectorDiagramModel::getRowCount(
-    const std::vector<PhaseVector> &allPhases) const {
+    const QVector<PhaseVector> &allPhases) const {
   int count{};
   for (const auto &e : allPhases) {
     if (e.getLabelPhase() == PhaseVectorPhase::PHASE_A) {
@@ -118,7 +89,7 @@ int VectorDiagramModel::getRowCount(
 }
 
 int VectorDiagramModel::getColumnCount(
-    const std::vector<PhaseVector> &allPhases) const {
+    const QVector<PhaseVector> &allPhases) const {
   int count{};
   PhaseVectorPhase previousPhase = PhaseVectorPhase::NOT_DEFINED;
   for (const auto &e : allPhases) {
@@ -130,24 +101,31 @@ int VectorDiagramModel::getColumnCount(
   return count;
 }
 
-void VectorDiagramModel::fillModel(const std::vector<PhaseVector> &allPhases) {
-  auto converter = [this](const PhaseVector &item, int row, int column) {
+void VectorDiagramModel::fillModel(
+    QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector> &phaseVectors) {
+  auto setData = [this](const PhaseVector &item, int row, int column) {
     // Create index
-    //! \todo get row and column
     const auto idx = this->index(row, column);
     const auto data = QVariant::fromValue<PhaseVector>(item);
 
     this->setData(idx, data);
   };
+  for (const auto &vec : phaseVectors) {
+    if (vec.getCoordinates().length() != 0) {
 
-  this->reserve(allPhases.size());
+      int row = static_cast<int>(vec.getLabelType());
+      int column = static_cast<int>(vec.getLabelPhase());
 
-  for (int i = 0; i < allPhases.size(); i++) {
+      setData(vec, row, column);
+    }
+  }
+}
 
-    // we can be sure all vectors are in the same order all the time
-    int row = static_cast<int>(allPhases.at(i).getLabelType());
-    int column = static_cast<int>(allPhases.at(i).getLabelPhase());
-
-    converter(allPhases.at(i), row, column);
+void VectorDiagramModel::clear() {
+  for (int row = 0; row < rowCount(); row++) {
+    for (int col = 0; col < columnCount(); col++) {
+      this->setData(index(row, col),
+                    QVariant::fromValue<PhaseVector>(PhaseVector()));
+    }
   }
 }

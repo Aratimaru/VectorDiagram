@@ -3,18 +3,24 @@
 
 #include "model/vectordiagrammodel.h"
 #include "qgraphicsview.h"
+#include <QWheelEvent>
+#include <vector>
+
 class DiagramView : public QGraphicsView {
 public:
   DiagramView();
   DiagramView(QWidget *widget);
 
   ~DiagramView();
-  void drawLines(VectorDiagramModel *model) const;
-  //  void setModel(ModelUpdater *model);
+  void drawModel(const VectorDiagramModel *model);
+  void clear(const VectorDiagramModel *model);
+
+  void wheelEvent(QWheelEvent *event);
+  void mouseMoveEvent(QMouseEvent *event);
 
 private:
-  //  std::shared_ptr<ModelUpdater> _modelUpdater;
   QGraphicsScene *_scene;
+  QVector<QGraphicsItem *> vectorsHolder;
 
   void setupView();
 };

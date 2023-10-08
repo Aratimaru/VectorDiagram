@@ -1,3 +1,5 @@
+#include "qprocess.h"
+#include "view/diagramwindow.h"
 #include "view/mainwindow.h"
 #include <QApplication>
 #include <iostream>
@@ -10,8 +12,30 @@ using namespace std::complex_literals;
 
 int main(int argc, char *argv[]) // TODO: add units MV, MA, kA, kV...
 {
+  //  QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+  //  QString program = "python.exe";
+
+  //  QStringList arguments;
+  //  arguments << "main.py"
+  //            << "Test_set\\19.PNG";
+
+  //  QProcess *imageRecognizerProcess = new QProcess();
+  //  imageRecognizerProcess->setProcessEnvironment(env);
+  //  imageRecognizerProcess->setWorkingDirectory(
+  //      "D:\\Studing\\Diploma\\Hand-Drawn-Electrical-Circuit-"
+  //      "Recognition-using-YOLOv5");
+  //  imageRecognizerProcess->start(program, arguments);
+  //  if (!imageRecognizerProcess->waitForStarted(100))
+  //    qDebug() << " Unable to startn process ::"
+  //             << imageRecognizerProcess->error() << " Error msg"
+  //             << imageRecognizerProcess->errorString();
+
+  //  imageRecognizerProcess->waitForFinished();
+  //  QString output(imageRecognizerProcess->readAllStandardOutput());
+  //  qDebug() << "output: " << output << '\n';
+
   QApplication a(argc, argv);
-  MainWindow w;
+  DiagramWindow w;
   w.show();
 
   //  std::cout <<
@@ -53,7 +77,7 @@ int main(int argc, char *argv[]) // TODO: add units MV, MA, kA, kV...
   //  ComplexNumberAdapter inputNumberExp2{0.58f, 31.f};
   //  ComplexNumberAdapter resultExp = multExp(inputNumberExp1,
   //  inputNumberExp2); std::cout << "exp multiply\t" << resultExp << std::endl;
-  //  resultExp = divideExp(resultExp, inputNumberExp);
+  //  resultExp = divExp(resultExp, inputNumberExp);
   //  std::cout << "exp divide\t" << resultExp << std::endl;
 
   //  std::cout <<
@@ -83,7 +107,7 @@ int main(int argc, char *argv[]) // TODO: add units MV, MA, kA, kV...
   //  phaseParameterStorage.setVoltage(voltage);
 
   //  VectorParametersCalculator calculator;
-  //  std::vector<PhaseVector> phaseVectors;
+  //  QVector<PhaseVector> phaseVectors;
   //  phaseVectors = calculator.calculate(phaseParameterStorage);
 
   //  std::cout << phaseVectors.at(0) << std::endl;
