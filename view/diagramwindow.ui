@@ -25,7 +25,7 @@
     </property>
     <layout class="QHBoxLayout" name="CentralLayout" stretch="2,5">
      <item>
-      <layout class="QVBoxLayout" name="DataLayout" stretch="1,1,4,0,4,0,1">
+      <layout class="QVBoxLayout" name="DataLayout" stretch="1,1,4,0,4,0,4,0,1">
        <item>
         <layout class="QHBoxLayout" name="EnterDataLayout">
          <item>
@@ -1309,7 +1309,72 @@
         </layout>
        </item>
        <item>
-        <widget class="QFrame" name="Bottomline">
+        <widget class="QFrame" name="MiddleLine">
+         <property name="frameShape">
+          <enum>QFrame::HLine</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="ImageLayout" stretch="4,1">
+         <item>
+          <widget class="QLabel" name="ImageLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>300</width>
+             <height>300</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="ChooseImgLayout">
+           <item>
+            <widget class="QLabel" name="ChooseImageLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>13</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>None</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="ChooseImageButton">
+             <property name="text">
+              <string>Choose image...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QFrame" name="BottomLine">
          <property name="frameShape">
           <enum>QFrame::HLine</enum>
          </property>

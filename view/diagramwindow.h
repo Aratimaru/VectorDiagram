@@ -27,6 +27,8 @@ private slots:
   void handleI1StartExpTextEdited();
   void handleI1EndExpTextEdited();
 
+  void handleChooseImageButtonClicked();
+
 private:
   bool validateInputParameters();
   PhaseVectorPhase getCurrentPhase();

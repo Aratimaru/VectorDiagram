@@ -1,12 +1,7 @@
 #include "qprocess.h"
 #include "view/diagramwindow.h"
-#include "view/mainwindow.h"
 #include <QApplication>
 #include <iostream>
-
-#include "calculations/complexnumberadapter.h"
-// #include "calculations/vectorparameterscalculator.h"
-// #include "data_structure/phaseparametersstorage.h"
 
 using namespace std::complex_literals;
 

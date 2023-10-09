@@ -121,6 +121,9 @@ void DiagramWindow::setupWindow(QMainWindow *DiagramWindow) {
           &DiagramWindow::handleI1StartExpTextEdited);
   connect(ui->I1EndExpUEdit, &QLineEdit::textEdited, this,
           &DiagramWindow::handleI1EndExpTextEdited);
+
+  connect(ui->ChooseImageButton, &QPushButton::clicked, this,
+          &DiagramWindow::handleChooseImageButtonClicked);
 }
 
 void DiagramWindow::handleClearBtnClicked() {
@@ -242,6 +245,15 @@ void DiagramWindow::handleI1EndExpTextEdited() {
       QString::fromStdString(std::format("{:.2f}", genForm.real())));
   ui->I1EndGenYEdit->setText(
       QString::fromStdString(std::format("{:.2f}", genForm.imag())));
+}
+
+void DiagramWindow::handleChooseImageButtonClicked() {
+  QString fileName = QFileDialog::getOpenFileName(
+      this, tr("Open image"), "D://Studing//Diploma", "Image (*.png)");
+
+  ui->ChooseImageLabel->setText(fileName);
+  QPixmap image{fileName};
+  ui->ImageLabel->setPixmap(image.scaled(600, 600, Qt::KeepAspectRatio));
 }
 
 bool DiagramWindow::validateInputParameters() {
