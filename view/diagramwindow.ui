@@ -20,7 +20,7 @@
       <x>18</x>
       <y>13</y>
       <width>1511</width>
-      <height>911</height>
+      <height>940</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="CentralLayout" stretch="2,5">
@@ -1319,7 +1319,44 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="ImageLayout" stretch="4,1">
+        <layout class="QVBoxLayout" name="ImageLayout">
+         <item>
+          <widget class="QLabel" name="ChooseImageLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>10000</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="text">
+            <string>None</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="ChooseImageButton">
+           <property name="text">
+            <string>Choose image...</string>
+           </property>
+          </widget>
+         </item>
          <item>
           <widget class="QLabel" name="ImageLabel">
            <property name="sizePolicy">
@@ -1327,6 +1364,12 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>500</width>
+             <height>400</height>
+            </size>
            </property>
            <property name="baseSize">
             <size>
@@ -1337,39 +1380,10 @@
            <property name="text">
             <string/>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
           </widget>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="ChooseImgLayout">
-           <item>
-            <widget class="QLabel" name="ChooseImageLabel">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>13</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>None</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="ChooseImageButton">
-             <property name="text">
-              <string>Choose image...</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
          </item>
         </layout>
        </item>

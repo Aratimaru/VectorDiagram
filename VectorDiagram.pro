@@ -15,6 +15,9 @@ SOURCES += \
     calculations/complexnumberadapter.cpp \
     main.cpp \
     view/cparrow.cpp \
+    view/custom_widgets/customlabel.cpp \
+    view/custom_widgets/customvlayout.cpp \
+    view/custom_widgets/layoutgenerator.cpp \
     view/diagramplot.cpp \
     view/diagramview.cpp \
     view/diagramwindow.cpp \
@@ -22,13 +25,17 @@ SOURCES += \
     data_structure/phasevector.cpp \
     calculations/phasevectorcalculator.cpp \
     model/vectordiagrammodel.cpp \
-    view/qcustomplot.cpp
+    view/qcustomplot.cpp \
+    view/widgetcreator.cpp
 
 HEADERS += \
     view/arrow.h \
     calculations/calculator.h \
     calculations/complexnumberadapter.h \
     view/cparrow.h \
+    view/custom_widgets/customlabel.h \
+    view/custom_widgets/customvlayout.h \
+    view/custom_widgets/layoutgenerator.h \
     view/diagramplot.h \
     view/diagramview.h \
     view/diagramwindow.h \
@@ -36,7 +43,8 @@ HEADERS += \
     data_structure/phasevector.h \
     calculations/phasevectorcalculator.h \
     model/vectordiagrammodel.h \
-    view/qcustomplot.h
+    view/qcustomplot.h \
+    view/widgetcreator.h
 
 FORMS += \
     view/diagramwindow.ui \

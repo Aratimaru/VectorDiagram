@@ -1,10 +1,30 @@
 #include "diagramwindow.h"
+#include "custom_widgets/layoutgenerator.h"
 #include "ui_diagramwindow.h"
-
 DiagramWindow::DiagramWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::DiagramWindow),
       _model(std::make_shared<VectorDiagramModel>()) {
   setupWindow(this);
+
+  QVBoxLayout *mainLayout = new QVBoxLayout();
+
+  QHBoxLayout *v1Layout1 = LayoutGenerator::createParameterLayout("V1");
+  QHBoxLayout *v1Layout2 = LayoutGenerator::createParameterLayout("V2");
+  QHBoxLayout *v1Layout3 = LayoutGenerator::createParameterLayout("V3");
+
+  QFrame *topLine = LayoutGenerator::createLine("TopLine", QFrame::HLine);
+  QFrame *centralLine =
+      LayoutGenerator::createLine("CentralLine", QFrame::HLine);
+  QFrame *bottomLine = LayoutGenerator::createLine("BottomLine", QFrame::HLine);
+
+  mainLayout->addWidget(topLine);
+  mainLayout->addLayout(v1Layout1);
+  mainLayout->addWidget(centralLine);
+  mainLayout->addLayout(v1Layout2);
+  mainLayout->addWidget(bottomLine);
+  //  mainLayout->addLayout(v1Layout3);
+
+  ui->DataLayout->insertLayout(0, mainLayout);
 }
 
 DiagramWindow::~DiagramWindow() { delete ui; }
@@ -253,7 +273,9 @@ void DiagramWindow::handleChooseImageButtonClicked() {
 
   ui->ChooseImageLabel->setText(fileName);
   QPixmap image{fileName};
-  ui->ImageLabel->setPixmap(image.scaled(600, 600, Qt::KeepAspectRatio));
+  ui->ImageLabel->setPixmap(image.scaled(700, 700, Qt::KeepAspectRatio));
+
+  //!\todo AI image recognition process can be started here
 }
 
 bool DiagramWindow::validateInputParameters() {
