@@ -71,14 +71,13 @@ QVBoxLayout *LayoutGenerator::createOneEndLayout(bool start) {
   // ia
   QHBoxLayout *startImagALayout = new QHBoxLayout;
   QLabel *startImagALabel =
-      createLabel("                                             ia",
-                  labelCoordinate + "ImagALabel", 11);
-  startImagALayout->addWidget(startImagALabel, 8);
+      createLabel("ia", labelCoordinate + "ImagALabel", 11);
+  startImagALayout->addWidget(startImagALabel, 8,
+                              Qt::AlignRight | Qt::AlignVCenter);
   QLineEdit *startImagAEdit = new QLineEdit;
   startImagAEdit->setObjectName(labelCoordinate + "ImagAEdit");
-  startImagALayout->addWidget(startImagAEdit, 3);
-  startImagALabel->setAlignment(Qt::AlignRight | Qt::AlignTrailing |
-                                Qt::AlignVCenter);
+  startImagALayout->addWidget(startImagAEdit, 3,
+                              Qt::AlignLeft | Qt::AlignVCenter);
   startImagALabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
   startImagAEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 
@@ -94,13 +93,13 @@ QVBoxLayout *LayoutGenerator::createOneEndLayout(bool start) {
   // e
   QHBoxLayout *startImagELayout = new QHBoxLayout;
   QLabel *startImagELabel =
-      createLabel("e                                      ",
-                  labelCoordinate + "ImagELabel", 11);
-  startImagELayout->addWidget(startImagELabel);
+      createLabel("e", labelCoordinate + "ImagELabel", 11);
+  startImagELayout->addWidget(startImagELabel, 0,
+                              Qt::AlignLeft | Qt::AlignVCenter);
 
   startImagLayoutAbove->addLayout(startImagALayout);
-  startImagLayoutBelow->addLayout(startImagULayout);
-  startImagLayoutBelow->addLayout(startImagELayout);
+  startImagLayoutBelow->addLayout(startImagULayout, 4);
+  startImagLayoutBelow->addLayout(startImagELayout, 5);
 
   startImagLayout->addLayout(startImagLayoutAbove);
   startImagLayout->addLayout(startImagLayoutBelow);
