@@ -5,31 +5,31 @@
 LayoutGenerator::LayoutGenerator() {}
 
 QHBoxLayout *LayoutGenerator::createParameterLayout(const QString &name) {
-  QHBoxLayout *infoLayout = new QHBoxLayout;
+  QHBoxLayout *parameterLayout = new QHBoxLayout;
 
   // QLabel
   QLabel *labelV1 = createLabel(name, name, 15);
-  infoLayout->addWidget(labelV1);
+  parameterLayout->addWidget(labelV1);
 
-  QVBoxLayout *startLayout = createOneEndLayout(true);
+  QVBoxLayout *oneEndLayout = createOneEndLayout(true);
   QVBoxLayout *endLayout = createOneEndLayout(false);
 
   QFrame *leftLine = createLine("TopLine", QFrame::VLine);
   QFrame *centralLine = createLine("CentralLine", QFrame::VLine);
   QFrame *rightLine = createLine("BottomLine", QFrame::VLine);
 
-  infoLayout->addWidget(leftLine);
-  infoLayout->addLayout(startLayout);
-  infoLayout->addWidget(centralLine);
-  infoLayout->addLayout(endLayout);
-  infoLayout->addWidget(rightLine);
+  parameterLayout->addWidget(leftLine);
+  parameterLayout->addLayout(oneEndLayout);
+  parameterLayout->addWidget(centralLine);
+  parameterLayout->addLayout(endLayout);
+  parameterLayout->addWidget(rightLine);
 
-  return infoLayout;
+  return parameterLayout;
 }
 
 QVBoxLayout *LayoutGenerator::createOneEndLayout(bool start) {
-  QVBoxLayout *startLayout = new QVBoxLayout;
-  startLayout->setObjectName("V1StartLayout");
+  QVBoxLayout *oneEndLayout = new QVBoxLayout;
+  oneEndLayout->setObjectName("V1StartLayout");
 
   // QLabel для "Start coordinates"
   QString labelCoordinate;
@@ -38,91 +38,93 @@ QVBoxLayout *LayoutGenerator::createOneEndLayout(bool start) {
   } else {
     labelCoordinate = "End";
   }
-  QLabel *startLabel = createLabel(labelCoordinate + " coordinates",
-                                   labelCoordinate + " coordinates", 13);
-  startLabel->setFrameShape(QFrame::StyledPanel);
-  startLayout->addWidget(startLabel);
+  QLabel *oneEndLabel = createLabel(labelCoordinate + " coordinates",
+                                    labelCoordinate + " coordinates", 13);
+  oneEndLabel->setFrameShape(QFrame::StyledPanel);
+  oneEndLayout->addWidget(oneEndLabel);
 
   // Gen Layout
-  QHBoxLayout *startGenLayout = new QHBoxLayout;
+  QHBoxLayout *oneEndGenLayout = new QHBoxLayout;
 
   // X Layout
-  QHBoxLayout *startGenXLayout = new QHBoxLayout;
-  QLabel *startGenXLabel = createLabel("x", labelCoordinate + "GenXLabel", 11);
-  startGenXLayout->addWidget(startGenXLabel);
-  QLineEdit *startGenXEdit = new QLineEdit;
-  startGenXEdit->setObjectName(labelCoordinate + "GenXEdit");
-  startGenXLayout->addWidget(startGenXEdit);
+  QHBoxLayout *oneEndGenXLayout = new QHBoxLayout;
+  QLabel *oneEndGenXLabel = createLabel("x", labelCoordinate + "GenXLabel", 11);
+  oneEndGenXLayout->addWidget(oneEndGenXLabel);
+  QLineEdit *oneEndGenXEdit = new QLineEdit;
+  oneEndGenXEdit->setObjectName(labelCoordinate + "GenXEdit");
+  oneEndGenXLayout->addWidget(oneEndGenXEdit);
 
   // Y Layout
-  QHBoxLayout *startGenYLayout = new QHBoxLayout;
-  QLabel *startGenYLabel =
+  QHBoxLayout *oneEndGenYLayout = new QHBoxLayout;
+  QLabel *oneEndGenYLabel =
       createLabel("+iy", labelCoordinate + "GenYLabel", 11);
-  startGenYLayout->addWidget(startGenYLabel);
-  QLineEdit *startGenYEdit = new QLineEdit;
-  startGenYEdit->setObjectName(labelCoordinate + "GenYEdit");
-  startGenYLayout->addWidget(startGenYEdit);
+  oneEndGenYLayout->addWidget(oneEndGenYLabel);
+  QLineEdit *oneEndGenYEdit = new QLineEdit;
+  oneEndGenYEdit->setObjectName(labelCoordinate + "GenYEdit");
+  oneEndGenYLayout->addWidget(oneEndGenYEdit);
 
   // Imag Layout
-  QVBoxLayout *startImagLayout = new QVBoxLayout;
-  QHBoxLayout *startImagLayoutAbove = new QHBoxLayout;
-  QHBoxLayout *startImagLayoutBelow = new QHBoxLayout;
+  QVBoxLayout *oneEndImagLayout = new QVBoxLayout;
+  QHBoxLayout *oneEndImagLayoutAbove = new QHBoxLayout;
+  QHBoxLayout *oneEndImagLayoutBelow = new QHBoxLayout;
 
   // ia
-  QHBoxLayout *startImagALayout = new QHBoxLayout;
-  QLabel *startImagALabel =
+  QHBoxLayout *oneEndImagALayout = new QHBoxLayout;
+  QLabel *oneEndImagALabel =
       createLabel("ia", labelCoordinate + "ImagALabel", 11);
-  startImagALayout->addWidget(startImagALabel, 8,
-                              Qt::AlignRight | Qt::AlignVCenter);
-  QLineEdit *startImagAEdit = new QLineEdit;
-  startImagAEdit->setObjectName(labelCoordinate + "ImagAEdit");
-  startImagALayout->addWidget(startImagAEdit, 3,
-                              Qt::AlignLeft | Qt::AlignVCenter);
-  startImagALabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
-  startImagAEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+  oneEndImagALabel->setMinimumSize(170, 5);
+  oneEndImagALabel->setAlignment(Qt::AlignRight);
+  oneEndImagALayout->addWidget(oneEndImagALabel, 8,
+                               Qt::AlignRight | Qt::AlignVCenter);
+  QLineEdit *oneEndImagAEdit = new QLineEdit;
+  oneEndImagAEdit->setObjectName(labelCoordinate + "ImagAEdit");
+  oneEndImagALayout->addWidget(oneEndImagAEdit, 3,
+                               Qt::AlignLeft | Qt::AlignVCenter);
+  oneEndImagALabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
+  oneEndImagAEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 
   // U Layout
-  QHBoxLayout *startImagULayout = new QHBoxLayout;
-  QLabel *startImagULabel =
+  QHBoxLayout *oneEndImagULayout = new QHBoxLayout;
+  QLabel *oneEndImagULabel =
       createLabel("U", labelCoordinate + "ImagULabel", 11);
-  startImagULayout->addWidget(startImagULabel);
-  QLineEdit *startImagUEdit = new QLineEdit;
-  startImagUEdit->setObjectName(labelCoordinate + "ImagUEdit");
-  startImagULayout->addWidget(startImagUEdit);
+  oneEndImagULayout->addWidget(oneEndImagULabel);
+  QLineEdit *oneEndImagUEdit = new QLineEdit;
+  oneEndImagUEdit->setObjectName(labelCoordinate + "ImagUEdit");
+  oneEndImagULayout->addWidget(oneEndImagUEdit);
 
   // e
-  QHBoxLayout *startImagELayout = new QHBoxLayout;
-  QLabel *startImagELabel =
+  QHBoxLayout *oneEndImagELayout = new QHBoxLayout;
+  QLabel *oneEndImagELabel =
       createLabel("e", labelCoordinate + "ImagELabel", 11);
-  startImagELayout->addWidget(startImagELabel, 0,
-                              Qt::AlignLeft | Qt::AlignVCenter);
+  oneEndImagELayout->addWidget(oneEndImagELabel, 0,
+                               Qt::AlignLeft | Qt::AlignVCenter);
 
-  startImagLayoutAbove->addLayout(startImagALayout);
-  startImagLayoutBelow->addLayout(startImagULayout, 4);
-  startImagLayoutBelow->addLayout(startImagELayout, 5);
+  oneEndImagLayoutAbove->addLayout(oneEndImagALayout);
+  oneEndImagLayoutBelow->addLayout(oneEndImagULayout, 4);
+  oneEndImagLayoutBelow->addLayout(oneEndImagELayout, 5);
 
-  startImagLayout->addLayout(startImagLayoutAbove);
-  startImagLayout->addLayout(startImagLayoutBelow);
+  oneEndImagLayout->addLayout(oneEndImagLayoutAbove);
+  oneEndImagLayout->addLayout(oneEndImagLayoutBelow);
 
-  startGenLayout->addLayout(startGenXLayout);
-  startGenLayout->addLayout(startGenYLayout);
+  oneEndGenLayout->addLayout(oneEndGenXLayout);
+  oneEndGenLayout->addLayout(oneEndGenYLayout);
 
-  startLayout->addLayout(startGenLayout);
-  startLayout->addLayout(startImagLayout);
+  oneEndLayout->addLayout(oneEndGenLayout);
+  oneEndLayout->addLayout(oneEndImagLayout);
 
-  return startLayout;
+  return oneEndLayout;
 }
 
 QLabel *LayoutGenerator::createLabel(const QString &name,
                                      const QString &objectName, int font) {
-  QLabel *startLabel = new QLabel(name);
-  startLabel->setObjectName(name);
-  startLabel->setFont(QFont("Arial", font));
-  startLabel->setFrameShape(QFrame::NoFrame);
-  startLabel->setFrameShadow(QFrame::Plain);
-  startLabel->setText(name);
-  startLabel->setAlignment(Qt::AlignCenter);
-  return startLabel;
+  QLabel *oneEndLabel = new QLabel(name);
+  oneEndLabel->setObjectName(name);
+  oneEndLabel->setFont(QFont("Arial", font));
+  oneEndLabel->setFrameShape(QFrame::NoFrame);
+  oneEndLabel->setFrameShadow(QFrame::Plain);
+  oneEndLabel->setText(name);
+  oneEndLabel->setAlignment(Qt::AlignCenter);
+  return oneEndLabel;
 }
 
 QFrame *LayoutGenerator::createLine(const QString &name, QFrame::Shape shape) {
