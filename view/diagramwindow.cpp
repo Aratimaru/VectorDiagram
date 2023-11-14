@@ -1,5 +1,5 @@
 #include "diagramwindow.h"
-#include "custom_widgets/layoutgenerator.h"
+#include "dynamic_layouts/layoutgenerator.h"
 #include "ui_diagramwindow.h"
 DiagramWindow::DiagramWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::DiagramWindow),
@@ -8,49 +8,58 @@ DiagramWindow::DiagramWindow(QWidget *parent)
 
   QVBoxLayout *mainLayout = new QVBoxLayout();
 
-  QHBoxLayout *v1Layout1 = LayoutGenerator::createParameterLayout("V1");
-  QHBoxLayout *v1Layout2 = LayoutGenerator::createParameterLayout("V2");
-  QHBoxLayout *v1Layout3 = LayoutGenerator::createParameterLayout("V3");
-  QHBoxLayout *v1Layout4 = LayoutGenerator::createParameterLayout("V4");
-  QHBoxLayout *v1Layout5 = LayoutGenerator::createParameterLayout("V5");
-  QHBoxLayout *v1Layout6 = LayoutGenerator::createParameterLayout("V6");
-  QHBoxLayout *v1Layout7 = LayoutGenerator::createParameterLayout("V7");
-  QHBoxLayout *v1Layout8 = LayoutGenerator::createParameterLayout("V8");
-  QHBoxLayout *v1Layout9 = LayoutGenerator::createParameterLayout("V9");
-  QHBoxLayout *v1Layout10 = LayoutGenerator::createParameterLayout("V10");
+  // initial layouts
+  QVector<QHBoxLayout *> layoutVector;
+  layoutVector.push_back(LayoutGenerator::createParameterLayout("V1"));
+  layoutVector.push_back(LayoutGenerator::createParameterLayout("I1"));
 
   QFrame *topLine = LayoutGenerator::createLine("TopLine", QFrame::HLine);
-  QFrame *centralLine =
-      LayoutGenerator::createLine("CentralLine", QFrame::HLine);
   QFrame *bottomLine = LayoutGenerator::createLine("BottomLine", QFrame::HLine);
 
   mainLayout->addWidget(topLine);
-  mainLayout->addLayout(v1Layout1);
-  mainLayout->addWidget(centralLine);
-  mainLayout->addLayout(v1Layout2);
+  for (int i = 0; i < layoutVector.size(); i++) {
+    mainLayout->addLayout(layoutVector[i]);
+    mainLayout->addWidget(LayoutGenerator::createLine(
+        "Line" + QString::number(i), QFrame::HLine));
+  }
   mainLayout->addWidget(bottomLine);
-  mainLayout->addLayout(v1Layout3);
-  mainLayout->addLayout(v1Layout4);
-  mainLayout->addLayout(v1Layout5);
-  mainLayout->addLayout(v1Layout6);
-  mainLayout->addLayout(v1Layout7);
-  mainLayout->addLayout(v1Layout8);
-  mainLayout->addLayout(v1Layout9);
-  mainLayout->addLayout(v1Layout10);
 
+  // keep initial layouts in the same window as dynamic
   QWidget *dynamicLayouts = new QWidget();
   dynamicLayouts->setLayout(mainLayout);
 
   // Add scroll option to parameters' section
   QScrollArea *scrollArea = new QScrollArea();
   scrollArea->setWidget(dynamicLayouts);
-  scrollArea->setMinimumSize(this->width() / 2,
-                             this->height() - this->height() / 4);
+  scrollArea->setMinimumSize(this->width() / 2, this->height() / 4);
 
   ui->DataLayout->insertWidget(2, scrollArea);
 }
 
 DiagramWindow::~DiagramWindow() { delete ui; }
+
+void DiagramWindow::createCircuitElementsRecognizerProcess(
+    const QString &imagePath) {
+  QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+  QString program = "python.exe";
+
+  QStringList arguments;
+  arguments << "main.py" << imagePath;
+
+  QProcess *imageRecognizerProcess = new QProcess();
+  imageRecognizerProcess->setProcessEnvironment(env);
+  imageRecognizerProcess->setWorkingDirectory(
+      "D:\\Studing\\Diploma\\Hand-Drawn-Electrical-Circuit-"
+      "Recognition-using-YOLOv5");
+  imageRecognizerProcess->start(program, arguments);
+  if (!imageRecognizerProcess->waitForStarted(100))
+    qDebug() << " Unable to start process ::" << imageRecognizerProcess->error()
+             << " Error msg" << imageRecognizerProcess->errorString();
+
+  imageRecognizerProcess->waitForFinished();
+  QString output(imageRecognizerProcess->readAllStandardOutput());
+  qDebug() << "output: " << output << '\n';
+}
 
 PhaseVectorPhase DiagramWindow::getCurrentPhase() {
   QString phase = ui->ChoosePhaseComboBox->currentText();
@@ -167,8 +176,8 @@ void DiagramWindow::setupWindow(QMainWindow *DiagramWindow) {
   //  connect(ui->I1EndExpUEdit, &QLineEdit::textEdited, this,
   //          &DiagramWindow::handleI1EndExpTextEdited);
 
-  //  connect(ui->ChooseImageButton, &QPushButton::clicked, this,
-  //          &DiagramWindow::handleChooseImageButtonClicked);
+  connect(ui->ChooseImageButton, &QPushButton::clicked, this,
+          &DiagramWindow::handleChooseImageButtonClicked);
 }
 
 void DiagramWindow::handleClearBtnClicked() {
@@ -293,14 +302,23 @@ void DiagramWindow::handleI1EndExpTextEdited() {
 }
 
 void DiagramWindow::handleChooseImageButtonClicked() {
-  //  QString fileName = QFileDialog::getOpenFileName(
-  //      this, tr("Open image"), "D://Studing//Diploma", "Image (*.png)");
+  QString originalImagePath = QFileDialog::getOpenFileName(
+      this, tr("Open image"), "D://Studing//Diploma", "Image (*.png)");
 
-  //  ui->ChooseImageLabel->setText(fileName);
-  //  QPixmap image{fileName};
-  //  ui->ImageLabel->setPixmap(image.scaled(700, 700, Qt::KeepAspectRatio));
+  qDebug() << "Original image path: " << originalImagePath;
+  ui->ChooseImageLabel->setText(originalImagePath);
+  QPixmap originalImage{originalImagePath};
+  ui->OriginalImageLabel->setPixmap(originalImage.scaled(
+      ui->OriginalImageLabel->maximumSize(), Qt::KeepAspectRatio));
 
-  //!\todo AI image recognition process can be started here
+  // image recognition process is started here
+  createCircuitElementsRecognizerProcess(originalImagePath);
+
+  QPixmap recognizedImage{"D://Studing//Diploma//"
+                          "Hand-Drawn-Electrical-Circuit-Recognition-using-"
+                          "YOLOv5//lastRecognizedImage.png"};
+  ui->RecognizedImageLabel->setPixmap(recognizedImage.scaled(
+      ui->RecognizedImageLabel->maximumSize(), Qt::KeepAspectRatio));
 }
 
 bool DiagramWindow::validateInputParameters() {

@@ -35,10 +35,12 @@ private:
   QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector>
   getParametersFromUi();
   void setupWindow(QMainWindow *DiagramWindow);
+  QVector<QString> getElementsFromImage();
 
 public:
   explicit DiagramWindow(QWidget *parent = nullptr);
   ~DiagramWindow();
+  void createCircuitElementsRecognizerProcess(const QString &imagePath);
 
 private:
   Ui::DiagramWindow *ui;
