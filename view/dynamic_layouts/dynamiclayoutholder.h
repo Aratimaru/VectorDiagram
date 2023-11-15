@@ -4,20 +4,23 @@
 
 // contains layouts for current, voltage and resistance per element in circuit
 struct DynamicLayoutsPerElement {
-  QVBoxLayout I;
-  QVBoxLayout U;
-  QVBoxLayout R;
+  QHBoxLayout *I;
+  QHBoxLayout *U;
+  QHBoxLayout *R;
 
   QString elementName;
 };
 
 class DynamicLayoutsHolder {
 public:
-  DynamicLayoutsHolder();
+  DynamicLayoutsHolder() = default;
+  void addLayoutForElement(const QString &elementName);
+  int size();
+  const DynamicLayoutsPerElement &operator[](int) const;
+  DynamicLayoutsPerElement &operator[](int);
 
 private:
-private:
-  QVector<DynamicLayoutsPerElement> _dynamicLayouts;
+  QVector<DynamicLayoutsPerElement *> _dynamicLayouts;
 };
 
 #endif // DYNAMICLAYOUTHOLDER_H

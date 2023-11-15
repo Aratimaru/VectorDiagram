@@ -3,7 +3,10 @@
 
 #include <QMainWindow>
 
+#include "dynamic_layouts/dynamiclayoutholder.h"
+#include "qscrollarea.h"
 #include <model/vectordiagrammodel.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class DiagramWindow;
@@ -40,11 +43,15 @@ private:
 public:
   explicit DiagramWindow(QWidget *parent = nullptr);
   ~DiagramWindow();
-  void createCircuitElementsRecognizerProcess(const QString &imagePath);
+  QString createCircuitElementsRecognizerProcess(const QString &imagePath);
+  void createDynamicLayouts();
 
 private:
   Ui::DiagramWindow *ui;
   std::shared_ptr<VectorDiagramModel> _model;
+  DynamicLayoutsHolder _dynamicLayoutsHolder;
+  QVBoxLayout *_mainDynamicLayout;
+  QScrollArea *_scrollArea;
 };
 
 #endif // DIAGRAMWINDOW_H

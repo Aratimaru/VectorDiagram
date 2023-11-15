@@ -1,12 +1,14 @@
 #include "diagramwindow.h"
 #include "dynamic_layouts/layoutgenerator.h"
 #include "ui_diagramwindow.h"
+#include "utils/utilsimage.h"
+
 DiagramWindow::DiagramWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::DiagramWindow),
       _model(std::make_shared<VectorDiagramModel>()) {
   setupWindow(this);
 
-  QVBoxLayout *mainLayout = new QVBoxLayout();
+  _mainDynamicLayout = new QVBoxLayout();
 
   // initial layouts
   QVector<QHBoxLayout *> layoutVector;
@@ -16,29 +18,30 @@ DiagramWindow::DiagramWindow(QWidget *parent)
   QFrame *topLine = LayoutGenerator::createLine("TopLine", QFrame::HLine);
   QFrame *bottomLine = LayoutGenerator::createLine("BottomLine", QFrame::HLine);
 
-  mainLayout->addWidget(topLine);
+  _mainDynamicLayout->addWidget(topLine);
   for (int i = 0; i < layoutVector.size(); i++) {
-    mainLayout->addLayout(layoutVector[i]);
-    mainLayout->addWidget(LayoutGenerator::createLine(
+    _mainDynamicLayout->addLayout(layoutVector[i]);
+    _mainDynamicLayout->addWidget(LayoutGenerator::createLine(
         "Line" + QString::number(i), QFrame::HLine));
   }
-  mainLayout->addWidget(bottomLine);
+  _mainDynamicLayout->addWidget(bottomLine);
 
   // keep initial layouts in the same window as dynamic
   QWidget *dynamicLayouts = new QWidget();
-  dynamicLayouts->setLayout(mainLayout);
+  dynamicLayouts->setLayout(_mainDynamicLayout);
 
   // Add scroll option to parameters' section
-  QScrollArea *scrollArea = new QScrollArea();
-  scrollArea->setWidget(dynamicLayouts);
-  scrollArea->setMinimumSize(this->width() / 2, this->height() / 4);
+  _scrollArea = new QScrollArea();
+  _scrollArea->setWidgetResizable(true);
+  _scrollArea->setWidget(dynamicLayouts);
+  _scrollArea->setMinimumSize(this->width() / 2, this->height() / 4);
 
-  ui->DataLayout->insertWidget(2, scrollArea);
+  ui->DataLayout->insertWidget(2, _scrollArea);
 }
 
 DiagramWindow::~DiagramWindow() { delete ui; }
 
-void DiagramWindow::createCircuitElementsRecognizerProcess(
+QString DiagramWindow::createCircuitElementsRecognizerProcess(
     const QString &imagePath) {
   QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
   QString program = "python.exe";
@@ -53,12 +56,25 @@ void DiagramWindow::createCircuitElementsRecognizerProcess(
       "Recognition-using-YOLOv5");
   imageRecognizerProcess->start(program, arguments);
   if (!imageRecognizerProcess->waitForStarted(100))
-    qDebug() << " Unable to start process ::" << imageRecognizerProcess->error()
+    qDebug() << Q_FUNC_INFO
+             << " Unable to start process ::" << imageRecognizerProcess->error()
              << " Error msg" << imageRecognizerProcess->errorString();
 
   imageRecognizerProcess->waitForFinished();
   QString output(imageRecognizerProcess->readAllStandardOutput());
-  qDebug() << "output: " << output << '\n';
+  qDebug() << Q_FUNC_INFO << "output: " << output << '\n';
+
+  return output;
+}
+
+void DiagramWindow::createDynamicLayouts() {
+  for (int i = 0; i < _dynamicLayoutsHolder.size(); i++) {
+    _mainDynamicLayout->addLayout(_dynamicLayoutsHolder[i].I);
+    _mainDynamicLayout->addLayout(_dynamicLayoutsHolder[i].U);
+    _mainDynamicLayout->addLayout(_dynamicLayoutsHolder[i].R);
+    _mainDynamicLayout->addWidget(LayoutGenerator::createLine(
+        "DynamicLine" + QString::number(i), QFrame::HLine));
+  }
 }
 
 PhaseVectorPhase DiagramWindow::getCurrentPhase() {
@@ -310,15 +326,26 @@ void DiagramWindow::handleChooseImageButtonClicked() {
   QPixmap originalImage{originalImagePath};
   ui->OriginalImageLabel->setPixmap(originalImage.scaled(
       ui->OriginalImageLabel->maximumSize(), Qt::KeepAspectRatio));
+  ui->RecognizedImageLabel->setText(
+      "Please wait, your image is being handled...");
 
   // image recognition process is started here
-  createCircuitElementsRecognizerProcess(originalImagePath);
+  QString output = createCircuitElementsRecognizerProcess(originalImagePath);
 
   QPixmap recognizedImage{"D://Studing//Diploma//"
                           "Hand-Drawn-Electrical-Circuit-Recognition-using-"
                           "YOLOv5//lastRecognizedImage.png"};
   ui->RecognizedImageLabel->setPixmap(recognizedImage.scaled(
       ui->RecognizedImageLabel->maximumSize(), Qt::KeepAspectRatio));
+
+  QStringList elementsList =
+      UtilsImage::recognizeComponentsFromPythonOutput(output);
+
+  for (const auto &e : elementsList) {
+    _dynamicLayoutsHolder.addLayoutForElement(e);
+  }
+
+  createDynamicLayouts();
 }
 
 bool DiagramWindow::validateInputParameters() {

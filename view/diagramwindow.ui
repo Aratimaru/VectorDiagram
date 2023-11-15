@@ -181,6 +181,11 @@
                 <height>400</height>
                </size>
               </property>
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
               <property name="frameShape">
                <enum>QFrame::Panel</enum>
               </property>
