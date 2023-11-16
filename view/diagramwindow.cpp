@@ -142,35 +142,28 @@ void DiagramWindow::setupWindow(QMainWindow *DiagramWindow) {
 
 void DiagramWindow::connectDynamicSlots() {
   auto fieldsAddress = LayoutGenerator::getFieldsAddresses();
+  QStringList fieldsNameTemplates;
 
-  QString startGenXEdit = "StartGenXEdit";
-  QString startGenYEdit = "StartGenYEdit";
-  QString startImagAEdit = "StartImagAEdit";
-  QString startImagUEdit = "StartImagUEdit";
-
-  QString endGenXEdit = "EndGenXEdit";
-  QString endGenYEdit = "EndGenYEdit";
-  QString endImagAEdit = "EndImagAEdit";
-  QString endImagUEdit = "EndImagUEdit";
+  fieldsNameTemplates.append("StartGenXEdit");
+  fieldsNameTemplates.append("StartGenYEdit");
+  fieldsNameTemplates.append("StartImagAEdit");
+  fieldsNameTemplates.append("StartImagUEdit");
+  fieldsNameTemplates.append("EndGenXEdit");
+  fieldsNameTemplates.append("EndGenYEdit");
+  fieldsNameTemplates.append("EndImagAEdit");
+  fieldsNameTemplates.append("EndImagUEdit");
 
   // we should have all LineEdit components already created with similar
   // objectName
   for (int i = 0; i < _dynamicLayoutsHolder.size(); i++) {
-    qDebug() << Q_FUNC_INFO
-             << fieldsAddress.lineEdits[_dynamicLayoutsHolder[i].elementName +
-                                        startGenXEdit];
-    connect(fieldsAddress.lineEdits[_dynamicLayoutsHolder[i].elementName +
-                                    startGenXEdit],
-            &QLineEdit::textEdited, this, &DiagramWindow::onGenTextEdited);
-    connect(fieldsAddress.lineEdits[_dynamicLayoutsHolder[i].elementName +
-                                    startGenYEdit],
-            &QLineEdit::textEdited, this, &DiagramWindow::onGenTextEdited);
-    connect(fieldsAddress
-                .lineEdits[_dynamicLayoutsHolder[i].elementName + endGenXEdit],
-            &QLineEdit::textEdited, this, &DiagramWindow::onGenTextEdited);
-    connect(fieldsAddress
-                .lineEdits[_dynamicLayoutsHolder[i].elementName + endGenYEdit],
-            &QLineEdit::textEdited, this, &DiagramWindow::onGenTextEdited);
+    for (const auto &fieldName : fieldsNameTemplates) {
+      qDebug() << Q_FUNC_INFO
+               << fieldsAddress.lineEdits[_dynamicLayoutsHolder[i].elementName +
+                                          fieldName];
+      connect(fieldsAddress
+                  .lineEdits[_dynamicLayoutsHolder[i].elementName + fieldName],
+              &QLineEdit::textEdited, this, &DiagramWindow::onGenTextEdited);
+    }
   }
 }
 
