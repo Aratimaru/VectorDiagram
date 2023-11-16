@@ -3,9 +3,19 @@
 void DynamicLayoutsHolder::addLayoutForElement(const QString &elementName) {
   DynamicLayoutsPerElement *currentLayout = new DynamicLayoutsPerElement;
   currentLayout->elementName = elementName;
-  currentLayout->I = LayoutGenerator::createParameterLayout("I" + elementName);
-  currentLayout->U = LayoutGenerator::createParameterLayout("U" + elementName);
-  currentLayout->R = LayoutGenerator::createParameterLayout("R" + elementName);
+  if (elementName.first(1) == "v") {
+    currentLayout->U = LayoutGenerator::createParameterLayout(elementName);
+    currentLayout->I = LayoutGenerator::createParameterLayout(elementName);
+    currentLayout->R = nullptr;
+  } else if (elementName.first(1) == "i") {
+    currentLayout->U = nullptr;
+    currentLayout->I = nullptr;
+    currentLayout->R = LayoutGenerator::createParameterLayout(elementName);
+  } else {
+    currentLayout->U = nullptr;
+    currentLayout->I = nullptr;
+    currentLayout->R = LayoutGenerator::createParameterLayout(elementName);
+  }
   _dynamicLayouts.push_back(currentLayout);
 }
 

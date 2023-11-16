@@ -17,20 +17,13 @@ class DiagramWindow : public QMainWindow {
   Q_OBJECT
 
 private slots:
-  void handleClearBtnClicked();
-  void handleDrawBtnClicked();
+  void onClearBtnClicked();
+  void onDrawBtnClicked();
 
-  void handleV1StartGenTextEdited();
-  void handleV1EndGenTextEdited();
-  void handleV1StartExpTextEdited();
-  void handleV1EndExpTextEdited();
+  void onChooseImageButtonClicked();
 
-  void handleI1StartGenTextEdited();
-  void handleI1EndGenTextEdited();
-  void handleI1StartExpTextEdited();
-  void handleI1EndExpTextEdited();
-
-  void handleChooseImageButtonClicked();
+  void onGenTextEdited();
+  void onExpTextEdited();
 
 private:
   bool validateInputParameters();
@@ -39,6 +32,7 @@ private:
   getParametersFromUi();
   void setupWindow(QMainWindow *DiagramWindow);
   QVector<QString> getElementsFromImage();
+  void connectDynamicSlots();
 
 public:
   explicit DiagramWindow(QWidget *parent = nullptr);
