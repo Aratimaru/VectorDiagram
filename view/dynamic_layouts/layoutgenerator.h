@@ -14,7 +14,8 @@ class LayoutGenerator {
 public:
   LayoutGenerator() = default;
 
-  static QHBoxLayout *createParameterLayout(const QString &name);
+  static QHBoxLayout *createParameterLayout(const QString &parameterName,
+                                            const QString &elementName);
   static QVBoxLayout *createOneEndLayout(const QString &elementName,
                                          bool start);
   static QLabel *createLabel(const QString &objectName, const QString &name,

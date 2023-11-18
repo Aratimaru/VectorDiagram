@@ -1,11 +1,14 @@
 #include "layoutgenerator.h"
 FieldsAddresses LayoutGenerator::_fieldsAddresses;
 
-QHBoxLayout *LayoutGenerator::createParameterLayout(const QString &name) {
+QHBoxLayout *
+LayoutGenerator::createParameterLayout(const QString &parameterName,
+                                       const QString &elementName) {
   QHBoxLayout *parameterLayout = new QHBoxLayout;
 
   // QLabel
-  QLabel *parameterLabel = createLabel(name + "ParameterLabel", name, 15);
+  QLabel *parameterLabel = createLabel(elementName + "ParameterLabel",
+                                       parameterName + elementName, 15);
   parameterLabel->setMinimumWidth(70);
   qDebug() << Q_FUNC_INFO << "ParameterLabel created with name"
            << parameterLabel->objectName();
@@ -13,8 +16,8 @@ QHBoxLayout *LayoutGenerator::createParameterLayout(const QString &name) {
   LayoutGenerator::_fieldsAddresses.labels[parameterLabel->objectName()] =
       parameterLabel;
 
-  QVBoxLayout *startLayout = createOneEndLayout(name, true);
-  QVBoxLayout *endLayout = createOneEndLayout(name, false);
+  QVBoxLayout *startLayout = createOneEndLayout(elementName, true);
+  QVBoxLayout *endLayout = createOneEndLayout(elementName, false);
 
   QFrame *leftLine = createLine("TopLine", QFrame::VLine);
   QFrame *centralLine = createLine("CentralLine", QFrame::VLine);

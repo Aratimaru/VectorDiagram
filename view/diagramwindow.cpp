@@ -12,8 +12,8 @@ DiagramWindow::DiagramWindow(QWidget *parent)
 
   // initial layouts
   QVector<QHBoxLayout *> layoutVector;
-  layoutVector.push_back(LayoutGenerator::createParameterLayout("V1"));
-  layoutVector.push_back(LayoutGenerator::createParameterLayout("I1"));
+  layoutVector.push_back(LayoutGenerator::createParameterLayout("", "V1"));
+  layoutVector.push_back(LayoutGenerator::createParameterLayout("", "I1"));
 
   QFrame *topLine = LayoutGenerator::createLine("TopLine", QFrame::HLine);
   QFrame *bottomLine = LayoutGenerator::createLine("BottomLine", QFrame::HLine);
@@ -111,6 +111,42 @@ DiagramWindow::getParametersFromUi() {
   if (!validateInputParameters()) {
     return result;
   }
+
+  float I1StartGenXEdit =
+      _fieldsAddress.lineEdits["I1StartGenXEdit"]->text().toFloat();
+  float I1StartGenYEdit =
+      _fieldsAddress.lineEdits["I1StartGenYEdit"]->text().toFloat();
+  float I1EndGenXEdit =
+      _fieldsAddress.lineEdits["I1EndGenXEdit"]->text().toFloat();
+  float I1EndGenYEdit =
+      _fieldsAddress.lineEdits["I1EndGenYEdit"]->text().toFloat();
+
+  ComplexNumberAdapter currentStart = {I1StartGenXEdit, I1StartGenYEdit,
+                                       ComplexNumberForm::GENERAL};
+  ComplexNumberAdapter currentEnd = {I1EndGenXEdit, I1EndGenYEdit,
+                                     ComplexNumberForm::GENERAL};
+
+  result[{phase, PhaseVectorType::CURRENT}] =
+      PhaseVector{currentStart, currentEnd, PhaseVectorType::CURRENT, phase};
+  result[{phase, PhaseVectorType::CURRENT}].setLabelNameFromTypeAndPhase();
+
+  float V1StartGenXEdit =
+      _fieldsAddress.lineEdits["V1StartGenXEdit"]->text().toFloat();
+  float V1StartGenYEdit =
+      _fieldsAddress.lineEdits["V1StartGenYEdit"]->text().toFloat();
+  float V1EndGenXEdit =
+      _fieldsAddress.lineEdits["V1EndGenXEdit"]->text().toFloat();
+  float V1EndGenYEdit =
+      _fieldsAddress.lineEdits["V1EndGenYEdit"]->text().toFloat();
+
+  ComplexNumberAdapter voltageStart = {V1StartGenXEdit, V1StartGenYEdit,
+                                       ComplexNumberForm::GENERAL};
+  ComplexNumberAdapter voltageEnd = {V1EndGenXEdit, V1EndGenYEdit,
+                                     ComplexNumberForm::GENERAL};
+
+  result[{phase, PhaseVectorType::VOLTAGE}] =
+      PhaseVector{voltageStart, voltageEnd, PhaseVectorType::VOLTAGE, phase};
+  result[{phase, PhaseVectorType::VOLTAGE}].setLabelNameFromTypeAndPhase();
   return result;
 }
 
@@ -128,13 +164,10 @@ void DiagramWindow::setupWindow(QMainWindow *DiagramWindow) {
   ui->ChoosePhaseComboBox->addItem("B");
   ui->ChoosePhaseComboBox->addItem("C");
 
-  //  connect(ui->ClearBtn, &QPushButton::clicked, this,
-  //          &DiagramWindow::onClearBtnClicked);
-  //  connect(ui->DrawBtn, &QPushButton::clicked, this,
-  //          &DiagramWindow::onDrawBtnClicked);
-
-  //  connect(ui->I1EndExpUEdit, &QLineEdit::textEdited, this,
-  //          &DiagramWindow::onI1EndExpTextEdited);
+  connect(ui->ClearBtn, &QPushButton::clicked, this,
+          &DiagramWindow::onClearBtnClicked);
+  connect(ui->DrawBtn, &QPushButton::clicked, this,
+          &DiagramWindow::onDrawBtnClicked);
 
   connect(ui->ChooseImageButton, &QPushButton::clicked, this,
           &DiagramWindow::onChooseImageButtonClicked);

@@ -4,17 +4,17 @@ void DynamicLayoutsHolder::addLayoutForElement(const QString &elementName) {
   DynamicLayoutsPerElement *currentLayout = new DynamicLayoutsPerElement;
   currentLayout->elementName = elementName;
   if (elementName.first(1) == "v") {
-    currentLayout->U = LayoutGenerator::createParameterLayout(elementName);
-    currentLayout->I = LayoutGenerator::createParameterLayout(elementName);
+    currentLayout->U = LayoutGenerator::createParameterLayout("U", elementName);
+    currentLayout->I = nullptr;
     currentLayout->R = nullptr;
   } else if (elementName.first(1) == "i") {
     currentLayout->U = nullptr;
     currentLayout->I = nullptr;
-    currentLayout->R = LayoutGenerator::createParameterLayout(elementName);
+    currentLayout->R = LayoutGenerator::createParameterLayout("R", elementName);
   } else {
     currentLayout->U = nullptr;
     currentLayout->I = nullptr;
-    currentLayout->R = LayoutGenerator::createParameterLayout(elementName);
+    currentLayout->R = LayoutGenerator::createParameterLayout("R", elementName);
   }
   _dynamicLayouts.push_back(currentLayout);
 }
