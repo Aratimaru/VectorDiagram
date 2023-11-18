@@ -76,62 +76,62 @@ QVBoxLayout *LayoutGenerator::createOneEndLayout(const QString &elementName,
   LayoutGenerator::_fieldsAddresses.lineEdits[oneEndGenYEdit->objectName()] =
       oneEndGenYEdit;
 
-  // Imag Layout
-  QVBoxLayout *oneEndImagLayout = new QVBoxLayout;
-  QHBoxLayout *oneEndImagLayoutAbove = new QHBoxLayout;
-  QHBoxLayout *oneEndImagLayoutBelow = new QHBoxLayout;
+  // Exp Layout
+  QVBoxLayout *oneEndExpLayout = new QVBoxLayout;
+  QHBoxLayout *oneEndExpLayoutAbove = new QHBoxLayout;
+  QHBoxLayout *oneEndExpLayoutBelow = new QHBoxLayout;
 
   // ia
-  QHBoxLayout *oneEndImagALayout = new QHBoxLayout;
-  QLabel *oneEndImagALabel =
-      createLabel(elementName + labelCoordinate + "ImagALabel", "ia", 11);
-  oneEndImagALabel->setMinimumSize(170, 5);
-  oneEndImagALabel->setAlignment(Qt::AlignRight);
-  oneEndImagALayout->addWidget(oneEndImagALabel, 8,
-                               Qt::AlignRight | Qt::AlignVCenter);
-  QLineEdit *oneEndImagAEdit = new QLineEdit;
-  oneEndImagAEdit->setObjectName(elementName + labelCoordinate + "ImagAEdit");
-  oneEndImagALayout->addWidget(oneEndImagAEdit, 3,
-                               Qt::AlignLeft | Qt::AlignVCenter);
-  oneEndImagALabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
-  oneEndImagAEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-  qDebug() << Q_FUNC_INFO << "oneEndImagAEdit created with name"
-           << oneEndImagAEdit->objectName();
-  LayoutGenerator::_fieldsAddresses.lineEdits[oneEndImagAEdit->objectName()] =
-      oneEndImagAEdit;
+  QHBoxLayout *oneEndExpALayout = new QHBoxLayout;
+  QLabel *oneEndExpALabel =
+      createLabel(elementName + labelCoordinate + "ExpALabel", "ia", 11);
+  oneEndExpALabel->setMinimumSize(170, 5);
+  oneEndExpALabel->setAlignment(Qt::AlignRight);
+  oneEndExpALayout->addWidget(oneEndExpALabel, 8,
+                              Qt::AlignRight | Qt::AlignVCenter);
+  QLineEdit *oneEndExpAEdit = new QLineEdit;
+  oneEndExpAEdit->setObjectName(elementName + labelCoordinate + "ExpAEdit");
+  oneEndExpALayout->addWidget(oneEndExpAEdit, 3,
+                              Qt::AlignLeft | Qt::AlignVCenter);
+  oneEndExpALabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
+  oneEndExpAEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+  qDebug() << Q_FUNC_INFO << "oneEndExpAEdit created with name"
+           << oneEndExpAEdit->objectName();
+  LayoutGenerator::_fieldsAddresses.lineEdits[oneEndExpAEdit->objectName()] =
+      oneEndExpAEdit;
 
   // U Layout
-  QHBoxLayout *oneEndImagULayout = new QHBoxLayout;
-  QLabel *oneEndImagULabel =
-      createLabel(elementName + labelCoordinate + "ImagULabel", "U", 11);
-  oneEndImagULayout->addWidget(oneEndImagULabel);
-  QLineEdit *oneEndImagUEdit = new QLineEdit;
-  oneEndImagUEdit->setObjectName(elementName + labelCoordinate + "ImagUEdit");
-  oneEndImagULayout->addWidget(oneEndImagUEdit);
-  qDebug() << Q_FUNC_INFO << "oneEndImagUEdit created with name"
-           << oneEndImagUEdit->objectName();
-  LayoutGenerator::_fieldsAddresses.lineEdits[oneEndImagUEdit->objectName()] =
-      oneEndImagUEdit;
+  QHBoxLayout *oneEndExpULayout = new QHBoxLayout;
+  QLabel *oneEndExpULabel =
+      createLabel(elementName + labelCoordinate + "ExpULabel", "U", 11);
+  oneEndExpULayout->addWidget(oneEndExpULabel);
+  QLineEdit *oneEndExpUEdit = new QLineEdit;
+  oneEndExpUEdit->setObjectName(elementName + labelCoordinate + "ExpUEdit");
+  oneEndExpULayout->addWidget(oneEndExpUEdit);
+  qDebug() << Q_FUNC_INFO << "oneEndExpUEdit created with name"
+           << oneEndExpUEdit->objectName();
+  LayoutGenerator::_fieldsAddresses.lineEdits[oneEndExpUEdit->objectName()] =
+      oneEndExpUEdit;
 
   // e
-  QHBoxLayout *oneEndImagELayout = new QHBoxLayout;
-  QLabel *oneEndImagELabel =
-      createLabel(elementName + labelCoordinate + "ImagELabel", "e", 11);
-  oneEndImagELayout->addWidget(oneEndImagELabel, 0,
-                               Qt::AlignLeft | Qt::AlignVCenter);
+  QHBoxLayout *oneEndExpELayout = new QHBoxLayout;
+  QLabel *oneEndExpELabel =
+      createLabel(elementName + labelCoordinate + "ExpELabel", "e", 11);
+  oneEndExpELayout->addWidget(oneEndExpELabel, 0,
+                              Qt::AlignLeft | Qt::AlignVCenter);
 
-  oneEndImagLayoutAbove->addLayout(oneEndImagALayout);
-  oneEndImagLayoutBelow->addLayout(oneEndImagULayout, 4);
-  oneEndImagLayoutBelow->addLayout(oneEndImagELayout, 5);
+  oneEndExpLayoutAbove->addLayout(oneEndExpALayout);
+  oneEndExpLayoutBelow->addLayout(oneEndExpULayout, 4);
+  oneEndExpLayoutBelow->addLayout(oneEndExpELayout, 5);
 
-  oneEndImagLayout->addLayout(oneEndImagLayoutAbove);
-  oneEndImagLayout->addLayout(oneEndImagLayoutBelow);
+  oneEndExpLayout->addLayout(oneEndExpLayoutAbove);
+  oneEndExpLayout->addLayout(oneEndExpLayoutBelow);
 
   oneEndGenLayout->addLayout(oneEndGenXLayout);
   oneEndGenLayout->addLayout(oneEndGenYLayout);
 
   oneEndLayout->addLayout(oneEndGenLayout);
-  oneEndLayout->addLayout(oneEndImagLayout);
+  oneEndLayout->addLayout(oneEndExpLayout);
 
   return oneEndLayout;
 }

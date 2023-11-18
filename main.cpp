@@ -12,6 +12,7 @@ int main(int argc, char *argv[]) // TODO: add units MV, MA, kA, kV...
 {
   QApplication a(argc, argv);
   DiagramWindow w;
+  w.setWindowState(Qt::WindowMaximized);
   w.show();
   return a.exec();
 

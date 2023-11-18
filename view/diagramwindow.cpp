@@ -141,29 +141,45 @@ void DiagramWindow::setupWindow(QMainWindow *DiagramWindow) {
 }
 
 void DiagramWindow::connectDynamicSlots() {
-  auto fieldsAddress = LayoutGenerator::getFieldsAddresses();
-  QStringList fieldsNameTemplates;
-
-  fieldsNameTemplates.append("StartGenXEdit");
-  fieldsNameTemplates.append("StartGenYEdit");
-  fieldsNameTemplates.append("StartImagAEdit");
-  fieldsNameTemplates.append("StartImagUEdit");
-  fieldsNameTemplates.append("EndGenXEdit");
-  fieldsNameTemplates.append("EndGenYEdit");
-  fieldsNameTemplates.append("EndImagAEdit");
-  fieldsNameTemplates.append("EndImagUEdit");
+  qDebug() << Q_FUNC_INFO;
+  _fieldsAddress = LayoutGenerator::getFieldsAddresses();
 
   // we should have all LineEdit components already created with similar
   // objectName
   for (int i = 0; i < _dynamicLayoutsHolder.size(); i++) {
-    for (const auto &fieldName : fieldsNameTemplates) {
-      qDebug() << Q_FUNC_INFO
-               << fieldsAddress.lineEdits[_dynamicLayoutsHolder[i].elementName +
-                                          fieldName];
-      connect(fieldsAddress
-                  .lineEdits[_dynamicLayoutsHolder[i].elementName + fieldName],
-              &QLineEdit::textEdited, this, &DiagramWindow::onGenTextEdited);
-    }
+    connect(_fieldsAddress.lineEdits[_dynamicLayoutsHolder[i].elementName +
+                                     "StartGenXEdit"],
+            &QLineEdit::textEdited, this,
+            &DiagramWindow::onStartGenXEditTextEdited);
+    connect(_fieldsAddress.lineEdits[_dynamicLayoutsHolder[i].elementName +
+                                     "StartGenYEdit"],
+            &QLineEdit::textEdited, this,
+            &DiagramWindow::onStartGenYEditTextEdited);
+    connect(_fieldsAddress.lineEdits[_dynamicLayoutsHolder[i].elementName +
+                                     "StartExpAEdit"],
+            &QLineEdit::textEdited, this,
+            &DiagramWindow::onStartExpAEditTextEdited);
+    connect(_fieldsAddress.lineEdits[_dynamicLayoutsHolder[i].elementName +
+                                     "StartExpUEdit"],
+            &QLineEdit::textEdited, this,
+            &DiagramWindow::onStartExpUEditTextEdited);
+
+    connect(
+        _fieldsAddress
+            .lineEdits[_dynamicLayoutsHolder[i].elementName + "EndGenXEdit"],
+        &QLineEdit::textEdited, this, &DiagramWindow::onEndGenXEditTextEdited);
+    connect(
+        _fieldsAddress
+            .lineEdits[_dynamicLayoutsHolder[i].elementName + "EndGenYEdit"],
+        &QLineEdit::textEdited, this, &DiagramWindow::onEndGenYEditTextEdited);
+    connect(
+        _fieldsAddress
+            .lineEdits[_dynamicLayoutsHolder[i].elementName + "EndExpAEdit"],
+        &QLineEdit::textEdited, this, &DiagramWindow::onEndExpAEditTextEdited);
+    connect(
+        _fieldsAddress
+            .lineEdits[_dynamicLayoutsHolder[i].elementName + "EndExpUEdit"],
+        &QLineEdit::textEdited, this, &DiagramWindow::onEndExpUEditTextEdited);
   }
 }
 
@@ -215,22 +231,205 @@ void DiagramWindow::onChooseImageButtonClicked() {
   connectDynamicSlots();
 }
 
-void DiagramWindow::onGenTextEdited() {
+void DiagramWindow::onStartGenXEditTextEdited() {
+  QString startGenXEditObjectName = QObject::sender()->objectName();
 
-  qDebug() << Q_FUNC_INFO;
-  //  ComplexNumberAdapter genForm{ui->V1StartGenXEdit->text().toFloat(),
-  //                               ui->V1StartGenYEdit->text().toFloat(),
-  //                               ComplexNumberForm::GENERAL};
-  //  ComplexNumberAdapter expForm{genForm.toExponentialForm().real(),
-  //                               genForm.toExponentialForm().imag(),
-  //                               ComplexNumberForm::EXPONENTIAL};
-  //  ui->V1StartExpUEdit->setText(
-  //      QString::fromStdString(std::format("{:.2f}", expForm.real())));
-  //  ui->V1StartExpAEdit->setText(
-  //      QString::fromStdString(std::format("{:.2f}", expForm.imag())));
+  QString startGenYEditObjectName = QObject::sender()->objectName();
+  startGenYEditObjectName.replace("StartGenXEdit", "StartGenYEdit");
+
+  QString startExpUEditObjectName = QObject::sender()->objectName();
+  startExpUEditObjectName.replace("StartGenXEdit", "StartExpUEdit");
+
+  QString startExpAEditObjectName = QObject::sender()->objectName();
+  startExpAEditObjectName.replace("StartGenXEdit", "StartExpAEdit");
+
+  ComplexNumberAdapter genForm{
+      _fieldsAddress.lineEdits[startGenXEditObjectName]->text().toFloat(),
+      _fieldsAddress.lineEdits[startGenYEditObjectName]->text().toFloat(),
+      ComplexNumberForm::GENERAL};
+  ComplexNumberAdapter expForm{genForm.toExponentialForm().real(),
+                               genForm.toExponentialForm().imag(),
+                               ComplexNumberForm::EXPONENTIAL};
+  _fieldsAddress.lineEdits[startExpUEditObjectName]->setText(
+      QString::fromStdString(std::format("{:.2f}", expForm.real())));
+  _fieldsAddress.lineEdits[startExpAEditObjectName]->setText(
+      QString::fromStdString(std::format("{:.2f}", expForm.imag())));
 }
 
-void DiagramWindow::onExpTextEdited() {}
+void DiagramWindow::onStartGenYEditTextEdited() {
+  QString startGenYEditObjectName = QObject::sender()->objectName();
+
+  QString startGenXEditObjectName = QObject::sender()->objectName();
+  startGenYEditObjectName.replace("StartGenYEdit", "StartGenXEdit");
+
+  QString startExpUEditObjectName = QObject::sender()->objectName();
+  startExpUEditObjectName.replace("StartGenYEdit", "StartExpUEdit");
+
+  QString startExpAEditObjectName = QObject::sender()->objectName();
+  startExpAEditObjectName.replace("StartGenYEdit", "StartExpAEdit");
+
+  ComplexNumberAdapter genForm{
+      _fieldsAddress.lineEdits[startGenXEditObjectName]->text().toFloat(),
+      _fieldsAddress.lineEdits[startGenYEditObjectName]->text().toFloat(),
+      ComplexNumberForm::GENERAL};
+  ComplexNumberAdapter expForm{genForm.toExponentialForm().real(),
+                               genForm.toExponentialForm().imag(),
+                               ComplexNumberForm::EXPONENTIAL};
+  _fieldsAddress.lineEdits[startExpUEditObjectName]->setText(
+      QString::fromStdString(std::format("{:.2f}", expForm.real())));
+  _fieldsAddress.lineEdits[startExpAEditObjectName]->setText(
+      QString::fromStdString(std::format("{:.2f}", expForm.imag())));
+}
+
+void DiagramWindow::onStartExpAEditTextEdited() {
+  QString startExpAEditObjectName = QObject::sender()->objectName();
+
+  QString startGenXEditObjectName = QObject::sender()->objectName();
+  startGenXEditObjectName.replace("StartExpAEdit", "StartGenXEdit");
+
+  QString startGenYEditObjectName = QObject::sender()->objectName();
+  startGenYEditObjectName.replace("StartExpAEdit", "StartGenYEdit");
+
+  QString startExpUEditObjectName = QObject::sender()->objectName();
+  startExpUEditObjectName.replace("StartExpAEdit", "StartExpUEdit");
+
+  ComplexNumberAdapter expForm{
+      _fieldsAddress.lineEdits[startExpUEditObjectName]->text().toFloat(),
+      _fieldsAddress.lineEdits[startExpAEditObjectName]->text().toFloat(),
+      ComplexNumberForm::GENERAL};
+  ComplexNumberAdapter genForm{expForm.toExponentialForm().real(),
+                               expForm.toExponentialForm().imag(),
+                               ComplexNumberForm::GENERAL};
+  _fieldsAddress.lineEdits[startGenXEditObjectName]->setText(
+      QString::fromStdString(std::format("{:.2f}", genForm.real())));
+  _fieldsAddress.lineEdits[startGenYEditObjectName]->setText(
+      QString::fromStdString(std::format("{:.2f}", genForm.imag())));
+}
+
+void DiagramWindow::onStartExpUEditTextEdited() {
+  QString startExpUEditObjectName = QObject::sender()->objectName();
+
+  QString startGenXEditObjectName = QObject::sender()->objectName();
+  startGenXEditObjectName.replace("StartExpUEdit", "StartGenXEdit");
+
+  QString startGenYEditObjectName = QObject::sender()->objectName();
+  startGenYEditObjectName.replace("StartExpUEdit", "StartGenYEdit");
+
+  QString startExpAEditObjectName = QObject::sender()->objectName();
+  startExpAEditObjectName.replace("StartExpUEdit", "StartExpAEdit");
+
+  ComplexNumberAdapter expForm{
+      _fieldsAddress.lineEdits[startExpUEditObjectName]->text().toFloat(),
+      _fieldsAddress.lineEdits[startExpAEditObjectName]->text().toFloat(),
+      ComplexNumberForm::GENERAL};
+  ComplexNumberAdapter genForm{expForm.toExponentialForm().real(),
+                               expForm.toExponentialForm().imag(),
+                               ComplexNumberForm::GENERAL};
+  _fieldsAddress.lineEdits[startGenXEditObjectName]->setText(
+      QString::fromStdString(std::format("{:.2f}", genForm.real())));
+  _fieldsAddress.lineEdits[startGenYEditObjectName]->setText(
+      QString::fromStdString(std::format("{:.2f}", genForm.imag())));
+}
+
+void DiagramWindow::onEndGenXEditTextEdited() {
+  QString endGenXEditObjectName = QObject::sender()->objectName();
+
+  QString endGenYEditObjectName = QObject::sender()->objectName();
+  endGenYEditObjectName.replace("EndGenXEdit", "EndGenYEdit");
+
+  QString endExpUEditObjectName = QObject::sender()->objectName();
+  endExpUEditObjectName.replace("EndGenXEdit", "EndExpUEdit");
+
+  QString endExpAEditObjectName = QObject::sender()->objectName();
+  endExpAEditObjectName.replace("EndGenXEdit", "EndExpAEdit");
+
+  ComplexNumberAdapter genForm{
+      _fieldsAddress.lineEdits[endGenXEditObjectName]->text().toFloat(),
+      _fieldsAddress.lineEdits[endGenYEditObjectName]->text().toFloat(),
+      ComplexNumberForm::GENERAL};
+  ComplexNumberAdapter expForm{genForm.toExponentialForm().real(),
+                               genForm.toExponentialForm().imag(),
+                               ComplexNumberForm::EXPONENTIAL};
+  _fieldsAddress.lineEdits[endExpUEditObjectName]->setText(
+      QString::fromStdString(std::format("{:.2f}", expForm.real())));
+  _fieldsAddress.lineEdits[endExpAEditObjectName]->setText(
+      QString::fromStdString(std::format("{:.2f}", expForm.imag())));
+}
+
+void DiagramWindow::onEndGenYEditTextEdited() {
+  QString endGenYEditObjectName = QObject::sender()->objectName();
+
+  QString endGenXEditObjectName = QObject::sender()->objectName();
+  endGenYEditObjectName.replace("EndGenYEdit", "EndGenXEdit");
+
+  QString endExpUEditObjectName = QObject::sender()->objectName();
+  endExpUEditObjectName.replace("EndGenYEdit", "EndExpUEdit");
+
+  QString endExpAEditObjectName = QObject::sender()->objectName();
+  endExpAEditObjectName.replace("EndGenYEdit", "EndExpAEdit");
+
+  ComplexNumberAdapter genForm{
+      _fieldsAddress.lineEdits[endGenXEditObjectName]->text().toFloat(),
+      _fieldsAddress.lineEdits[endGenYEditObjectName]->text().toFloat(),
+      ComplexNumberForm::GENERAL};
+  ComplexNumberAdapter expForm{genForm.toExponentialForm().real(),
+                               genForm.toExponentialForm().imag(),
+                               ComplexNumberForm::EXPONENTIAL};
+  _fieldsAddress.lineEdits[endExpUEditObjectName]->setText(
+      QString::fromStdString(std::format("{:.2f}", expForm.real())));
+  _fieldsAddress.lineEdits[endExpAEditObjectName]->setText(
+      QString::fromStdString(std::format("{:.2f}", expForm.imag())));
+}
+
+void DiagramWindow::onEndExpAEditTextEdited() {
+  QString endExpAEditObjectName = QObject::sender()->objectName();
+
+  QString endGenXEditObjectName = QObject::sender()->objectName();
+  endGenXEditObjectName.replace("EndExpAEdit", "EndGenXEdit");
+
+  QString endGenYEditObjectName = QObject::sender()->objectName();
+  endGenYEditObjectName.replace("EndExpAEdit", "EndGenYEdit");
+
+  QString endExpUEditObjectName = QObject::sender()->objectName();
+  endExpUEditObjectName.replace("EndExpAEdit", "EndExpUEdit");
+
+  ComplexNumberAdapter expForm{
+      _fieldsAddress.lineEdits[endExpUEditObjectName]->text().toFloat(),
+      _fieldsAddress.lineEdits[endExpAEditObjectName]->text().toFloat(),
+      ComplexNumberForm::GENERAL};
+  ComplexNumberAdapter genForm{expForm.toExponentialForm().real(),
+                               expForm.toExponentialForm().imag(),
+                               ComplexNumberForm::GENERAL};
+  _fieldsAddress.lineEdits[endGenXEditObjectName]->setText(
+      QString::fromStdString(std::format("{:.2f}", genForm.real())));
+  _fieldsAddress.lineEdits[endGenYEditObjectName]->setText(
+      QString::fromStdString(std::format("{:.2f}", genForm.imag())));
+}
+
+void DiagramWindow::onEndExpUEditTextEdited() {
+  QString endExpUEditObjectName = QObject::sender()->objectName();
+
+  QString endGenXEditObjectName = QObject::sender()->objectName();
+  endGenXEditObjectName.replace("EndExpUEdit", "EndGenXEdit");
+
+  QString endGenYEditObjectName = QObject::sender()->objectName();
+  endGenYEditObjectName.replace("EndExpUEdit", "EndGenYEdit");
+
+  QString endExpAEditObjectName = QObject::sender()->objectName();
+  endExpAEditObjectName.replace("EndExpUEdit", "EndExpAEdit");
+
+  ComplexNumberAdapter expForm{
+      _fieldsAddress.lineEdits[endExpUEditObjectName]->text().toFloat(),
+      _fieldsAddress.lineEdits[endExpAEditObjectName]->text().toFloat(),
+      ComplexNumberForm::GENERAL};
+  ComplexNumberAdapter genForm{expForm.toExponentialForm().real(),
+                               expForm.toExponentialForm().imag(),
+                               ComplexNumberForm::GENERAL};
+  _fieldsAddress.lineEdits[endGenXEditObjectName]->setText(
+      QString::fromStdString(std::format("{:.2f}", genForm.real())));
+  _fieldsAddress.lineEdits[endGenYEditObjectName]->setText(
+      QString::fromStdString(std::format("{:.2f}", genForm.imag())));
+}
 
 bool DiagramWindow::validateInputParameters() {
   auto isNumber = [](const QString &s) {

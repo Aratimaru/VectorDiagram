@@ -22,8 +22,15 @@ private slots:
 
   void onChooseImageButtonClicked();
 
-  void onGenTextEdited();
-  void onExpTextEdited();
+  void onStartGenXEditTextEdited();
+  void onStartGenYEditTextEdited();
+  void onStartExpAEditTextEdited();
+  void onStartExpUEditTextEdited();
+
+  void onEndGenXEditTextEdited();
+  void onEndGenYEditTextEdited();
+  void onEndExpAEditTextEdited();
+  void onEndExpUEditTextEdited();
 
 private:
   bool validateInputParameters();
@@ -46,6 +53,7 @@ private:
   DynamicLayoutsHolder _dynamicLayoutsHolder;
   QVBoxLayout *_mainDynamicLayout;
   QScrollArea *_scrollArea;
+  FieldsAddresses _fieldsAddress;
 };
 
 #endif // DIAGRAMWINDOW_H
