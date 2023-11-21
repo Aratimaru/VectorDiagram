@@ -52,6 +52,7 @@ private:
   std::shared_ptr<VectorDiagramModel> _model;
   DynamicLayoutsHolder _dynamicLayoutsHolder;
   QVBoxLayout *_mainDynamicLayout;
+  std::unique_ptr<QWidget> _dynamicLayoutWidget;
   QScrollArea *_scrollArea;
   FieldsAddresses _fieldsAddress;
 };

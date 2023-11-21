@@ -16,8 +16,10 @@ LayoutGenerator::createParameterLayout(const QString &parameterName,
   LayoutGenerator::_fieldsAddresses.labels[parameterLabel->objectName()] =
       parameterLabel;
 
-  QVBoxLayout *startLayout = createOneEndLayout(elementName, true);
-  QVBoxLayout *endLayout = createOneEndLayout(elementName, false);
+  QVBoxLayout *startLayout =
+      createOneEndLayout(parameterName + elementName, true);
+  QVBoxLayout *endLayout =
+      createOneEndLayout(parameterName + elementName, false);
 
   QFrame *leftLine = createLine("TopLine", QFrame::VLine);
   QFrame *centralLine = createLine("CentralLine", QFrame::VLine);
@@ -140,13 +142,12 @@ QVBoxLayout *LayoutGenerator::createOneEndLayout(const QString &elementName,
 }
 
 QLabel *LayoutGenerator::createLabel(const QString &objectName,
-                                     const QString &name, int font) {
-  QLabel *oneEndLabel = new QLabel(name);
+                                     const QString &text, int font) {
+  QLabel *oneEndLabel = new QLabel(text);
   oneEndLabel->setObjectName(objectName);
   oneEndLabel->setFont(QFont("Arial", font));
   oneEndLabel->setFrameShape(QFrame::NoFrame);
   oneEndLabel->setFrameShadow(QFrame::Plain);
-  oneEndLabel->setText(name);
   oneEndLabel->setAlignment(Qt::AlignCenter);
   return oneEndLabel;
 }

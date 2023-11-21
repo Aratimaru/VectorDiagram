@@ -15,6 +15,8 @@ class DynamicLayoutsHolder {
 public:
   DynamicLayoutsHolder() = default;
   void addLayoutForElement(const QString &elementName);
+  void push_back(DynamicLayoutsPerElement &el);
+  void pop_back();
   int size();
   const DynamicLayoutsPerElement &operator[](int) const;
   DynamicLayoutsPerElement &operator[](int);

@@ -11,30 +11,29 @@ DiagramWindow::DiagramWindow(QWidget *parent)
   _mainDynamicLayout = new QVBoxLayout();
 
   // initial layouts
-  QVector<QHBoxLayout *> layoutVector;
-  layoutVector.push_back(LayoutGenerator::createParameterLayout("", "V1"));
-  layoutVector.push_back(LayoutGenerator::createParameterLayout("", "I1"));
+  DynamicLayoutsPerElement *initialLayouts = new DynamicLayoutsPerElement;
+  QString currentPhase = ui->ChoosePhaseComboBox->currentText().toLower();
+  initialLayouts->U =
+      (LayoutGenerator::createParameterLayout("U", currentPhase));
+  initialLayouts->I =
+      (LayoutGenerator::createParameterLayout("I", currentPhase));
+  initialLayouts->R = nullptr;
+  initialLayouts->elementName = currentPhase;
+  _dynamicLayoutsHolder.push_back(*initialLayouts);
 
   QFrame *topLine = LayoutGenerator::createLine("TopLine", QFrame::HLine);
-  QFrame *bottomLine = LayoutGenerator::createLine("BottomLine", QFrame::HLine);
-
   _mainDynamicLayout->addWidget(topLine);
-  for (int i = 0; i < layoutVector.size(); i++) {
-    _mainDynamicLayout->addLayout(layoutVector[i]);
-    layoutVector[i]->setParent(_mainDynamicLayout);
-    _mainDynamicLayout->addWidget(LayoutGenerator::createLine(
-        "Line" + QString::number(i), QFrame::HLine));
-  }
-  _mainDynamicLayout->addWidget(bottomLine);
+  createDynamicLayouts();
+  connectDynamicSlots();
 
   // keep initial layouts in the same window as dynamic
-  QWidget *dynamicLayouts = new QWidget();
-  dynamicLayouts->setLayout(_mainDynamicLayout);
+  _dynamicLayoutWidget = std::make_unique<QWidget>();
+  _dynamicLayoutWidget->setLayout(_mainDynamicLayout);
 
   // Add scroll option to parameters' section
   _scrollArea = new QScrollArea();
   _scrollArea->setWidgetResizable(true);
-  _scrollArea->setWidget(dynamicLayouts);
+  _scrollArea->setWidget(_dynamicLayoutWidget.get());
   _scrollArea->setMinimumSize(this->width() / 2, this->height() / 4);
 
   ui->DataLayout->insertWidget(2, _scrollArea);
@@ -113,13 +112,13 @@ DiagramWindow::getParametersFromUi() {
   }
 
   float I1StartGenXEdit =
-      _fieldsAddress.lineEdits["I1StartGenXEdit"]->text().toFloat();
+      _fieldsAddress.lineEdits["IaStartGenXEdit"]->text().toFloat();
   float I1StartGenYEdit =
-      _fieldsAddress.lineEdits["I1StartGenYEdit"]->text().toFloat();
+      _fieldsAddress.lineEdits["IaStartGenYEdit"]->text().toFloat();
   float I1EndGenXEdit =
-      _fieldsAddress.lineEdits["I1EndGenXEdit"]->text().toFloat();
+      _fieldsAddress.lineEdits["IaEndGenXEdit"]->text().toFloat();
   float I1EndGenYEdit =
-      _fieldsAddress.lineEdits["I1EndGenYEdit"]->text().toFloat();
+      _fieldsAddress.lineEdits["IaEndGenYEdit"]->text().toFloat();
 
   ComplexNumberAdapter currentStart = {I1StartGenXEdit, I1StartGenYEdit,
                                        ComplexNumberForm::GENERAL};
@@ -131,13 +130,13 @@ DiagramWindow::getParametersFromUi() {
   result[{phase, PhaseVectorType::CURRENT}].setLabelNameFromTypeAndPhase();
 
   float V1StartGenXEdit =
-      _fieldsAddress.lineEdits["V1StartGenXEdit"]->text().toFloat();
+      _fieldsAddress.lineEdits["UaStartGenXEdit"]->text().toFloat();
   float V1StartGenYEdit =
-      _fieldsAddress.lineEdits["V1StartGenYEdit"]->text().toFloat();
+      _fieldsAddress.lineEdits["UaStartGenYEdit"]->text().toFloat();
   float V1EndGenXEdit =
-      _fieldsAddress.lineEdits["V1EndGenXEdit"]->text().toFloat();
+      _fieldsAddress.lineEdits["UaEndGenXEdit"]->text().toFloat();
   float V1EndGenYEdit =
-      _fieldsAddress.lineEdits["V1EndGenYEdit"]->text().toFloat();
+      _fieldsAddress.lineEdits["UaEndGenYEdit"]->text().toFloat();
 
   ComplexNumberAdapter voltageStart = {V1StartGenXEdit, V1StartGenYEdit,
                                        ComplexNumberForm::GENERAL};
@@ -176,43 +175,51 @@ void DiagramWindow::setupWindow(QMainWindow *DiagramWindow) {
 void DiagramWindow::connectDynamicSlots() {
   qDebug() << Q_FUNC_INFO;
   _fieldsAddress = LayoutGenerator::getFieldsAddresses();
+  QStringList parameterName{};
 
   // we should have all LineEdit components already created with similar
-  // objectName
+  // objectName.
   for (int i = 0; i < _dynamicLayoutsHolder.size(); i++) {
-    connect(_fieldsAddress.lineEdits[_dynamicLayoutsHolder[i].elementName +
-                                     "StartGenXEdit"],
-            &QLineEdit::textEdited, this,
-            &DiagramWindow::onStartGenXEditTextEdited);
-    connect(_fieldsAddress.lineEdits[_dynamicLayoutsHolder[i].elementName +
-                                     "StartGenYEdit"],
-            &QLineEdit::textEdited, this,
-            &DiagramWindow::onStartGenYEditTextEdited);
-    connect(_fieldsAddress.lineEdits[_dynamicLayoutsHolder[i].elementName +
-                                     "StartExpAEdit"],
-            &QLineEdit::textEdited, this,
-            &DiagramWindow::onStartExpAEditTextEdited);
-    connect(_fieldsAddress.lineEdits[_dynamicLayoutsHolder[i].elementName +
-                                     "StartExpUEdit"],
-            &QLineEdit::textEdited, this,
-            &DiagramWindow::onStartExpUEditTextEdited);
+    if (_dynamicLayoutsHolder[i].U != nullptr) {
+      parameterName.append("U");
+    }
+    if (_dynamicLayoutsHolder[i].I != nullptr) {
+      parameterName.append("I");
+    }
+    if (_dynamicLayoutsHolder[i].R != nullptr) {
+      parameterName.append("R");
+    }
 
-    connect(
-        _fieldsAddress
-            .lineEdits[_dynamicLayoutsHolder[i].elementName + "EndGenXEdit"],
-        &QLineEdit::textEdited, this, &DiagramWindow::onEndGenXEditTextEdited);
-    connect(
-        _fieldsAddress
-            .lineEdits[_dynamicLayoutsHolder[i].elementName + "EndGenYEdit"],
-        &QLineEdit::textEdited, this, &DiagramWindow::onEndGenYEditTextEdited);
-    connect(
-        _fieldsAddress
-            .lineEdits[_dynamicLayoutsHolder[i].elementName + "EndExpAEdit"],
-        &QLineEdit::textEdited, this, &DiagramWindow::onEndExpAEditTextEdited);
-    connect(
-        _fieldsAddress
-            .lineEdits[_dynamicLayoutsHolder[i].elementName + "EndExpUEdit"],
-        &QLineEdit::textEdited, this, &DiagramWindow::onEndExpUEditTextEdited);
+    for (const auto &pName : parameterName) {
+      QString lineEditPrefix = pName + _dynamicLayoutsHolder[i].elementName;
+
+      connect(_fieldsAddress.lineEdits[lineEditPrefix + "StartGenXEdit"],
+              &QLineEdit::textEdited, this,
+              &DiagramWindow::onStartGenXEditTextEdited);
+      connect(_fieldsAddress.lineEdits[lineEditPrefix + "StartGenYEdit"],
+              &QLineEdit::textEdited, this,
+              &DiagramWindow::onStartGenYEditTextEdited);
+      connect(_fieldsAddress.lineEdits[lineEditPrefix + "StartExpAEdit"],
+              &QLineEdit::textEdited, this,
+              &DiagramWindow::onStartExpAEditTextEdited);
+      connect(_fieldsAddress.lineEdits[lineEditPrefix + "StartExpUEdit"],
+              &QLineEdit::textEdited, this,
+              &DiagramWindow::onStartExpUEditTextEdited);
+
+      connect(_fieldsAddress.lineEdits[lineEditPrefix + "EndGenXEdit"],
+              &QLineEdit::textEdited, this,
+              &DiagramWindow::onEndGenXEditTextEdited);
+      connect(_fieldsAddress.lineEdits[lineEditPrefix + "EndGenYEdit"],
+              &QLineEdit::textEdited, this,
+              &DiagramWindow::onEndGenYEditTextEdited);
+      connect(_fieldsAddress.lineEdits[lineEditPrefix + "EndExpAEdit"],
+              &QLineEdit::textEdited, this,
+              &DiagramWindow::onEndExpAEditTextEdited);
+      connect(_fieldsAddress.lineEdits[lineEditPrefix + "EndExpUEdit"],
+              &QLineEdit::textEdited, this,
+              &DiagramWindow::onEndExpUEditTextEdited);
+    }
+    parameterName.clear();
   }
 }
 
@@ -235,7 +242,10 @@ void DiagramWindow::onDrawBtnClicked() {
 
 void DiagramWindow::onChooseImageButtonClicked() {
   QString originalImagePath = QFileDialog::getOpenFileName(
-      this, tr("Open image"), "D://Studing//Diploma", "Image (*.png)");
+      this, tr("Open image"),
+      "D://Studing//Diploma//"
+      "Hand-Drawn-Electrical-Circuit-Recognition-using-YOLOv5//Test_set",
+      "Image (*.png)");
 
   qDebug() << "Original image path: " << originalImagePath;
   ui->ChooseImageLabel->setText(originalImagePath);
@@ -255,6 +265,14 @@ void DiagramWindow::onChooseImageButtonClicked() {
 
   QStringList elementsList =
       UtilsImage::recognizeComponentsFromPythonOutput(output);
+
+  // clear previous data, including initial layouts
+  for (int i = 0; i < _dynamicLayoutsHolder.size(); i++) {
+
+    _mainDynamicLayout->removeItem(_dynamicLayoutsHolder[i].I);
+    _mainDynamicLayout->removeItem(_dynamicLayoutsHolder[i].U);
+    //    _mainDynamicLayout->addLayout(_dynamicLayoutsHolder[i].I);
+  }
 
   for (const auto &e : elementsList) {
     _dynamicLayoutsHolder.addLayoutForElement(e);

@@ -18,7 +18,7 @@ public:
                                             const QString &elementName);
   static QVBoxLayout *createOneEndLayout(const QString &elementName,
                                          bool start);
-  static QLabel *createLabel(const QString &objectName, const QString &name,
+  static QLabel *createLabel(const QString &objectName, const QString &text,
                              int font);
   static QFrame *createLine(const QString &name, QFrame::Shape shape);
   static FieldsAddresses &getFieldsAddresses();

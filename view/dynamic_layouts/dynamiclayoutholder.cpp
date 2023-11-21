@@ -19,6 +19,12 @@ void DynamicLayoutsHolder::addLayoutForElement(const QString &elementName) {
   _dynamicLayouts.push_back(currentLayout);
 }
 
+void DynamicLayoutsHolder::push_back(DynamicLayoutsPerElement &el) {
+  _dynamicLayouts.push_back(&el);
+}
+
+void DynamicLayoutsHolder::pop_back() { _dynamicLayouts.pop_back(); }
+
 int DynamicLayoutsHolder::size() { return _dynamicLayouts.size(); }
 
 const DynamicLayoutsPerElement &
