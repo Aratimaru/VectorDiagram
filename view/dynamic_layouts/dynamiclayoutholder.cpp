@@ -25,6 +25,8 @@ void DynamicLayoutsHolder::push_back(DynamicLayoutsPerElement &el) {
 
 void DynamicLayoutsHolder::pop_back() { _dynamicLayouts.pop_back(); }
 
+void DynamicLayoutsHolder::clear() { _dynamicLayouts.clear(); }
+
 int DynamicLayoutsHolder::size() { return _dynamicLayouts.size(); }
 
 const DynamicLayoutsPerElement &

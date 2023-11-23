@@ -17,6 +17,7 @@ public:
   void addLayoutForElement(const QString &elementName);
   void push_back(DynamicLayoutsPerElement &el);
   void pop_back();
+  void clear();
   int size();
   const DynamicLayoutsPerElement &operator[](int) const;
   DynamicLayoutsPerElement &operator[](int);

@@ -266,17 +266,18 @@ void DiagramWindow::onChooseImageButtonClicked() {
   QStringList elementsList =
       UtilsImage::recognizeComponentsFromPythonOutput(output);
 
-  // clear previous data, including initial layouts
-  for (int i = 0; i < _dynamicLayoutsHolder.size(); i++) {
+  // clear previous layouts
+  _scrollArea->takeWidget()->deleteLater();
+  _mainDynamicLayout = new QVBoxLayout();
+  _dynamicLayoutsHolder.clear();
 
-    _mainDynamicLayout->removeItem(_dynamicLayoutsHolder[i].I);
-    _mainDynamicLayout->removeItem(_dynamicLayoutsHolder[i].U);
-    //    _mainDynamicLayout->addLayout(_dynamicLayoutsHolder[i].I);
-  }
-
+  // add new layouts
   for (const auto &e : elementsList) {
     _dynamicLayoutsHolder.addLayoutForElement(e);
   }
+  _dynamicLayoutWidget = std::make_unique<QWidget>();
+  _dynamicLayoutWidget->setLayout(_mainDynamicLayout);
+  _scrollArea->setWidget(_dynamicLayoutWidget.get());
 
   createDynamicLayouts();
   connectDynamicSlots();
