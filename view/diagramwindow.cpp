@@ -266,6 +266,9 @@ void DiagramWindow::onChooseImageButtonClicked() {
   QStringList elementsList =
       UtilsImage::recognizeComponentsFromPythonOutput(output);
 
+  //!\todo
+  UtilsImage::recognizeConnectionFromPythonOutput(output);
+
   // clear previous layouts
   _scrollArea->takeWidget()->deleteLater();
   _mainDynamicLayout = new QVBoxLayout();
