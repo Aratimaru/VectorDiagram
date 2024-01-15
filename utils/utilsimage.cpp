@@ -56,6 +56,9 @@ UtilsImage::recognizeConnectionFromPythonOutput(const QString &output) {
   int endPosition = inputString.indexOf("\r\nComponents in");
   inputString.remove(0, startPosition);
   inputString.chop(inputString.size() - endPosition);
+
+  int positionToAddBracket = inputString.indexOf(']');
+  inputString.insert(positionToAddBracket, ',');
   qDebug() << Q_FUNC_INFO << "Trimmed inputString:" << inputString;
 
   // Remove brackets and spaces
@@ -98,7 +101,7 @@ UtilsImage::recognizeConnectionFromPythonOutput(const QString &output) {
 
   for (const QString &key : nodesConnectedToComponent.keys()) {
     const QPair<int, int> &elementPair = nodesConnectedToComponent.value(key);
-    qDebug() << key << ": (" << elementPair.first << ", " << elementPair.second
+    qDebug() << key << ": (" << elementPair.first << "," << elementPair.second
              << ")";
   }
 

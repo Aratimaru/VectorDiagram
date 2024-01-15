@@ -107,45 +107,70 @@ DiagramWindow::getParametersFromUi() {
     QMessageBox::critical(this, "Error", "Please specify phase for the vector");
     return result;
   }
+
+  //! \todo It's not working that way
   if (!validateInputParameters()) {
     return result;
   }
 
-  float I1StartGenXEdit =
-      _fieldsAddress.lineEdits["IaStartGenXEdit"]->text().toFloat();
-  float I1StartGenYEdit =
-      _fieldsAddress.lineEdits["IaStartGenYEdit"]->text().toFloat();
-  float I1EndGenXEdit =
-      _fieldsAddress.lineEdits["IaEndGenXEdit"]->text().toFloat();
-  float I1EndGenYEdit =
-      _fieldsAddress.lineEdits["IaEndGenYEdit"]->text().toFloat();
+  QStringList parameterName{};
+  PhaseVectorType PVType;
 
-  ComplexNumberAdapter currentStart = {I1StartGenXEdit, I1StartGenYEdit,
-                                       ComplexNumberForm::GENERAL};
-  ComplexNumberAdapter currentEnd = {I1EndGenXEdit, I1EndGenYEdit,
-                                     ComplexNumberForm::GENERAL};
+  // we should have all LineEdit components already created with similar
+  // objectName.
+  for (int i = 0; i < _dynamicLayoutsHolder.size(); i++) {
+    if (_dynamicLayoutsHolder[i].U != nullptr) {
+      parameterName.append("U");
+    }
+    if (_dynamicLayoutsHolder[i].I != nullptr) {
+      parameterName.append("I");
+    }
+    if (_dynamicLayoutsHolder[i].R != nullptr) {
+      parameterName.append("R");
+    }
 
-  result[{phase, PhaseVectorType::CURRENT}] =
-      PhaseVector{currentStart, currentEnd, PhaseVectorType::CURRENT, phase};
-  result[{phase, PhaseVectorType::CURRENT}].setLabelNameFromTypeAndPhase();
+    for (const auto &pName : parameterName) {
+      if (pName == "U") {
+        PVType = PhaseVectorType::VOLTAGE;
+      }
+      if (pName == "I") {
+        PVType = PhaseVectorType::CURRENT;
+      }
+      if (pName == "R") {
+        PVType = PhaseVectorType::RESISTENCE;
+      }
 
-  float V1StartGenXEdit =
-      _fieldsAddress.lineEdits["UaStartGenXEdit"]->text().toFloat();
-  float V1StartGenYEdit =
-      _fieldsAddress.lineEdits["UaStartGenYEdit"]->text().toFloat();
-  float V1EndGenXEdit =
-      _fieldsAddress.lineEdits["UaEndGenXEdit"]->text().toFloat();
-  float V1EndGenYEdit =
-      _fieldsAddress.lineEdits["UaEndGenYEdit"]->text().toFloat();
+      QString lineEditPrefix = pName + _dynamicLayoutsHolder[i].elementName;
 
-  ComplexNumberAdapter voltageStart = {V1StartGenXEdit, V1StartGenYEdit,
-                                       ComplexNumberForm::GENERAL};
-  ComplexNumberAdapter voltageEnd = {V1EndGenXEdit, V1EndGenYEdit,
-                                     ComplexNumberForm::GENERAL};
+      float parameterStartGenXEdit =
+          _fieldsAddress.lineEdits[lineEditPrefix + "StartGenXEdit"]
+              ->text()
+              .toFloat();
+      float parameterStartGenYEdit =
+          _fieldsAddress.lineEdits[lineEditPrefix + "StartGenYEdit"]
+              ->text()
+              .toFloat();
+      float parameterEndGenXEdit =
+          _fieldsAddress.lineEdits[lineEditPrefix + "EndGenXEdit"]
+              ->text()
+              .toFloat();
+      float parameterEndGenYEdit =
+          _fieldsAddress.lineEdits[lineEditPrefix + "EndGenYEdit"]
+              ->text()
+              .toFloat();
 
-  result[{phase, PhaseVectorType::VOLTAGE}] =
-      PhaseVector{voltageStart, voltageEnd, PhaseVectorType::VOLTAGE, phase};
-  result[{phase, PhaseVectorType::VOLTAGE}].setLabelNameFromTypeAndPhase();
+      ComplexNumberAdapter parameterStart = {parameterStartGenXEdit,
+                                             parameterStartGenYEdit,
+                                             ComplexNumberForm::GENERAL};
+      ComplexNumberAdapter parameterEnd = {parameterEndGenXEdit,
+                                           parameterEndGenYEdit,
+                                           ComplexNumberForm::GENERAL};
+      result[{phase, PVType}] =
+          PhaseVector{parameterStart, parameterEnd, PVType, phase};
+      result[{phase, PVType}].setLabelNameFromTypeAndPhase();
+    }
+    parameterName.clear();
+  }
   return result;
 }
 
@@ -231,6 +256,12 @@ void DiagramWindow::onClearBtnClicked() {
 void DiagramWindow::onDrawBtnClicked() {
   // get parameters from UI
   // create PhaseVectors
+
+  //!\todo
+  QMap<QString, QPair<int, int>> connections =
+      UtilsImage::recognizeConnectionFromPythonOutput(
+          imageRecognitionProcessOutput);
+
   QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector> phaseVectors =
       getParametersFromUi();
 
@@ -255,7 +286,8 @@ void DiagramWindow::onChooseImageButtonClicked() {
   ui->RecognizedImageLabel->setText("Please wait, your image is being ond...");
 
   // image recognition process is started here
-  QString output = createCircuitElementsRecognizerProcess(originalImagePath);
+  imageRecognitionProcessOutput =
+      createCircuitElementsRecognizerProcess(originalImagePath);
 
   QPixmap recognizedImage{"D://Studing//Diploma//"
                           "Hand-Drawn-Electrical-Circuit-Recognition-using-"
@@ -263,11 +295,8 @@ void DiagramWindow::onChooseImageButtonClicked() {
   ui->RecognizedImageLabel->setPixmap(recognizedImage.scaled(
       ui->RecognizedImageLabel->maximumSize(), Qt::KeepAspectRatio));
 
-  QStringList elementsList =
-      UtilsImage::recognizeComponentsFromPythonOutput(output);
-
-  //!\todo
-  UtilsImage::recognizeConnectionFromPythonOutput(output);
+  QStringList elementsList = UtilsImage::recognizeComponentsFromPythonOutput(
+      imageRecognitionProcessOutput);
 
   // clear previous layouts
   _scrollArea->takeWidget()->deleteLater();

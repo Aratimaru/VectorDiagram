@@ -55,6 +55,7 @@ private:
   std::unique_ptr<QWidget> _dynamicLayoutWidget;
   QScrollArea *_scrollArea;
   FieldsAddresses _fieldsAddress;
+  QString imageRecognitionProcessOutput;
 };
 
 #endif // DIAGRAMWINDOW_H

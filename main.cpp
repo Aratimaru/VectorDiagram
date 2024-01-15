@@ -1,7 +1,3 @@
-#include "qboxlayout.h"
-#include "qlabel.h"
-#include "qlineedit.h"
-#include "qprocess.h"
 #include "view/diagramwindow.h"
 #include <QApplication>
 #include <iostream>
