@@ -5,23 +5,30 @@
 
 class ElectricalValuesCalculator : public Calculator {
 public:
-  ElectricalValuesCalculator();
   bool calculate(VectorDiagramModel &model) override;
 
-  ComplexNumberAdapter
+  static ComplexNumberAdapter
   findCircuitGeneralCurrent(const QMap<QString, QPair<int, int>> &connection,
                             const QMap<QString, ComplexNumberAdapter> &values);
-  QMap<int, QString>
+  static QMap<int, QStringList>
   findSequenceConnections(const QMap<QString, QPair<int, int>> &connection,
                           const QMap<QString, ComplexNumberAdapter> &values,
-                          QStringList &rootElements);
-  QVector<QVector<int>>
-  findParallelConnections(const QMap<int, QString> &sequenceConnections);
-  QStringList
+                          QStringList &rootElements,
+                          int sequenceConnectionsCounter = 0);
+  static QVector<QVector<int>>
+  findParallelConnections(const QMap<int, QStringList> &sequenceConnections);
+  static QStringList
   findNextElementsInSequence(const QMap<QString, QPair<int, int>> &connection,
-                             int connectionNode);
-  bool areElementsConnected(const QPair<int, int> &e1,
-                            const QPair<int, int> &e2);
+                             int connectionNode,
+                             const QString &currentElementName);
+  static bool areElementsConnected(const QPair<int, int> &e1,
+                                   const QPair<int, int> &e2);
+  static QMap<QString, ComplexNumberAdapter> findCurrentForResistanceElements(
+      const QMap<QString, ComplexNumberAdapter> &allElementValues);
+
+  static QMap<QString, ComplexNumberAdapter>
+  findCurrentForResistanceElementsInSequencialOrder(
+      const QMap<QString, ComplexNumberAdapter> &allElementValues);
 };
 
 #endif // ELECTRICALVALUESCALCULATOR_H

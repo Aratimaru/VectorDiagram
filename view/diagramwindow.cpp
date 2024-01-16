@@ -1,4 +1,5 @@
 #include "diagramwindow.h"
+#include "calculations/electricalvaluescalculator.h"
 #include "dynamic_layouts/layoutgenerator.h"
 #include "ui_diagramwindow.h"
 #include "utils/utilsimage.h"
@@ -98,26 +99,23 @@ PhaseVectorPhase DiagramWindow::getCurrentPhase() {
   return result;
 }
 
-QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector>
-DiagramWindow::getParametersFromUi() {
-  QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector> result;
+QMap<QString, ComplexNumberAdapter> DiagramWindow::getParametersFromUi() {
+  QMap<QString, ComplexNumberAdapter> parsedFieldsValues;
 
   PhaseVectorPhase phase = getCurrentPhase();
   if (phase == PhaseVectorPhase::NOT_DEFINED) {
     QMessageBox::critical(this, "Error", "Please specify phase for the vector");
-    return result;
+    return parsedFieldsValues;
   }
 
   //! \todo It's not working that way
   if (!validateInputParameters()) {
-    return result;
+    return parsedFieldsValues;
   }
 
   QStringList parameterName{};
   PhaseVectorType PVType;
 
-  // we should have all LineEdit components already created with similar
-  // objectName.
   for (int i = 0; i < _dynamicLayoutsHolder.size(); i++) {
     if (_dynamicLayoutsHolder[i].U != nullptr) {
       parameterName.append("U");
@@ -142,35 +140,43 @@ DiagramWindow::getParametersFromUi() {
 
       QString lineEditPrefix = pName + _dynamicLayoutsHolder[i].elementName;
 
-      float parameterStartGenXEdit =
+      parsedFieldsValues[lineEditPrefix + "Start"].real(
           _fieldsAddress.lineEdits[lineEditPrefix + "StartGenXEdit"]
               ->text()
-              .toFloat();
-      float parameterStartGenYEdit =
+              .toFloat());
+      parsedFieldsValues[lineEditPrefix + "Start"].imag(
           _fieldsAddress.lineEdits[lineEditPrefix + "StartGenYEdit"]
               ->text()
-              .toFloat();
-      float parameterEndGenXEdit =
+              .toFloat());
+      parsedFieldsValues[lineEditPrefix + "End"].real(
           _fieldsAddress.lineEdits[lineEditPrefix + "EndGenXEdit"]
               ->text()
-              .toFloat();
-      float parameterEndGenYEdit =
+              .toFloat());
+      parsedFieldsValues[lineEditPrefix + "End"].imag(
           _fieldsAddress.lineEdits[lineEditPrefix + "EndGenYEdit"]
               ->text()
-              .toFloat();
-
-      ComplexNumberAdapter parameterStart = {parameterStartGenXEdit,
-                                             parameterStartGenYEdit,
-                                             ComplexNumberForm::GENERAL};
-      ComplexNumberAdapter parameterEnd = {parameterEndGenXEdit,
-                                           parameterEndGenYEdit,
-                                           ComplexNumberForm::GENERAL};
-      result[{phase, PVType}] =
-          PhaseVector{parameterStart, parameterEnd, PVType, phase};
-      result[{phase, PVType}].setLabelNameFromTypeAndPhase();
+              .toFloat());
     }
     parameterName.clear();
   }
+  return parsedFieldsValues;
+}
+
+QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector>
+DiagramWindow::buildPhaseVectors(
+    const QMap<QString, ComplexNumberAdapter> &values) {
+  QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector> result;
+
+  //      ComplexNumberAdapter parameterStart = {parameterStartGenXEdit,
+  //                                             parameterStartGenYEdit,
+  //                                             ComplexNumberForm::GENERAL};
+  //      ComplexNumberAdapter parameterEnd = {parameterEndGenXEdit,
+  //                                           parameterEndGenYEdit,
+  //                                           ComplexNumberForm::GENERAL};
+  //      result[{phase, PVType}] =
+  //          PhaseVector{parameterStart, parameterEnd, PVType, phase};
+  //      result[{phase, PVType}].setLabelName(lineEditPrefix);
+
   return result;
 }
 
@@ -261,9 +267,13 @@ void DiagramWindow::onDrawBtnClicked() {
   QMap<QString, QPair<int, int>> connections =
       UtilsImage::recognizeConnectionFromPythonOutput(
           imageRecognitionProcessOutput);
+  QMap<QString, ComplexNumberAdapter> values = getParametersFromUi();
+  ComplexNumberAdapter generalCurrent =
+      ElectricalValuesCalculator::findCircuitGeneralCurrent(connections,
+                                                            values);
 
   QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector> phaseVectors =
-      getParametersFromUi();
+      buildPhaseVectors(values);
 
   // update model and draw the vectors
   _model->fillModel(phaseVectors);

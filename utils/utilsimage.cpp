@@ -96,6 +96,28 @@ UtilsImage::recognizeConnectionFromPythonOutput(const QString &output) {
     }
   }
 
+  // delete duplicated connections which have no elements between
+  QStringList elementsToRemove;
+  for (auto it = nodesConnectedToComponent.begin();
+       it != nodesConnectedToComponent.end();) {
+    if (it.key().startsWith("E")) {
+      auto it_inner = it;
+      ++it_inner;
+      for (; it_inner != nodesConnectedToComponent.end();) {
+        if (it_inner.key().startsWith("E")) {
+          if (it->first == it_inner->second && it->second == it_inner->first) {
+            nodesConnectedToComponent.erase(it_inner++);
+          } else {
+            ++it_inner;
+          }
+        } else {
+          ++it_inner;
+        }
+      }
+    }
+    ++it;
+  }
+
   // Print the QMap content
   qDebug() << Q_FUNC_INFO << "Resulting QMap<QString, QPair<int, int>>:";
 

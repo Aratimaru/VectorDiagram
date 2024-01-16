@@ -21,31 +21,32 @@ ComplexNumberAdapter ElectricalValuesCalculator::findCircuitGeneralCurrent(
     return ComplexNumberAdapter{};
   }
 
-  QMap<int, QString> sequenceConnectionsMap =
+  QMap<int, QStringList> sequenceConnectionsMap =
       findSequenceConnections(connection, values, rootElements);
 
+  // e.g. parallel elements number: 3, 2, 1, 3
   QVector<QVector<int>> parallelConnectionsVector =
       findParallelConnections(sequenceConnectionsMap);
 
   ComplexNumberAdapter result;
-  for (int i = 0; i < parallelConnectionsVector.size(); i++) {
-    for (int j = 0; i < parallelConnectionsVector[i].size(); i++) {
-      QString elementNameInParallelOrder =
-          sequenceConnectionsMap[parallelConnectionsVector[i][j]];
+  //  for (int i = 0; i < parallelConnectionsVector.size(); i++) {
+  //    for (int j = 0; j < parallelConnectionsVector[i].size(); j++) {
 
-      ComplexNumberAdapter value = values[elementNameInParallelOrder];
-      result += value;
-    }
-  }
+  //      ComplexNumberAdapter value =
+  //          findCurrentForResistanceElementsInSequencialOrder(
+  //              parallelConnectionsVector[i][j]);
+  //    }
+  //    elementsInParallelOrder;
+  //  }
 
   return result;
 }
 
-QMap<int, QString> ElectricalValuesCalculator::findSequenceConnections(
+QMap<int, QStringList> ElectricalValuesCalculator::findSequenceConnections(
     const QMap<QString, QPair<int, int>> &connection,
     const QMap<QString, ComplexNumberAdapter> &values,
-    QStringList &rootElements) {
-  QMap<int, QString> sequenceConnections;
+    QStringList &rootElements, int sequenceConnectionsCounter) {
+  QMap<int, QStringList> sequenceConnections;
 
   // Having only one voltage source.
   //! \todo
@@ -57,46 +58,79 @@ QMap<int, QString> ElectricalValuesCalculator::findSequenceConnections(
   int n1 = connection[currentElementName].first;
   int n2 = connection[currentElementName].second;
 
-  QStringList nextElementsList = findNextElementsInSequence(connection, n2);
-  switch (nextElementsList.size()) {
-  case 0:
-    if (n2 == startNode) {
+  bool isCircuitEndFound = false;
+
+  qDebug() << Q_FUNC_INFO << "Starting from root element: " << rootElement;
+  sequenceConnections[sequenceConnectionsCounter].append(rootElement);
+
+  QStringList nextElementsList =
+      findNextElementsInSequence(connection, n2, currentElementName);
+
+  while (!isCircuitEndFound) {
+    switch (nextElementsList.size()) {
+    case 0:
+      if (n2 == startNode) {
+        qDebug() << Q_FUNC_INFO
+                 << "Circuit end reached. Finally:) God bless the King";
+        isCircuitEndFound = true;
+      } else {
+        qDebug()
+            << Q_FUNC_INFO
+            << "Error: no circuit end found and element sequence breaks here";
+        throw(std::runtime_error("No circuit end found!!!"));
+      }
+      break;
+    case 1:
+      if (n2 == startNode) {
+        qDebug() << Q_FUNC_INFO
+                 << "Circuit end reached. Finally:) God bless the King";
+        isCircuitEndFound = true;
+        break;
+      }
       qDebug() << Q_FUNC_INFO
-               << "Circuit end reached. Finally:) God bless the King";
-    } else {
-      qDebug()
-          << Q_FUNC_INFO
-          << "Error: no circuit end found and element sequence breaks here";
-      throw(std::runtime_error("No circuit end found!!!"));
+               << "New sequential element found: " << nextElementsList;
+      sequenceConnections[sequenceConnectionsCounter].append(
+          nextElementsList.last());
+
+      currentElementName = nextElementsList.last();
+      // choose node number different from current one
+      if (n2 == connection[currentElementName].second) {
+        n2 = connection[currentElementName].first;
+      } else {
+        n2 = connection[currentElementName].second;
+      }
+      nextElementsList =
+          findNextElementsInSequence(connection, n2, currentElementName);
+      break;
+    default:
+
+      //! \todo reserve 10 numbers to mark 1 parallel connection
+      qDebug() << Q_FUNC_INFO
+               << "Several sequential elements found: " << nextElementsList;
+      nextElementsList.clear();
+      break;
     }
-    break;
-  case 1:
-    qDebug() << Q_FUNC_INFO
-             << "New sequential element found: " << nextElementsList;
-    break;
-  default:
-    qDebug() << Q_FUNC_INFO
-             << "Several sequential elements found: " << nextElementsList;
-    break;
   }
 
   return sequenceConnections;
 }
 
+//! \todo reserve 10 numbers to mark 1 parallel connection
 QVector<QVector<int>> ElectricalValuesCalculator::findParallelConnections(
-    const QMap<int, QString> &sequenceConnections) {
+    const QMap<int, QStringList> &sequenceConnections) {
   QVector<QVector<int>> parallelConnections;
 
   return parallelConnections;
 }
 
 QStringList ElectricalValuesCalculator::findNextElementsInSequence(
-    const QMap<QString, QPair<int, int>> &connection, int connectionNode) {
+    const QMap<QString, QPair<int, int>> &connection, int connectionNode,
+    const QString &currentElementName) {
   QStringList nextElements;
 
   for (const auto &el : connection.keys()) {
-    if (connectionNode == connection[el].first ||
-        connectionNode == connection[el].second) {
+    if (el != currentElementName && (connectionNode == connection[el].first ||
+                                     connectionNode == connection[el].second)) {
       nextElements.push_back(el);
     }
   }
@@ -109,4 +143,20 @@ bool ElectricalValuesCalculator::areElementsConnected(
          e1.second == e2.first || e1.second == e2.second;
 }
 
-ElectricalValuesCalculator::ElectricalValuesCalculator() {}
+//! \todo Add support for multiple voltage sources
+QMap<QString, ComplexNumberAdapter>
+ElectricalValuesCalculator::findCurrentForResistanceElements(
+    const QMap<QString, ComplexNumberAdapter> &allElementValues) {
+  QMap<QString, ComplexNumberAdapter> currentCalculatedfromResistance;
+
+  ComplexNumberAdapter voltageValue = allElementValues["v1"];
+  for (auto it = allElementValues.begin(); it != allElementValues.end(); it++) {
+    if (!it.key().contains("v") && !it.key().contains("E")) {
+      ComplexNumberAdapter resistance =
+          ComplexNumberAdapter::divExp(it.value(), voltageValue);
+      currentCalculatedfromResistance[it.key()] = resistance;
+    }
+  }
+
+  return currentCalculatedfromResistance;
+}

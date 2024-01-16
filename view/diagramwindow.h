@@ -35,8 +35,9 @@ private slots:
 private:
   bool validateInputParameters();
   PhaseVectorPhase getCurrentPhase();
+  QMap<QString, ComplexNumberAdapter> getParametersFromUi();
   QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector>
-  getParametersFromUi();
+  buildPhaseVectors(const QMap<QString, ComplexNumberAdapter> &values);
   void setupWindow(QMainWindow *DiagramWindow);
   QVector<QString> getElementsFromImage();
   void connectDynamicSlots();
