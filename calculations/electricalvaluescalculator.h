@@ -7,12 +7,10 @@ class ElectricalValuesCalculator : public Calculator {
 public:
   bool calculate(VectorDiagramModel &model) override;
 
-  static ComplexNumberAdapter
-  findCircuitGeneralCurrent(const QMap<QString, QPair<int, int>> &connection,
+  static QPair<ComplexNumberAdapter, ComplexNumberAdapter> findCircuitGeneralCurrent(const QMap<QString, QPair<int, int>> &connection,
                             const QMap<QString, ComplexNumberAdapter> &values);
   static QMap<int, QStringList>
   findSequenceConnections(const QMap<QString, QPair<int, int>> &connection,
-                          const QMap<QString, ComplexNumberAdapter> &values,
                           QStringList &rootElements,
                           int sequenceConnectionsCounter = 0);
   static QVector<QVector<int>>
@@ -26,9 +24,13 @@ public:
   static QMap<QString, ComplexNumberAdapter> findCurrentForResistanceElements(
       const QMap<QString, ComplexNumberAdapter> &allElementValues);
 
-  static QMap<QString, ComplexNumberAdapter>
-  findCurrentForResistanceElementsInSequencialOrder(
-      const QMap<QString, ComplexNumberAdapter> &allElementValues);
+  static ComplexNumberAdapter calculateCurrentInParallelConnection(
+      const QMap<QString, ComplexNumberAdapter> &values,
+      QMap<int, QStringList> sequenceConnections,
+      QVector<QVector<int>> parallelConnections);
+  static ComplexNumberAdapter calculateCurrentInSequencialConnection(
+      const QMap<QString, ComplexNumberAdapter> &values,
+      QStringList &sequenceConnections);
 };
 
 #endif // ELECTRICALVALUESCALCULATOR_H

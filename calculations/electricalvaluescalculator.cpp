@@ -5,9 +5,18 @@ bool ElectricalValuesCalculator::calculate(VectorDiagramModel &model) {
   return true;
 }
 
-ComplexNumberAdapter ElectricalValuesCalculator::findCircuitGeneralCurrent(
+QPair<ComplexNumberAdapter, ComplexNumberAdapter>
+ElectricalValuesCalculator::findCircuitGeneralCurrent(
     const QMap<QString, QPair<int, int>> &connection,
     const QMap<QString, ComplexNumberAdapter> &values) {
+
+  QPair<ComplexNumberAdapter, ComplexNumberAdapter> result;
+  // don't need to calculate current parameter if it's already set by user
+  if (values.keys().contains("IaStart") && values.keys().contains("IaEnd")) {
+    result.first = values["IaStart"];
+    result.second = values["IaEnd"];
+    return result;
+  }
 
   // need to choose root voltage element
   QStringList rootElements;
@@ -18,34 +27,28 @@ ComplexNumberAdapter ElectricalValuesCalculator::findCircuitGeneralCurrent(
   }
   if (rootElements.size() == 0) {
     throw(std::runtime_error("No voltage source found!"));
-    return ComplexNumberAdapter{};
+    return result;
   }
 
   QMap<int, QStringList> sequenceConnectionsMap =
-      findSequenceConnections(connection, values, rootElements);
+      findSequenceConnections(connection, rootElements);
 
-  // e.g. parallel elements number: 3, 2, 1, 3
+  // e.g. parallel elements amount: 3, 2, 1, 3
   QVector<QVector<int>> parallelConnectionsVector =
       findParallelConnections(sequenceConnectionsMap);
 
-  ComplexNumberAdapter result;
-  //  for (int i = 0; i < parallelConnectionsVector.size(); i++) {
-  //    for (int j = 0; j < parallelConnectionsVector[i].size(); j++) {
-
-  //      ComplexNumberAdapter value =
-  //          findCurrentForResistanceElementsInSequencialOrder(
-  //              parallelConnectionsVector[i][j]);
-  //    }
-  //    elementsInParallelOrder;
-  //  }
+  // WA for only 1 sequencial connection
+  // only End parameter is needed
+  result.first = ComplexNumberAdapter{};
+  result.second =
+      calculateCurrentInSequencialConnection(values, sequenceConnectionsMap[0]);
 
   return result;
 }
 
 QMap<int, QStringList> ElectricalValuesCalculator::findSequenceConnections(
-    const QMap<QString, QPair<int, int>> &connection,
-    const QMap<QString, ComplexNumberAdapter> &values,
-    QStringList &rootElements, int sequenceConnectionsCounter) {
+    const QMap<QString, QPair<int, int>> &connection, QStringList &rootElements,
+    int sequenceConnectionsCounter) {
   QMap<int, QStringList> sequenceConnections;
 
   // Having only one voltage source.
@@ -70,8 +73,7 @@ QMap<int, QStringList> ElectricalValuesCalculator::findSequenceConnections(
     switch (nextElementsList.size()) {
     case 0:
       if (n2 == startNode) {
-        qDebug() << Q_FUNC_INFO
-                 << "Circuit end reached. Finally:) God bless the King";
+        qDebug() << Q_FUNC_INFO << "Why 0???";
         isCircuitEndFound = true;
       } else {
         qDebug()
@@ -85,6 +87,7 @@ QMap<int, QStringList> ElectricalValuesCalculator::findSequenceConnections(
         qDebug() << Q_FUNC_INFO
                  << "Circuit end reached. Finally:) God bless the King";
         isCircuitEndFound = true;
+        sequenceConnectionsCounter += 10;
         break;
       }
       qDebug() << Q_FUNC_INFO
@@ -108,6 +111,7 @@ QMap<int, QStringList> ElectricalValuesCalculator::findSequenceConnections(
       qDebug() << Q_FUNC_INFO
                << "Several sequential elements found: " << nextElementsList;
       nextElementsList.clear();
+      sequenceConnectionsCounter++;
       break;
     }
   }
@@ -119,6 +123,11 @@ QMap<int, QStringList> ElectricalValuesCalculator::findSequenceConnections(
 QVector<QVector<int>> ElectricalValuesCalculator::findParallelConnections(
     const QMap<int, QStringList> &sequenceConnections) {
   QVector<QVector<int>> parallelConnections;
+  if (sequenceConnections.size() == 1) {
+    QVector<int> parallelChain;
+    parallelChain.append(sequenceConnections.keys().at(0));
+    parallelConnections.append(parallelChain);
+  }
 
   return parallelConnections;
 }
@@ -159,4 +168,43 @@ ElectricalValuesCalculator::findCurrentForResistanceElements(
   }
 
   return currentCalculatedfromResistance;
+}
+
+//! \todo
+ComplexNumberAdapter
+ElectricalValuesCalculator::calculateCurrentInParallelConnection(
+    const QMap<QString, ComplexNumberAdapter> &values,
+    QMap<int, QStringList> sequenceConnections,
+    QVector<QVector<int>> parallelConnections) {
+  ComplexNumberAdapter result;
+  return result;
+}
+
+ComplexNumberAdapter
+ElectricalValuesCalculator::calculateCurrentInSequencialConnection(
+    const QMap<QString, ComplexNumberAdapter> &values,
+    QStringList &sequenceConnections) {
+  // current is the same for all elements in sequence
+  ComplexNumberAdapter result;
+  ComplexNumberAdapter voltageValue;
+  ComplexNumberAdapter resistanceValue;
+
+  for (const auto &e : sequenceConnections) {
+    // not voltage element
+    if (e.contains("E")) {
+      continue;
+    }
+    if (!e.contains("v")) {
+      QString strNameFromValuesMap = "R" + e + "End";
+      resistanceValue += values[strNameFromValuesMap];
+    } else {
+      QString strNameFromValuesMap = "U" + e + "End";
+      voltageValue += values[strNameFromValuesMap];
+    }
+  }
+  if (resistanceValue == ComplexNumberAdapter()) {
+    throw std::runtime_error("Division by 0 is not allowed!");
+  }
+  result = voltageValue / resistanceValue;
+  return result;
 }

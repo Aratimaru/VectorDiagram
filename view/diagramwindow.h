@@ -36,8 +36,9 @@ private:
   bool validateInputParameters();
   PhaseVectorPhase getCurrentPhase();
   QMap<QString, ComplexNumberAdapter> getParametersFromUi();
-  QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector>
-  buildPhaseVectors(const QMap<QString, ComplexNumberAdapter> &values);
+  QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector> buildPhaseVectors(
+      QPair<ComplexNumberAdapter, ComplexNumberAdapter> currentBase,
+      QPair<ComplexNumberAdapter, ComplexNumberAdapter> voltageBase);
   void setupWindow(QMainWindow *DiagramWindow);
   QVector<QString> getElementsFromImage();
   void connectDynamicSlots();

@@ -114,7 +114,6 @@ QMap<QString, ComplexNumberAdapter> DiagramWindow::getParametersFromUi() {
   }
 
   QStringList parameterName{};
-  PhaseVectorType PVType;
 
   for (int i = 0; i < _dynamicLayoutsHolder.size(); i++) {
     if (_dynamicLayoutsHolder[i].U != nullptr) {
@@ -128,15 +127,6 @@ QMap<QString, ComplexNumberAdapter> DiagramWindow::getParametersFromUi() {
     }
 
     for (const auto &pName : parameterName) {
-      if (pName == "U") {
-        PVType = PhaseVectorType::VOLTAGE;
-      }
-      if (pName == "I") {
-        PVType = PhaseVectorType::CURRENT;
-      }
-      if (pName == "R") {
-        PVType = PhaseVectorType::RESISTENCE;
-      }
 
       QString lineEditPrefix = pName + _dynamicLayoutsHolder[i].elementName;
 
@@ -148,6 +138,7 @@ QMap<QString, ComplexNumberAdapter> DiagramWindow::getParametersFromUi() {
           _fieldsAddress.lineEdits[lineEditPrefix + "StartGenYEdit"]
               ->text()
               .toFloat());
+
       parsedFieldsValues[lineEditPrefix + "End"].real(
           _fieldsAddress.lineEdits[lineEditPrefix + "EndGenXEdit"]
               ->text()
@@ -164,18 +155,14 @@ QMap<QString, ComplexNumberAdapter> DiagramWindow::getParametersFromUi() {
 
 QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector>
 DiagramWindow::buildPhaseVectors(
-    const QMap<QString, ComplexNumberAdapter> &values) {
+    QPair<ComplexNumberAdapter, ComplexNumberAdapter> currentBase,
+    QPair<ComplexNumberAdapter, ComplexNumberAdapter> voltageBase) {
   QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector> result;
+  PhaseVectorPhase phase = getCurrentPhase();
 
-  //      ComplexNumberAdapter parameterStart = {parameterStartGenXEdit,
-  //                                             parameterStartGenYEdit,
-  //                                             ComplexNumberForm::GENERAL};
-  //      ComplexNumberAdapter parameterEnd = {parameterEndGenXEdit,
-  //                                           parameterEndGenYEdit,
-  //                                           ComplexNumberForm::GENERAL};
-  //      result[{phase, PVType}] =
-  //          PhaseVector{parameterStart, parameterEnd, PVType, phase};
-  //      result[{phase, PVType}].setLabelName(lineEditPrefix);
+  result[{phase, PhaseVectorType::CURRENT}] = PhaseVector{
+      currentBase.first, currentBase.second, PhaseVectorType::CURRENT, phase};
+  result[{phase, PhaseVectorType::CURRENT}].setLabelNameFromTypeAndPhase();
 
   return result;
 }
@@ -268,12 +255,13 @@ void DiagramWindow::onDrawBtnClicked() {
       UtilsImage::recognizeConnectionFromPythonOutput(
           imageRecognitionProcessOutput);
   QMap<QString, ComplexNumberAdapter> values = getParametersFromUi();
-  ComplexNumberAdapter generalCurrent =
+  QPair<ComplexNumberAdapter, ComplexNumberAdapter> generalCurrent =
       ElectricalValuesCalculator::findCircuitGeneralCurrent(connections,
                                                             values);
 
+  //! \todo add Voltage calculation
   QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector> phaseVectors =
-      buildPhaseVectors(values);
+      buildPhaseVectors(generalCurrent, generalCurrent);
 
   // update model and draw the vectors
   _model->fillModel(phaseVectors);
