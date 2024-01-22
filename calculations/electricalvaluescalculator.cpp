@@ -46,6 +46,48 @@ ElectricalValuesCalculator::findCircuitGeneralCurrent(
   return result;
 }
 
+QPair<ComplexNumberAdapter, ComplexNumberAdapter>
+ElectricalValuesCalculator::findCircuitGeneralVoltage(
+    const QMap<QString, QPair<int, int>> &connection,
+    const QMap<QString, ComplexNumberAdapter> &values) {
+
+  QPair<ComplexNumberAdapter, ComplexNumberAdapter> result;
+  // don't need to calculate current parameter if it's already set by user
+  if (values.keys().contains("UaStart") && values.keys().contains("UaEnd")) {
+    result.first = values["UaStart"];
+    result.second = values["UaEnd"];
+    return result;
+  }
+
+  // need to choose root voltage element
+  QStringList rootElements;
+  for (const auto &v : connection.keys()) {
+    if (v.startsWith("v")) {
+      rootElements.append(v);
+    }
+  }
+  if (rootElements.size() == 0) {
+    throw(std::runtime_error("No voltage source found!"));
+    return result;
+  }
+
+  //! \todo
+  if (rootElements.size() > 1) {
+    throw(std::runtime_error(
+        "More than 1 voltage source found! No support implemented yet"));
+    return result;
+  }
+
+  QString strNameFromValuesMap = "U" + rootElements.at(0) + "End";
+
+  // WA for only 1 sequencial connection
+  // only End parameter is needed
+  result.first = ComplexNumberAdapter{};
+  result.second = values[strNameFromValuesMap];
+
+  return result;
+}
+
 QMap<int, QStringList> ElectricalValuesCalculator::findSequenceConnections(
     const QMap<QString, QPair<int, int>> &connection, QStringList &rootElements,
     int sequenceConnectionsCounter) {

@@ -164,6 +164,10 @@ DiagramWindow::buildPhaseVectors(
       currentBase.first, currentBase.second, PhaseVectorType::CURRENT, phase};
   result[{phase, PhaseVectorType::CURRENT}].setLabelNameFromTypeAndPhase();
 
+  result[{phase, PhaseVectorType::VOLTAGE}] = PhaseVector{
+      voltageBase.first, voltageBase.second, PhaseVectorType::VOLTAGE, phase};
+  result[{phase, PhaseVectorType::VOLTAGE}].setLabelNameFromTypeAndPhase();
+
   return result;
 }
 
@@ -258,10 +262,13 @@ void DiagramWindow::onDrawBtnClicked() {
   QPair<ComplexNumberAdapter, ComplexNumberAdapter> generalCurrent =
       ElectricalValuesCalculator::findCircuitGeneralCurrent(connections,
                                                             values);
+  QPair<ComplexNumberAdapter, ComplexNumberAdapter> generalVoltage =
+      ElectricalValuesCalculator::findCircuitGeneralVoltage(connections,
+                                                            values);
 
   //! \todo add Voltage calculation
   QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector> phaseVectors =
-      buildPhaseVectors(generalCurrent, generalCurrent);
+      buildPhaseVectors(generalCurrent, generalVoltage);
 
   // update model and draw the vectors
   _model->fillModel(phaseVectors);

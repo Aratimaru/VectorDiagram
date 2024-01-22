@@ -7,8 +7,13 @@ class ElectricalValuesCalculator : public Calculator {
 public:
   bool calculate(VectorDiagramModel &model) override;
 
-  static QPair<ComplexNumberAdapter, ComplexNumberAdapter> findCircuitGeneralCurrent(const QMap<QString, QPair<int, int>> &connection,
+  static QPair<ComplexNumberAdapter, ComplexNumberAdapter>
+  findCircuitGeneralCurrent(const QMap<QString, QPair<int, int>> &connection,
                             const QMap<QString, ComplexNumberAdapter> &values);
+  static QPair<ComplexNumberAdapter, ComplexNumberAdapter>
+  findCircuitGeneralVoltage(const QMap<QString, QPair<int, int>> &connection,
+                            const QMap<QString, ComplexNumberAdapter> &values);
+
   static QMap<int, QStringList>
   findSequenceConnections(const QMap<QString, QPair<int, int>> &connection,
                           QStringList &rootElements,
