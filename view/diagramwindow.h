@@ -3,7 +3,10 @@
 
 #include <QMainWindow>
 
+#include "dynamic_layouts/dynamiclayoutholder.h"
+#include "qscrollarea.h"
 #include <model/vectordiagrammodel.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class DiagramWindow;
@@ -14,33 +17,47 @@ class DiagramWindow : public QMainWindow {
   Q_OBJECT
 
 private slots:
-  void handleClearBtnClicked();
-  void handleDrawBtnClicked();
+  void onClearBtnClicked();
+  void onDrawBtnClicked();
 
-  void handleV1StartGenTextEdited();
-  void handleV1EndGenTextEdited();
-  void handleV1StartExpTextEdited();
-  void handleV1EndExpTextEdited();
+  void onChooseImageButtonClicked();
 
-  void handleI1StartGenTextEdited();
-  void handleI1EndGenTextEdited();
-  void handleI1StartExpTextEdited();
-  void handleI1EndExpTextEdited();
+  void onStartGenXEditTextEdited();
+  void onStartGenYEditTextEdited();
+  void onStartExpAEditTextEdited();
+  void onStartExpUEditTextEdited();
+
+  void onEndGenXEditTextEdited();
+  void onEndGenYEditTextEdited();
+  void onEndExpAEditTextEdited();
+  void onEndExpUEditTextEdited();
 
 private:
   bool validateInputParameters();
   PhaseVectorPhase getCurrentPhase();
-  QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector>
-  getParametersFromUi();
+  QMap<QString, ComplexNumberAdapter> getParametersFromUi();
+  QMap<QPair<PhaseVectorPhase, PhaseVectorType>, PhaseVector> buildPhaseVectors(
+      QPair<ComplexNumberAdapter, ComplexNumberAdapter> currentBase,
+      QPair<ComplexNumberAdapter, ComplexNumberAdapter> voltageBase);
   void setupWindow(QMainWindow *DiagramWindow);
+  QVector<QString> getElementsFromImage();
+  void connectDynamicSlots();
 
 public:
   explicit DiagramWindow(QWidget *parent = nullptr);
   ~DiagramWindow();
+  QString createCircuitElementsRecognizerProcess(const QString &imagePath);
+  void createDynamicLayouts();
 
 private:
   Ui::DiagramWindow *ui;
   std::shared_ptr<VectorDiagramModel> _model;
+  DynamicLayoutsHolder _dynamicLayoutsHolder;
+  QVBoxLayout *_mainDynamicLayout;
+  std::unique_ptr<QWidget> _dynamicLayoutWidget;
+  QScrollArea *_scrollArea;
+  FieldsAddresses _fieldsAddress;
+  QString imageRecognitionProcessOutput;
 };
 
 #endif // DIAGRAMWINDOW_H
